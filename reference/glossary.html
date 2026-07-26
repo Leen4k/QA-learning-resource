@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Reference — QA glossary</title>
+    <link rel="stylesheet" href="../assets/lesson.css" />
+  </head>
+  <body>
+    <p class="eyebrow">Reference &middot; living document</p>
+    <h1>Glossary</h1>
+    <p class="subtitle">
+      The canonical wording for this workspace. Terms are added as lessons
+      introduce them; once a term is here, every lesson uses it this way.
+    </p>
+
+    <div class="callout">
+      <span class="callout-label">How to use this</span>
+      <p>
+        Definitions marked <span class="src">[ISTQB]</span> are the syllabus
+        wording &mdash; use these in interviews, because they are what the
+        interviewer was trained on. Definitions marked
+        <span class="src">[RST]</span> come from Rapid Software Testing and are
+        deliberately different in emphasis; they are better for explaining
+        <em>why</em> you do something. Where the two disagree, that disagreement
+        is worth understanding rather than resolving.
+      </p>
+    </div>
+
+    <h2>Risk</h2>
+
+    <dl class="term">
+      <dt>Risk</dt>
+      <dd>
+        A potential event, hazard, threat, or situation whose occurrence causes
+        an adverse effect. <span class="src">[ISTQB §5.2.1]</span>
+      </dd>
+    </dl>
+
+    <dl class="term">
+      <dt>Risk likelihood</dt>
+      <dd>
+        The probability that the risk occurs. One of the two factors that
+        characterise a risk. <span class="src">[ISTQB §5.2.1]</span>
+      </dd>
+    </dl>
+
+    <dl class="term">
+      <dt>Risk impact</dt>
+      <dd>
+        The harm or consequence that results if the risk occurs. The second of
+        the two factors. Not the same as how dramatic the symptom looks.
+        <span class="src">[ISTQB §5.2.1]</span>
+      </dd>
+    </dl>
+
+    <dl class="term">
+      <dt>Risk level</dt>
+      <dd>
+        The combination of likelihood and impact. Higher levels mean the risk
+        matters more and should be treated first.
+        <span class="src">[ISTQB §5.2.1]</span>
+      </dd>
+    </dl>
+
+    <dl class="term">
+      <dt>Product risk</dt>
+      <dd>
+        A risk to the quality of the product &mdash; missing or wrong function,
+        poor performance, insecurity, unusability. This is what generates test
+        cases. <span class="src">[ISTQB §5.2.2]</span>
+      </dd>
+    </dl>
+
+    <dl class="term">
+      <dt>Project risk</dt>
+      <dd>
+        A risk to the project&rsquo;s ability to deliver &mdash; organisational,
+        people, technical or supplier issues affecting schedule, budget or
+        scope. You raise it; you do not test it.
+        <span class="src">[ISTQB §5.2.2]</span>
+      </dd>
+    </dl>
+
+    <dl class="term">
+      <dt>Risk-based testing</dt>
+      <dd>
+        The test approach in which test activities are selected, prioritised and
+        managed based on risk analysis and risk control.
+        <span class="src">[ISTQB §5.2]</span>
+      </dd>
+    </dl>
+
+    <dl class="term">
+      <dt>Risk analysis</dt>
+      <dd>
+        Identifying risks and assessing their level, so that testing effort can
+        be focused and residual risk minimised. Best started early in the
+        development lifecycle. <span class="src">[ISTQB §5.2.3]</span>
+      </dd>
+    </dl>
+
+    <dl class="term">
+      <dt>Risk control</dt>
+      <dd>
+        Acting on analysed risks: <em>mitigation</em> (taking measures that
+        reduce the risk) and <em>monitoring</em> (checking those measures
+        worked, and watching for new risks).
+        <span class="src">[ISTQB §5.2.4]</span>
+      </dd>
+    </dl>
+
+    <dl class="term">
+      <dt>Residual risk</dt>
+      <dd>
+        The risk that remains after mitigation. Testing never reaches zero;
+        naming what you knowingly accepted is part of the job.
+      </dd>
+    </dl>
+
+    <h2>Quality and testing</h2>
+
+    <dl class="term">
+      <dt>Quality</dt>
+      <dd>
+        Value to some person who matters. Quality is a relationship between a
+        product and people, not an attribute you can isolate from human context.
+        <span class="src">[RST]</span>
+      </dd>
+    </dl>
+
+    <dl class="term">
+      <dt>Testing (purpose of)</dt>
+      <dd>
+        To discover the status of the product and any threats to its value, so
+        that clients can make informed decisions about it.
+        <span class="src">[RST]</span>
+      </dd>
+    </dl>
+
+    <dl class="term">
+      <dt>Testing vs. checking</dt>
+      <dd>
+        <em>Checking</em> is the part of testing that can in principle be done by
+        machinery &mdash; confirming a specific expectation.
+        <em>Testing</em> requires the tester&rsquo;s explicit and tacit knowledge.
+        Automation performs checks; it does not test.
+        <span class="src">[RST]</span>
+      </dd>
+    </dl>
+
+    <h2>The seven testing principles</h2>
+
+    <p>
+      ISTQB CTFL v4.0 §1.3. Worth knowing by number &mdash; they get cited that
+      way.
+    </p>
+
+    <div class="table-scroll">
+      <table>
+        <tr>
+          <th>#</th>
+          <th>Principle</th>
+          <th>What it means in practice</th>
+        </tr>
+        <tr>
+          <td>1</td>
+          <td>Testing shows the presence, not the absence, of defects</td>
+          <td>
+            Testing can prove defects exist, never that none remain. It reduces
+            the likelihood of undiscovered defects.
+          </td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>Exhaustive testing is impossible</td>
+          <td>
+            Infeasible except in trivial cases &mdash; hence techniques,
+            prioritisation and risk-based testing.
+          </td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>Early testing saves time and money</td>
+          <td>
+            Defects removed early do not propagate into later work products.
+            Start static and dynamic testing early.
+          </td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td>Defects cluster together</td>
+          <td>
+            A small number of components hold most of the defects. This is what
+            makes a targeted sample better than a random one.
+          </td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td>Tests wear out</td>
+          <td>
+            Repeating the same tests finds progressively less. Revise and add
+            tests &mdash; though repetition still pays in automated regression.
+          </td>
+        </tr>
+        <tr>
+          <td>6</td>
+          <td>Testing is context dependent</td>
+          <td>
+            No single approach applies universally. The right testing depends on
+            the situation.
+          </td>
+        </tr>
+        <tr>
+          <td>7</td>
+          <td>Absence-of-defects fallacy</td>
+          <td>
+            Verifying requirements and fixing defects does not guarantee a
+            successful or wanted system. Validation matters too.
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <nav class="footer-nav">
+      <strong>Sources</strong>
+      <ul>
+        <li>
+          ISTQB CTFL Syllabus v4.0.1 &mdash;
+          <a
+            href="https://istqb.org/sdm_downloads/istqb-certified-tester-foundation-level-syllabus-v4-0/"
+            >official download</a
+          >; §1.3 and §5.2 also readable at
+          <a href="https://astqb.org/1-3-testing-principles/">ASTQB</a>.
+        </li>
+        <li>
+          Rapid Software Testing &mdash;
+          <a href="https://developsense.com/rst-approach">developsense.com</a>
+        </li>
+        <li>
+          See also:
+          <a href="risk-triage.html">Risk triage card</a> &middot;
+          <a href="../lessons/01-quality-risk-triage.html">Lesson 01</a>
+        </li>
+      </ul>
+    </nav>
+  </body>
+</html>

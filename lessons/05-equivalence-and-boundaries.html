@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Lesson 5 — Fewer tests, same coverage</title>
+    <link rel="stylesheet" href="../assets/lesson.css" />
+  </head>
+  <body>
+    <p class="eyebrow">Lesson 5 &middot; Test management</p>
+    <h1>Fewer tests, same coverage</h1>
+    <p class="subtitle">
+      Equivalence partitioning and boundary value analysis &mdash; the two
+      techniques that turn &ldquo;try some values&rdquo; into a defensible
+      number.
+    </p>
+
+    <p class="plan-tag">
+      <strong>Plan:</strong> covers the technique behind QA-007
+      <em>Test cases and scenarios</em> &mdash; &ldquo;normal, invalid, and
+      boundary inputs&rdquo; &middot; week 4 &middot;
+      <a href="../curriculum.html">coverage map</a>
+    </p>
+
+    <div class="win">
+      <p>
+        <strong>By the end of this lesson</strong> you will be able to take a
+        field with rules on it and produce a short list of test values, then say
+        exactly why each one is in the list and why the ones you left out are
+        redundant. This is the single most common whiteboard exercise in junior
+        QA interviews.
+      </p>
+    </div>
+
+    <h2>1. Equivalence partitioning: why one value stands for many</h2>
+
+    <p>
+      A tip field accepts amounts from $0.00 to $6.00. How many values do you
+      test? There are 601 of them. You test roughly four.
+    </p>
+
+    <p>
+      <strong>Equivalence partitioning</strong> divides the input data into
+      groups whose members the system should treat identically. The syllabus
+      states the assumption it rests on plainly: if a test case detects a defect,
+      that defect should also be detected by test cases using any other value
+      from the same partition.<span class="sidenote"
+        >ISTQB CTFL v4.0 §4.2.1. Learning objective FL-4.2.1 is K3 &mdash;
+        <em>use</em> the technique to derive test cases, not just describe it.
+        Interviewers know this and will ask you to do it.</span
+      >
+      So one value per partition is normally enough.
+    </p>
+
+    <p>
+      The mistake almost everyone makes first: partitioning only the
+      <em>valid</em> values. Invalid inputs form partitions too, and they are
+      where the interesting failures live. For our tip field:
+    </p>
+
+    <div class="table-scroll">
+      <table>
+        <tr>
+          <th>Partition</th>
+          <th>Valid?</th>
+          <th>One value from it</th>
+        </tr>
+        <tr>
+          <td>Below the minimum</td>
+          <td>Invalid</td>
+          <td>&minus;2.00</td>
+        </tr>
+        <tr>
+          <td>Within range</td>
+          <td>Valid</td>
+          <td>3.00</td>
+        </tr>
+        <tr>
+          <td>Above the maximum</td>
+          <td>Invalid</td>
+          <td>9.00</td>
+        </tr>
+        <tr>
+          <td>Not a number at all</td>
+          <td>Invalid</td>
+          <td>&ldquo;abc&rdquo;</td>
+        </tr>
+        <tr>
+          <td>Nothing entered</td>
+          <td>Invalid</td>
+          <td>(empty)</td>
+        </tr>
+      </table>
+    </div>
+
+    <p>
+      Coverage here is measurable: partitions exercised ÷ partitions identified.
+      That is the sentence that turns your test set from a guess into a number
+      you can defend &mdash; the same move you learned in
+      <a href="01-quality-risk-triage.html">lesson 1</a>, applied to values
+      instead of risks.
+    </p>
+
+    <h2>2. Boundary value analysis: where the bugs actually are</h2>
+
+    <p>
+      Partitioning tells you <em>how many</em> tests. It does not tell you
+      <em>which value</em> to pick from each partition. Boundary value analysis
+      does, and it picks the values most likely to fail.
+    </p>
+
+    <p>
+      The reasoning is about how people write code. Boundaries are where
+      developers get it wrong: the implemented boundary ends up
+      <strong>above or below</strong> where it was meant to be, or is
+      <strong>left out altogether</strong>. That is a
+      <code>&gt;</code> that should have been <code>&gt;=</code> &mdash; and it
+      is invisible everywhere except at the edge.
+    </p>
+
+    <div class="callout">
+      <span class="callout-label">One restriction worth remembering</span>
+      <p>
+        BVA applies <strong>only to ordered partitions</strong> &mdash; ones
+        where, if two values belong to the partition, everything between them
+        does too. Numbers and dates qualify. &ldquo;Not a number&rdquo; does not:
+        there is no edge of <em>abc</em>. So non-ordered partitions still get
+        exactly one value, chosen by judgement.
+      </p>
+    </div>
+
+    <p>There are two accepted depths, and knowing both is worth marks:</p>
+
+    <div class="table-scroll">
+      <table>
+        <tr>
+          <th></th>
+          <th>2-value BVA</th>
+          <th>3-value BVA</th>
+        </tr>
+        <tr>
+          <td><strong>You test</strong></td>
+          <td>The boundary, and its nearest neighbour across the line</td>
+          <td>The boundary, and the neighbour on <em>each</em> side</td>
+        </tr>
+        <tr>
+          <td><strong>At max $6.00</strong></td>
+          <td>6.00, 6.01</td>
+          <td>5.99, 6.00, 6.01</td>
+        </tr>
+        <tr>
+          <td><strong>Catches</strong></td>
+          <td>A misplaced or missing boundary</td>
+          <td>The same, plus an off-by-one in the other direction</td>
+        </tr>
+        <tr>
+          <td><strong>Use when</strong></td>
+          <td>Default. Cheaper, and catches most boundary defects</td>
+          <td>The boundary carries real risk &mdash; money, limits, access</td>
+        </tr>
+      </table>
+    </div>
+
+    <p>
+      Combine the two techniques and the choice of values makes itself: use
+      partitioning to decide how many tests, and boundaries to decide which
+      values. You end up with a handful of tests that are individually
+      justifiable.
+    </p>
+
+    <h2>Build the set</h2>
+
+    <div class="callout">
+      <span class="callout-label">The spec</span>
+      <p style="margin-bottom: 0">
+        The tip field accepts an amount from <strong>$0.00</strong> to
+        <strong>30% of the order value</strong>. This order is $20.00, so the
+        maximum tip is <strong>$6.00</strong>. Amounts have two decimal places.
+        Anything else is rejected with an error message.
+      </p>
+    </div>
+
+    <p>
+      Below is a pool of candidate values. Include the ones that earn their
+      place; leave out the ones that add nothing. Aim for the
+      <strong>smallest set with no gap in coverage</strong>, using 2-value BVA.
+    </p>
+
+    <div class="select-set" data-select-set>
+      <script type="application/json">
+        {
+          "itemNoun": "value",
+          "items": [
+            {
+              "id": "1",
+              "label": "−0.01",
+              "note": "One cent below the minimum",
+              "include": true,
+              "why": "The lower boundary's neighbour on the invalid side. If the check was written as 'greater than zero' instead of 'zero or more', or omitted entirely, this is the value that exposes it."
+            },
+            {
+              "id": "2",
+              "label": "0.00",
+              "note": "The minimum",
+              "include": true,
+              "why": "The lower boundary itself, and a valid value. Also a genuinely interesting case in its own right: a zero tip should probably be accepted, but plenty of systems reject it by accident."
+            },
+            {
+              "id": "3",
+              "label": "0.01",
+              "note": "One cent above the minimum",
+              "include": false,
+              "why": "This is the third value of 3-value BVA. Under 2-value BVA it adds nothing — 0.00 already covers the boundary and sits inside the valid partition. Include it only if you judge the lower boundary to be high risk."
+            },
+            {
+              "id": "4",
+              "label": "3.00",
+              "note": "A typical amount in the middle",
+              "include": false,
+              "why": "The instinctive first pick, and redundant: 0.00 and 6.00 are both inside the valid partition, so it is already covered. Many teams keep one 'normal' value anyway for readability — that is a defensible choice, but know that you are paying for legibility, not coverage."
+            },
+            {
+              "id": "5",
+              "label": "5.99",
+              "note": "One cent below the maximum",
+              "include": false,
+              "why": "Again the third value of 3-value BVA. Worth adding if the cap protects something expensive — which, for a payment limit, is an argument you could genuinely win. Under plain 2-value BVA, redundant."
+            },
+            {
+              "id": "6",
+              "label": "6.00",
+              "note": "The maximum — 30% of $20.00",
+              "include": true,
+              "why": "The upper boundary, and valid. This is the highest-yield single value in the whole pool: the classic defect is a cap implemented with > instead of >=, which rejects the exact maximum and is invisible at every other value."
+            },
+            {
+              "id": "7",
+              "label": "6.01",
+              "note": "One cent above the maximum",
+              "include": true,
+              "why": "The upper boundary's neighbour on the invalid side. Together with 6.00 it pins the cap exactly. Miss this and a cap that is off by a cent ships."
+            },
+            {
+              "id": "8",
+              "label": "\"abc\"",
+              "note": "Not a number",
+              "include": true,
+              "why": "A separate, non-ordered partition — BVA cannot reach it, so partitioning has to. Its own value is one test, chosen by judgement. Expect a clear error, not a crash and not a silent zero."
+            },
+            {
+              "id": "9",
+              "label": "(empty)",
+              "note": "Nothing entered at all",
+              "include": true,
+              "why": "Distinct from 'not a number': an empty field usually takes a different code path, and often a different error message. Testers who merge these two partitions miss the case where blank is silently treated as zero."
+            }
+          ]
+        }
+      </script>
+    </div>
+
+    <p>
+      Notice what happened: nine plausible values collapsed to six, and each of
+      the six answers a different question. That is the whole technique.
+    </p>
+
+    <h2>Recall</h2>
+
+    <p class="quiz-score" data-quiz-score></p>
+
+    <div class="quiz" data-quiz>
+      <p class="quiz-q">
+        <span class="quiz-num">Recall 1</span>What assumption makes it safe to
+        test only one value per partition?
+      </p>
+      <ol class="quiz-options">
+        <li>
+          <button
+            data-correct
+            data-feedback="This is the syllabus wording. It is an assumption, not a guarantee — which is exactly why boundaries get tested separately, since the assumption is weakest at the edges."
+          >
+            A defect found by one value would be found by any value there.
+          </button>
+        </li>
+        <li>
+          <button
+            data-feedback="Partitioning is not about probability of use. A rarely-used partition still gets a test, because the assumption is about how the code treats values, not how often users send them."
+          >
+            A defect found by one value is unlikely to affect real users.
+          </button>
+        </li>
+        <li>
+          <button
+            data-feedback="Nothing here says defects are rare. The technique works the same on buggy code — the claim is about values being processed identically."
+          >
+            A defect found by one value is rare enough to accept the risk.
+          </button>
+        </li>
+        <li>
+          <button
+            data-feedback="Time is the motivation for wanting fewer tests, but it is not what makes it safe. The justification has to be about the values behaving alike."
+          >
+            A defect found by one value costs too much time to pursue.
+          </button>
+        </li>
+      </ol>
+    </div>
+
+    <div class="quiz" data-quiz>
+      <p class="quiz-q">
+        <span class="quiz-num">Recall 2</span>Why can boundary value analysis not
+        be applied to the &ldquo;not a number&rdquo; partition?
+      </p>
+      <ol class="quiz-options">
+        <li>
+          <button
+            data-correct
+            data-feedback="BVA requires an ordered partition — one where everything between two members is also a member. Text has no such ordering, so it has no edges to sit beside."
+          >
+            That partition is not ordered, so it has no boundary values.
+          </button>
+        </li>
+        <li>
+          <button
+            data-feedback="Invalid partitions absolutely do get boundary analysis — −0.01 and 6.01 are both invalid and both essential. Validity is not what rules it out."
+          >
+            That partition is not valid, so it has no boundary values.
+          </button>
+        </li>
+        <li>
+          <button
+            data-feedback="Size is irrelevant. The 'not a number' partition is effectively infinite; what it lacks is an ordering, not members."
+          >
+            That partition is not finite, so it has no boundary values.
+          </button>
+        </li>
+        <li>
+          <button
+            data-feedback="It is entirely testable — you pick one value by judgement and test it. What you cannot do is derive that value from a boundary."
+          >
+            That partition is not testable, so it has no boundary values.
+          </button>
+        </li>
+      </ol>
+    </div>
+
+    <div class="quiz" data-quiz>
+      <p class="quiz-q">
+        <span class="quiz-num">Recall 3</span>A cap is coded as
+        <code>if (tip &gt; max) reject</code> when the spec says the maximum is
+        allowed. Which single value exposes it?
+      </p>
+      <ol class="quiz-options">
+        <li>
+          <button
+            data-feedback="Just below the maximum passes under both the correct and the buggy version, so it can never tell them apart. This is why interior values feel productive and prove nothing."
+          >
+            5.99, because it sits just inside the permitted upper range.
+          </button>
+        </li>
+        <li>
+          <button
+            data-correct
+            data-feedback="Exactly the boundary. The buggy version rejects it, the correct version accepts it, so it is the only value in the pool that distinguishes them. Off-by-one defects are visible at precisely one value."
+          >
+            6.00, because it sits exactly on the permitted upper limit.
+          </button>
+        </li>
+        <li>
+          <button
+            data-feedback="Just above the maximum is rejected by both versions, correct and buggy alike. It is still worth testing — but it cannot catch this particular defect."
+          >
+            6.01, because it sits just outside the permitted upper range.
+          </button>
+        </li>
+        <li>
+          <button
+            data-feedback="A mid-range value passes in both versions. It is the value most people reach for first, and it has no power to detect a boundary defect at all."
+          >
+            3.00, because it sits safely inside the permitted normal range.
+          </button>
+        </li>
+      </ol>
+    </div>
+
+    <h2>The interview move</h2>
+
+    <p>
+      Asked &ldquo;how would you test this field?&rdquo;, do not list values.
+      Narrate the method, then the values &mdash; it takes ten seconds longer and
+      sounds like a different candidate:
+    </p>
+
+    <p class="template">
+      I&rsquo;d partition it into <span class="blank"></span> classes &mdash;
+      <span class="blank"></span> &mdash; then take the boundary and its
+      neighbour at each edge, which gives me <span class="blank"></span> tests.
+      I&rsquo;d go to three-value BVA at <span class="blank"></span>, because
+      <span class="blank"></span>.
+    </p>
+
+    <h2>Read this next</h2>
+
+    <p>
+      <strong>Primary source &mdash;</strong>
+      <a href="https://astqb.org/4-2-black-box-test-techniques/"
+        >ISTQB CTFL v4.0 §4.2, Black-Box Test Techniques</a
+      >. Read §4.2.1 and §4.2.2 properly &mdash; they are short, and both are K3
+      objectives, meaning you are expected to <em>apply</em> them rather than
+      recognise them. §4.2.3 and §4.2.4 are the next lesson.
+    </p>
+
+    <div class="ask-teacher">
+      <strong>Want more reps?</strong> Ask me for a fresh field spec &mdash; a
+      date range, an age check, a password rule, a discount code &mdash; and
+      I&rsquo;ll mark your partitions and values. This technique only sticks
+      through repetition, and it is the one most likely to appear on a
+      whiteboard.
+    </div>
+
+    <nav class="footer-nav">
+      <strong>Where this connects</strong>
+      <ul>
+        <li>
+          Previous &mdash;
+          <a href="03-static-testing.html">Lesson 3: Finding bugs before the
+            code exists</a
+          >
+          &mdash; the &ldquo;incomplete&rdquo; acceptance criterion you found
+          there is what this lesson fills in
+        </li>
+        <li>
+          Next &mdash; Lesson 6: decision tables and state transition testing
+          <em>(not yet written &mdash;
+          <a href="../curriculum.html">see the curriculum</a>)</em>
+        </li>
+        <li>
+          Reference &mdash; <a href="../reference/glossary.html">Glossary</a>
+        </li>
+        <li><a href="../index.html">All lessons</a></li>
+      </ul>
+    </nav>
+
+    <script src="../assets/quiz.js"></script>
+    <script src="../assets/select-set.js"></script>
+  </body>
+</html>

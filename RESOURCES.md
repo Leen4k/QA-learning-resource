@@ -17,6 +17,28 @@ from here — not from the agent's parametric guesses.
   Official listing for the syllabus, sample exams, and glossary. Use for:
   checking for a newer errata release, and pulling sample exam questions for
   retrieval practice.
+- [ASTQB — syllabus section pages](https://astqb.org/5-2-risk-management/)
+  The American board republishes the CTFL v4.0 syllabus section by section as
+  web pages (e.g. `/5-2-risk-management/`, `/1-3-testing-principles/`). Same
+  wording as the PDF, but readable and linkable. Use for: citing a specific
+  section in a lesson. Note the official PDF blocks automated fetching, so this
+  is the practical route to the exact text.
+- [Rapid Software Testing — the RST approach (Bach & Bolton)](https://developsense.com/rst-approach)
+  The main counterweight to ISTQB. Source of "quality is value to some person
+  who matters", the testing-vs-checking distinction, and the framing of testing
+  as discovering threats to value. Use for: the *why* behind a practice, and for
+  interview answers that need to sound like a thinker rather than a syllabus.
+  Read alongside ISTQB, not instead of it — the two disagree deliberately.
+- [ISO/IEC 25010 product quality model](https://iso25000.com/index.php/en/iso-25000-standards/iso-25010)
+  The nine quality characteristics and their sub-characteristics. Use for: a
+  checklist of *axes along which a thing can fail* when generating risks or test
+  ideas from a thin feature description. Also underpins non-functional test
+  types (QA-035 to QA-040).
+- [Test Heuristics Cheat Sheet — Hendrickson, Lyndsay & Emery](https://www.ministryoftesting.com/articles/test-heuristics-cheat-sheet)
+  Compact list of test-idea generators (boundaries, CRUD, interruptions,
+  starvation, sequences, multi-user…). Required reading on the BBST Test Design
+  course. Use for: QA-015 exploratory testing, and any time risk brainstorming
+  dries up.
 - [roadmap.sh QA roadmap](https://roadmap.sh/qa)
   A structured map of the QA discipline. Good for orientation and for seeing how
   topics connect. Use for: QA-001, QA-004, QA-008 — breadth and vocabulary.
@@ -63,9 +85,16 @@ from here — not from the agent's parametric guesses.
 
 ## Wisdom (Communities)
 
-Not yet established. To be filled in once the mission is clear — the right
-community depends on whether the goal is employment, certification, or applying
-QA to an existing product.
+- [Ministry of Testing — The Club](https://club.ministryoftesting.com/)
+  The highest-signal, actively moderated testing forum. Discourse-based, and
+  practitioners answer concrete questions readily. Use for: putting a risk
+  ranking, test-case set, or bug report in front of working testers and asking
+  what they would have done differently. This is the main wisdom loop for the
+  mission — employers respond to judgment, and judgment needs contradiction.
+  Suggested first post: a risk triage with reasoning, asking for reordering.
+
+Not yet tried. Worth adding once used in anger: r/QualityAssurance for job-market
+and interview reality-checks, which The Club covers less.
 
 ## Gaps
 
@@ -74,7 +103,10 @@ Areas the plan needs where no strong source is yet identified:
 - **Test oracles (QA-002).** The CTFL syllabus touches expected results but does
   not treat the oracle problem directly. Needs a dedicated source.
 - **Exploratory testing (QA-015).** The syllabus covers it only briefly; the
-  practitioner literature is much richer.
+  practitioner literature is much richer. Partially addressed by the Test
+  Heuristics Cheat Sheet above; still needs a source on session-based test
+  management and how to leave *evidence* of exploratory work (which the mission
+  needs — the portfolio has to show it, not just claim it).
 - **Test management tools (QA-008).** Vendor docs for TestRail/qTest/Zephyr are
   marketing-adjacent. Needs a neutral comparison, or accept vendor docs with
   that bias noted explicitly.

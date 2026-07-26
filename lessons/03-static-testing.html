@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Lesson 3 — Finding bugs before the code exists</title>
+    <link rel="stylesheet" href="../assets/lesson.css" />
+  </head>
+  <body>
+    <p class="eyebrow">Lesson 3 &middot; Foundations</p>
+    <h1>Finding bugs before the code exists</h1>
+    <p class="subtitle">
+      Static testing: the cheapest defects you will ever catch are the ones still
+      sitting in a sentence.
+    </p>
+
+    <p class="plan-tag">
+      <strong>Plan:</strong> no matching task &mdash; static testing is a whole
+      ISTQB chapter the 52-task plan skips. Kept because reviewing requirements
+      is the cheapest testing there is &middot;
+      <a href="../curriculum.html">coverage map</a>
+    </p>
+
+    <div class="win">
+      <p>
+        <strong>By the end of this lesson</strong> you will be able to read a
+        user story and name the specific ways it will hurt someone &mdash;
+        ambiguous wording, missing cases, claims nobody can verify &mdash; and
+        turn each one into a question worth asking in refinement. This is the
+        highest-leverage thing a tester does, and it needs no software at all.
+      </p>
+    </div>
+
+    <h2>1. Testing without running anything</h2>
+
+    <p>
+      <strong>Static testing</strong> means examining a work product without
+      executing it &mdash; either by hand (a review) or with a tool (static
+      analysis).<span class="sidenote"
+        >ISTQB CTFL v4.0 §3.1. Nearly any readable work product qualifies:
+        requirement specifications, source code, test plans, test cases, product
+        backlog items, contracts, models.</span
+      >
+      Nearly anything readable can be reviewed. If it can be misunderstood, it
+      can be tested.
+    </p>
+
+    <p>
+      There is one distinction here worth memorising word for word, because it is
+      the cleanest idea in the whole syllabus:
+    </p>
+
+    <div class="callout">
+      <span class="callout-label">Static finds defects. Dynamic finds failures.</span>
+      <p>
+        Static testing <strong>identifies defects directly</strong>. Dynamic
+        testing produces a <strong>failure</strong>, and then someone has to work
+        backwards to find the defect that caused it. Same bug, but one route
+        hands it to you and the other makes you hunt.
+      </p>
+    </div>
+
+    <p>
+      That is why static testing is cheap. Add the rest of the ISTQB case for it:
+      it catches defects at the earliest phases of the lifecycle; it finds things
+      dynamic testing structurally cannot, such as unreachable code; it can
+      assess qualities that have nothing to do with execution, like
+      maintainability; overall project cost is usually much lower where reviews
+      happen; and it builds
+      <strong>shared understanding among stakeholders</strong>.
+    </p>
+
+    <p>
+      That last one is underrated. Half the defects you prevent in a refinement
+      meeting were never defects in the code &mdash; they were two people
+      confidently reading the same sentence differently.
+    </p>
+
+    <h2>2. What you are actually looking for</h2>
+
+    <p>
+      &ldquo;Review this story&rdquo; is useless advice without a target. Four
+      failure modes cover most of what goes wrong in written requirements:
+    </p>
+
+    <div class="table-scroll">
+      <table>
+        <tr>
+          <th>Fault</th>
+          <th>Tell</th>
+          <th>The question you ask</th>
+        </tr>
+        <tr>
+          <td><strong>Ambiguous</strong></td>
+          <td>
+            A word two people would read differently &mdash; <em>fast</em>,
+            <em>recent</em>, <em>user-friendly</em>, <em>appropriate</em>
+          </td>
+          <td>What number would make this true?</td>
+        </tr>
+        <tr>
+          <td><strong>Incomplete</strong></td>
+          <td>
+            The happy path is described and nothing else. No error case, no empty
+            case, no limit
+          </td>
+          <td>What happens when it fails or when there are none?</td>
+        </tr>
+        <tr>
+          <td><strong>Unverifiable</strong></td>
+          <td>
+            A claim with no observable outcome &mdash; <em>the system should be
+            intuitive</em>
+          </td>
+          <td>How would we know, from the outside, that this holds?</td>
+        </tr>
+        <tr>
+          <td><strong>Contradictory</strong></td>
+          <td>
+            Two statements that cannot both be satisfied, often in different
+            documents
+          </td>
+          <td>Which of these wins, and who decides?</td>
+        </tr>
+      </table>
+    </div>
+
+    <p>
+      Notice all four are answerable with a <em>question</em>, not an objection.
+      That matters socially: you are not marking someone&rsquo;s homework, you
+      are surfacing a decision nobody has made yet.
+    </p>
+
+    <h2>3. How reviews are actually run</h2>
+
+    <p>
+      Reviews come in four formality levels. You will be asked to compare them.
+    </p>
+
+    <div class="table-scroll">
+      <table>
+        <tr>
+          <th>Type</th>
+          <th>Formality</th>
+          <th>Led by</th>
+          <th>Feel</th>
+        </tr>
+        <tr>
+          <td><strong>Informal review</strong></td>
+          <td>Minimal</td>
+          <td>Nobody in particular</td>
+          <td>&ldquo;Can you look at this?&rdquo;</td>
+        </tr>
+        <tr>
+          <td><strong>Walkthrough</strong></td>
+          <td>Low to moderate</td>
+          <td>The author</td>
+          <td>Author talks the group through it</td>
+        </tr>
+        <tr>
+          <td><strong>Technical review</strong></td>
+          <td>Moderate to high</td>
+          <td>A designated leader</td>
+          <td>Peers examine it, findings documented</td>
+        </tr>
+        <tr>
+          <td><strong>Inspection</strong></td>
+          <td>Highest</td>
+          <td>A moderator</td>
+          <td>Checklists, defined roles, metrics collected</td>
+        </tr>
+      </table>
+    </div>
+
+    <p>
+      The process itself has five activities: <strong>planning</strong>,
+      <strong>review initiation</strong>, <strong>individual review</strong>,
+      <strong>communication and analysis</strong>, then
+      <strong>fixing and reporting</strong>.<span class="sidenote"
+        >ISTQB CTFL v4.0 §3.2, following ISO/IEC 20246. Principal roles: manager,
+        author, moderator, scribe, reviewer, review leader.</span
+      >
+      The one people skip is <em>individual review</em> &mdash; everyone reads it
+      alone, first. Skip that and the meeting becomes the loudest person&rsquo;s
+      opinion.
+    </p>
+
+    <p>
+      One success factor is worth calling out because it is a rule about people,
+      not documents: reviews need clear objectives and measurable exit criteria,
+      and <strong>evaluating the participants is explicitly excluded</strong>. A
+      review that becomes a judgement of the author stops producing findings
+      immediately.
+    </p>
+
+    <h2>Review this story</h2>
+
+    <p>
+      Here is a real-shaped backlog item. Each highlighted phrase has something
+      wrong with it. Name the fault.
+    </p>
+
+    <div class="callout">
+      <span class="callout-label">The story under review</span>
+      <p>
+        <em
+          >As a customer, I want to tip my driver after delivery so that I can
+          reward good service.</em
+        >
+      </p>
+      <p style="margin-bottom: 0">
+        Acceptance criteria: the tip screen appears promptly after delivery; the
+        customer can enter a tip amount; the tip is charged to the card on file;
+        tipping should feel effortless; the driver is notified.
+      </p>
+    </div>
+
+    <div class="classify" data-classify>
+      <script type="application/json">
+        {
+          "prompt": "Each phrase below is taken from that story. What is wrong with it?",
+          "categories": [
+            { "id": "amb", "label": "Ambiguous" },
+            { "id": "inc", "label": "Incomplete" },
+            { "id": "unv", "label": "Unverifiable" },
+            { "id": "con", "label": "Contradictory" }
+          ],
+          "items": [
+            {
+              "id": "1",
+              "text": "\"the tip screen appears promptly after delivery\"",
+              "answer": "amb",
+              "why": "'Promptly' has no number. The developer picks one, you test against a different one, and you argue in the bug tracker. Ask: promptly meaning within how many seconds — and delivery meaning driver-marked-delivered, or customer-confirmed?"
+            },
+            {
+              "id": "2",
+              "text": "\"the customer can enter a tip amount\"",
+              "answer": "inc",
+              "why": "Only the happy path is described. Nothing about zero, negative numbers, the 30% cap, non-numeric input, or currency. Every one of those is a test case waiting to be an argument. This is where equivalence partitioning will earn its keep in the next lesson."
+            },
+            {
+              "id": "3",
+              "text": "\"tipping should feel effortless\"",
+              "answer": "unv",
+              "why": "There is no observation that could show this is true or false, so it cannot pass or fail. Either convert it into something measurable (taps required, completion rate) or accept it as a design intention and remove it from the acceptance criteria."
+            },
+            {
+              "id": "4",
+              "text": "\"the tip is charged to the card on file\" — but the payments policy states no charge may be made without an explicit confirmation step",
+              "answer": "con",
+              "why": "Two documents that cannot both be satisfied. This is the most valuable find of the four: it is invisible in the story alone, and it surfaces only because someone read the story against what already exists. Escalate it — it needs a decision, not a test."
+            },
+            {
+              "id": "5",
+              "text": "\"the driver is notified\"",
+              "answer": "inc",
+              "why": "Notified how, and when? The story elsewhere says the driver sees the tip the next day, which does not obviously match 'notified'. No failure case either — what if the notification does not send? Incomplete rather than contradictory, because the two statements can be reconciled once someone decides."
+            }
+          ]
+        }
+      </script>
+    </div>
+
+    <h2>Recall</h2>
+
+    <p class="quiz-score" data-quiz-score></p>
+
+    <div class="quiz" data-quiz>
+      <p class="quiz-q">
+        <span class="quiz-num">Recall 1</span>What is the precise difference
+        between what static and dynamic testing find?
+      </p>
+      <ol class="quiz-options">
+        <li>
+          <button
+            data-correct
+            data-feedback="This is the syllabus distinction, and it explains the cost gap. Static hands you the defect. Dynamic hands you a symptom and leaves you to trace it back."
+          >
+            Static finds defects directly; dynamic finds failures caused by
+            defects.
+          </button>
+        </li>
+        <li>
+          <button
+            data-feedback="Inverted. Dynamic testing runs the software, so what it observes is a failure — the defect behind it still has to be located."
+          >
+            Static finds failures directly; dynamic finds defects causing those
+            failures.
+          </button>
+        </li>
+        <li>
+          <button
+            data-feedback="Both find real defects. Static testing is not a weaker preview of dynamic testing — it finds things dynamic testing cannot reach at all, such as unreachable code."
+          >
+            Static finds possible defects; dynamic confirms which ones are real.
+          </button>
+        </li>
+        <li>
+          <button
+            data-feedback="Static testing covers far more than code — requirements, test cases, contracts, models. Restricting it to code discards most of its value."
+          >
+            Static finds code defects; dynamic finds defects in running
+            requirements.
+          </button>
+        </li>
+      </ol>
+    </div>
+
+    <div class="quiz" data-quiz>
+      <p class="quiz-q">
+        <span class="quiz-num">Recall 2</span>Your team runs a review where the
+        author walks everyone through the document. Which type is that?
+      </p>
+      <ol class="quiz-options">
+        <li>
+          <button
+            data-correct
+            data-feedback="Author-led is the defining feature of a walkthrough. Formality is low to moderate — useful for building shared understanding quickly."
+          >
+            A walkthrough, which is led by the author of the document.
+          </button>
+        </li>
+        <li>
+          <button
+            data-feedback="An inspection is the most formal type, led by a moderator, using checklists and collecting metrics. An author guiding the room is the opposite arrangement."
+          >
+            An inspection, which is led by the author of the document.
+          </button>
+        </li>
+        <li>
+          <button
+            data-feedback="A technical review is led by a designated leader rather than the author, and its findings are documented. The author leading is what makes this a walkthrough."
+          >
+            A technical review, led by the author for the peer group.
+          </button>
+        </li>
+        <li>
+          <button
+            data-feedback="An informal review has no defined leader or structure at all. A scheduled session where the author presents is more organised than that."
+          >
+            An informal review, led by the author for the peer group.
+          </button>
+        </li>
+      </ol>
+    </div>
+
+    <div class="quiz" data-quiz>
+      <p class="quiz-q">
+        <span class="quiz-num">Recall 3</span>Which review success factor is
+        about protecting people rather than documents?
+      </p>
+      <ol class="quiz-options">
+        <li>
+          <button
+            data-correct
+            data-feedback="The syllabus explicitly excludes evaluating participants from review objectives. The moment a review becomes performance appraisal, people stop volunteering findings — and findings are the entire product."
+          >
+            Reviews must not be used to evaluate the participants themselves.
+          </button>
+        </li>
+        <li>
+          <button
+            data-feedback="True and useful — small chunks keep concentration — but it protects the quality of attention, not the people. The interpersonal factor is a different one."
+          >
+            Reviews must cover small sections to keep reviewers concentrating.
+          </button>
+        </li>
+        <li>
+          <button
+            data-feedback="Adequate preparation time is a real success factor, but it is about process scheduling rather than about how participants are treated."
+          >
+            Reviews must allow adequate preparation time before the group meets.
+          </button>
+        </li>
+        <li>
+          <button
+            data-feedback="Management commitment is on the list, but it is organisational support rather than a safeguard for the individuals in the room."
+          >
+            Reviews must have management commitment to succeed in an
+            organisation.
+          </button>
+        </li>
+      </ol>
+    </div>
+
+    <h2>Do this at work this week</h2>
+
+    <p>
+      Take the next story that reaches your team, or any open issue in a public
+      repo, and produce <strong>five questions</strong> using the four faults
+      above. Not objections &mdash; questions. Then notice how many of them the
+      author had not decided yet.
+    </p>
+
+    <p class="template">
+      In &ldquo;<span class="blank"></span>&rdquo;, I read
+      <span class="blank"></span> as <span class="blank"></span> &mdash; is that
+      right, or did you mean <span class="blank"></span>?
+    </p>
+
+    <h2>Read this next</h2>
+
+    <p>
+      <strong>Primary source &mdash;</strong>
+      <a href="https://astqb.org/3-1-static-testing-basics/"
+        >ISTQB CTFL v4.0 §3.1, Static Testing Basics</a
+      >
+      and
+      <a href="https://astqb.org/3-2-feedback-and-review-process/"
+        >§3.2, Feedback and Review Process</a
+      >. Together about six pages. §3.2.4 (review types) and §3.2.5 (success
+      factors) are the parts that get asked about.
+    </p>
+
+    <div class="ask-teacher">
+      <strong>Want to practise this on something real?</strong> Paste me a user
+      story &mdash; from work, or from any public issue tracker &mdash; and
+      I&rsquo;ll review it alongside you, then compare what we each found.
+    </div>
+
+    <nav class="footer-nav">
+      <strong>Where this connects</strong>
+      <ul>
+        <li>
+          Previous &mdash;
+          <a href="02-test-levels-and-types.html"
+            >Lesson 2: Where a test belongs</a
+          >
+        </li>
+        <li>
+          Next &mdash;
+          <a href="05-equivalence-and-boundaries.html"
+            >Lesson 5: Fewer tests, same coverage</a
+          >
+          &mdash; which turns the incomplete acceptance criteria above into
+          actual test values
+        </li>
+        <li>
+          Reference &mdash; <a href="../reference/glossary.html">Glossary</a>
+        </li>
+        <li><a href="../index.html">All lessons</a></li>
+      </ul>
+    </nav>
+
+    <script src="../assets/quiz.js"></script>
+    <script src="../assets/classify.js"></script>
+  </body>
+</html>

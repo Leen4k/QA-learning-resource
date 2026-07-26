@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Lesson 2 — Test levels and test types</title>
+    <link rel="stylesheet" href="../assets/lesson.css" />
+  </head>
+  <body>
+    <p class="eyebrow">Lesson 2 &middot; Foundations</p>
+    <h1>Where a test belongs, and what kind it is</h1>
+    <p class="subtitle">
+      Two questions that sound like vocabulary drill, and are actually about
+      catching bugs where they are cheap.
+    </p>
+
+    <p class="plan-tag">
+      <strong>Plan:</strong> covers QA-005 <em>Test levels</em>, and the
+      black-box / white-box half of QA-004 &middot; weeks 2&ndash;3 &middot;
+      <a href="../curriculum.html">coverage map</a>
+    </p>
+
+    <div class="win">
+      <p>
+        <strong>By the end of this lesson</strong> you will be able to take any
+        test and say <em>which level</em> it belongs at and <em>what type</em> it
+        is &mdash; and explain why moving it to a different level would cost more
+        or find less. You will also stop confusing confirmation testing with
+        regression testing, which interviewers ask about constantly.
+      </p>
+    </div>
+
+    <h2>1. Two independent questions</h2>
+
+    <p>
+      People new to QA mash these together. They are separate axes, and keeping
+      them separate is most of the skill.
+    </p>
+
+    <div class="table-scroll">
+      <table>
+        <tr>
+          <th></th>
+          <th>Test level</th>
+          <th>Test type</th>
+        </tr>
+        <tr>
+          <td><strong>Answers</strong></td>
+          <td>How big a piece am I testing, and when?</td>
+          <td>Which quality aspect am I asking about?</td>
+        </tr>
+        <tr>
+          <td><strong>ISTQB wording</strong></td>
+          <td>
+            &ldquo;Groups of test activities that are organized and managed
+            together&rdquo;
+          </td>
+          <td>
+            &ldquo;Groups of test activities related to specific quality
+            characteristics&rdquo;
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Example</strong></td>
+          <td>System testing</td>
+          <td>Performance testing</td>
+        </tr>
+      </table>
+    </div>
+
+    <p>
+      They combine freely.<span class="sidenote"
+        >ISTQB CTFL v4.0 §2.2. The syllabus is explicit that test types can be
+        applied at every test level &mdash; which is why &ldquo;performance
+        testing is a system-level thing&rdquo; is wrong.</span
+      >
+      &ldquo;Performance testing of a single component&rdquo; is a perfectly good
+      sentence: level = component, type = non-functional. So is
+      &ldquo;functional acceptance testing&rdquo;. Think grid, not list.
+    </p>
+
+    <h2>2. The five levels</h2>
+
+    <div class="table-scroll">
+      <table>
+        <tr>
+          <th>Level</th>
+          <th>What is under test</th>
+          <th>Usually done by</th>
+          <th>Typical defect it catches</th>
+        </tr>
+        <tr>
+          <td><strong>Component</strong></td>
+          <td>One unit in isolation</td>
+          <td>Developers</td>
+          <td>Wrong calculation inside a function</td>
+        </tr>
+        <tr>
+          <td><strong>Component integration</strong></td>
+          <td>Components talking to each other</td>
+          <td>Developers</td>
+          <td>Wrong data passed between two modules</td>
+        </tr>
+        <tr>
+          <td><strong>System</strong></td>
+          <td>The whole assembled product</td>
+          <td>Testers</td>
+          <td>End-to-end flow breaks; requirement not met</td>
+        </tr>
+        <tr>
+          <td><strong>System integration</strong></td>
+          <td>Your system plus external systems</td>
+          <td>Testers</td>
+          <td>Payment gateway rejects your request format</td>
+        </tr>
+        <tr>
+          <td><strong>Acceptance</strong></td>
+          <td>Fitness for use, by the people who asked for it</td>
+          <td>Users, customer, product owner</td>
+          <td>It works, but it is not what they needed</td>
+        </tr>
+      </table>
+    </div>
+
+    <p>
+      The syllabus distinguishes levels by five things: approach,
+      responsibilities, objectives, test basis, and the defect types found. That
+      last one is the practically useful one &mdash;
+      <strong>each level catches a class of bug the others structurally
+      cannot</strong>. A component test cannot find a bug in how two components
+      talk. A system test can, but by then the bug is more expensive to trace.
+    </p>
+
+    <div class="callout">
+      <span class="callout-label">The point of levels</span>
+      <p>
+        Levels are a cost argument, not a taxonomy. A defect caught at component
+        level costs minutes; the same defect surfacing in acceptance testing
+        costs a meeting. When someone asks &ldquo;why bother with unit
+        tests?&rdquo;, this is the answer &mdash; and it connects straight to
+        ISTQB principle 3, <em>early testing saves time and money</em>.
+      </p>
+    </div>
+
+    <h2>3. The four types</h2>
+
+    <div class="table-scroll">
+      <table>
+        <tr>
+          <th>Type</th>
+          <th>The question</th>
+          <th>Example</th>
+        </tr>
+        <tr>
+          <td><strong>Functional</strong></td>
+          <td><em>What</em> does the system do?</td>
+          <td>Does a 30% tip cap actually reject 31%?</td>
+        </tr>
+        <tr>
+          <td><strong>Non-functional</strong></td>
+          <td><em>How well</em> does it do it?</td>
+          <td>Does the tip submit in under two seconds under load?</td>
+        </tr>
+        <tr>
+          <td><strong>Black-box</strong></td>
+          <td>Based on behaviour, without looking at the code</td>
+          <td>Derive tests from the spec</td>
+        </tr>
+        <tr>
+          <td><strong>White-box</strong></td>
+          <td>Based on the internal structure</td>
+          <td>Derive tests to cover every branch</td>
+        </tr>
+      </table>
+    </div>
+
+    <p>
+      Non-functional maps onto the quality characteristics you met in
+      <a href="../reference/risk-triage.html">the risk triage card</a> &mdash;
+      performance, security, reliability, usability and the rest. That is not a
+      coincidence: <strong>types and risks use the same axes</strong>. When you
+      score a risk on &ldquo;security&rdquo;, the test that addresses it is
+      security testing.
+    </p>
+
+    <h2>4. Confirmation vs. regression</h2>
+
+    <p>
+      After any change &mdash; a fix or an enhancement &mdash; two different
+      questions need answering, and they are not the same question.
+    </p>
+
+    <div class="table-scroll">
+      <table>
+        <tr>
+          <th></th>
+          <th>Confirmation testing</th>
+          <th>Regression testing</th>
+        </tr>
+        <tr>
+          <td><strong>Asks</strong></td>
+          <td>Did the fix actually work?</td>
+          <td>Did the fix break anything else?</td>
+        </tr>
+        <tr>
+          <td><strong>Scope</strong></td>
+          <td>The one thing that was broken</td>
+          <td>Everything the change could have touched</td>
+        </tr>
+        <tr>
+          <td><strong>Test used</strong></td>
+          <td>Re-run the steps from the bug report</td>
+          <td>Re-run existing tests around the change</td>
+        </tr>
+        <tr>
+          <td><strong>Automate it?</strong></td>
+          <td>Usually not worth it &mdash; runs once</td>
+          <td>
+            Yes &mdash; this is the strongest case for automation, because it
+            repeats forever
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <p>
+      A memory hook that survives interview pressure:
+      <strong>confirm the fix, regress the rest.</strong>
+    </p>
+
+    <h2>Sort them</h2>
+
+    <p>
+      Each of these is a real test someone might run. Put it at the level where
+      it belongs.
+    </p>
+
+    <div class="classify" data-classify>
+      <script type="application/json">
+        {
+          "categories": [
+            { "id": "comp", "label": "Component" },
+            { "id": "compint", "label": "Comp. integration" },
+            { "id": "sys", "label": "System" },
+            { "id": "sysint", "label": "System integration" },
+            { "id": "acc", "label": "Acceptance" }
+          ],
+          "items": [
+            {
+              "id": "1",
+              "text": "Check that calculateTip(2000, 0.15) returns 300.",
+              "answer": "comp",
+              "why": "One function, no other parts involved, no interface. This is the cheapest place to catch an arithmetic error — and the only place where the failure points straight at the guilty line."
+            },
+            {
+              "id": "2",
+              "text": "Check that the app correctly charges a tip through the Stripe sandbox.",
+              "answer": "sysint",
+              "why": "The moment a third party you do not control is in the loop, you are at system integration. The classic finding here is a format or protocol mismatch — your request is valid to you and invalid to them."
+            },
+            {
+              "id": "3",
+              "text": "A customer walks through tipping on their own phone and confirms it matches what they asked for.",
+              "answer": "acc",
+              "why": "Fitness for use, judged by the person who wanted the feature. Note this can pass on a broken product, and fail on a working one — that is validation rather than verification."
+            },
+            {
+              "id": "4",
+              "text": "Check that the tip screen passes the right order ID to the payment module.",
+              "note": "Both modules are ours.",
+              "answer": "compint",
+              "why": "Two of your own components exchanging data. Tempting to call this system testing, but nothing else is involved — you are testing one seam, not the assembled product."
+            },
+            {
+              "id": "5",
+              "text": "Order food, get it delivered, tip the driver, and check the receipt shows the total.",
+              "answer": "sys",
+              "why": "A whole user journey across the assembled product, still entirely inside your system's boundary. If the driver-facing app were a separate system, the last step would push this to system integration."
+            }
+          ]
+        }
+      </script>
+    </div>
+
+    <h2>Recall</h2>
+
+    <p class="quiz-score" data-quiz-score></p>
+
+    <div class="quiz" data-quiz>
+      <p class="quiz-q">
+        <span class="quiz-num">Recall 1</span>A developer fixes the tip-cap bug.
+        You re-run the exact steps from the bug report. What have you done?
+      </p>
+      <ol class="quiz-options">
+        <li>
+          <button
+            data-correct
+            data-feedback="Confirmation testing asks one question — did this specific fix work? It uses the reproduction steps from the report, and it is finished the moment you have an answer."
+          >
+            Confirmation testing: checking the reported defect is genuinely gone.
+          </button>
+        </li>
+        <li>
+          <button
+            data-feedback="Regression testing asks the wider question — did this change break something that used to work? Re-running the bug's own steps cannot answer that."
+          >
+            Regression testing: checking the reported defect is genuinely gone.
+          </button>
+        </li>
+        <li>
+          <button
+            data-feedback="Retesting is another name for confirmation testing, but the description here is wrong: you tested one fix, not the surrounding features."
+          >
+            Confirmation testing: checking the surrounding features still work.
+          </button>
+        </li>
+        <li>
+          <button
+            data-feedback="This describes regression testing correctly, but it is not what you did. You re-ran the bug's own steps and nothing else."
+          >
+            Regression testing: checking the surrounding features still work.
+          </button>
+        </li>
+      </ol>
+    </div>
+
+    <div class="quiz" data-quiz>
+      <p class="quiz-q">
+        <span class="quiz-num">Recall 2</span>&ldquo;The tip button must respond
+        within 200&nbsp;ms on a 3G connection.&rdquo; Testing this is&hellip;
+      </p>
+      <ol class="quiz-options">
+        <li>
+          <button
+            data-correct
+            data-feedback="Non-functional testing asks how well the system does something, not whether it does it. Response time is a performance characteristic, so the requirement being written down does not make it functional."
+          >
+            Non-functional testing, because it measures how well it performs.
+          </button>
+        </li>
+        <li>
+          <button
+            data-feedback="The common trap: a written requirement feels 'functional'. But functional testing asks what the system does. This requirement is about speed, which is a quality characteristic."
+          >
+            Functional testing, because it is a written stated requirement.
+          </button>
+        </li>
+        <li>
+          <button
+            data-feedback="White-box means tests derived from internal structure. You could measure this response time knowing nothing about the code, so it is not white-box."
+          >
+            White-box testing, because it measures internal system behaviour.
+          </button>
+        </li>
+        <li>
+          <button
+            data-feedback="Acceptance is a level, not a type — and the question asked for the type. Even at acceptance level, this test would still be non-functional."
+          >
+            Acceptance testing, because it states a customer-facing performance
+            need.
+          </button>
+        </li>
+      </ol>
+    </div>
+
+    <div class="quiz" data-quiz>
+      <p class="quiz-q">
+        <span class="quiz-num">Recall 3</span>Why do the five levels exist at
+        all, rather than just testing the finished product?
+      </p>
+      <ol class="quiz-options">
+        <li>
+          <button
+            data-correct
+            data-feedback="Each level has a different test basis and finds a different class of defect, and finding one early is cheaper than finding it late. This is ISTQB principle 3 in structural form."
+          >
+            Each level catches different defects, and earlier is cheaper to fix.
+          </button>
+        </li>
+        <li>
+          <button
+            data-feedback="Repeating the same checks at five scales would be waste, not strategy. The levels differ in what they can find, not in how many times they look."
+          >
+            Each level repeats the same checks, so defects cannot slip through.
+          </button>
+        </li>
+        <li>
+          <button
+            data-feedback="Levels are about scope and timing, not about who is senior. Ownership tends to follow the level, but that is a consequence rather than the reason."
+          >
+            Each level suits a different seniority, so work is shared fairly.
+          </button>
+        </li>
+        <li>
+          <button
+            data-feedback="Automation choices cut across levels — you can automate at any of them. The levels would still exist in a fully manual team."
+          >
+            Each level suits a different tool, so automation can be layered.
+          </button>
+        </li>
+      </ol>
+    </div>
+
+    <h2>Carry this into an interview</h2>
+
+    <p>
+      &ldquo;At what level would you test this?&rdquo; is a favourite question
+      because it exposes whether you think about cost. A strong answer names the
+      level <em>and</em> the reason:
+    </p>
+
+    <p class="template">
+      I&rsquo;d test that at <span class="blank"></span> level, because the
+      defect I&rsquo;m hunting lives in <span class="blank"></span> &mdash;
+      testing it later would still find it, but by then
+      <span class="blank"></span>.
+    </p>
+
+    <h2>Read this next</h2>
+
+    <p>
+      <strong>Primary source &mdash;</strong>
+      <a href="https://astqb.org/2-2-test-levels-and-test-types/"
+        >ISTQB CTFL v4.0 §2.2, Test Levels and Test Types</a
+      >. Short. Read the five level descriptions and the confirmation/regression
+      pair; the type descriptions you can skim, since you met the same quality
+      characteristics in lesson 1. Full syllabus:
+      <a
+        href="https://istqb.org/sdm_downloads/istqb-certified-tester-foundation-level-syllabus-v4-0/"
+        >ISTQB download page</a
+      >.
+    </p>
+
+    <div class="ask-teacher">
+      <strong>Something not landing?</strong> The component-integration vs.
+      system boundary is the one people genuinely argue about &mdash; ask me and
+      I&rsquo;ll give you harder edge cases to sort until it clicks.
+    </div>
+
+    <nav class="footer-nav">
+      <strong>Where this connects</strong>
+      <ul>
+        <li>
+          Previous &mdash;
+          <a href="01-quality-risk-triage.html">Lesson 1: What to test first</a>
+          (risk axes reappear here as test types)
+        </li>
+        <li>
+          Next &mdash;
+          <a href="03-static-testing.html">Lesson 3: Finding bugs before the
+            code exists</a
+          >
+        </li>
+        <li>
+          Reference &mdash; <a href="../reference/glossary.html">Glossary</a>
+          &middot; <a href="../reference/risk-triage.html">Risk triage card</a>
+        </li>
+        <li><a href="../index.html">All lessons</a></li>
+      </ul>
+    </nav>
+
+    <script src="../assets/quiz.js"></script>
+    <script src="../assets/classify.js"></script>
+  </body>
+</html>

@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Reference — Quality risk triage card</title>
+    <link rel="stylesheet" href="../assets/lesson.css" />
+  </head>
+  <body>
+    <p class="eyebrow">Reference card &middot; print me</p>
+    <h1>Quality risk triage</h1>
+    <p class="subtitle">
+      One page for deciding what to test first, and for defending the decision.
+    </p>
+
+    <h2>The formula</h2>
+
+    <p class="template" style="line-height: 1.8">
+      <strong>Risk level = likelihood &times; impact</strong><br />
+      Likelihood = how probable is this failure?<br />
+      Impact = how much harm if it happens?
+    </p>
+
+    <p>
+      Scored Low&nbsp;=&nbsp;1, Medium&nbsp;=&nbsp;2, High&nbsp;=&nbsp;3, risk
+      levels run 1&ndash;9. The number is a sorting aid, not a truth. Its real
+      job is to force the two factors apart so each gets its own reason.
+    </p>
+
+    <div class="table-scroll">
+      <table>
+        <tr>
+          <th></th>
+          <th>Likelihood Low</th>
+          <th>Likelihood Med</th>
+          <th>Likelihood High</th>
+        </tr>
+        <tr>
+          <td><strong>Impact High</strong></td>
+          <td>3 &mdash; test</td>
+          <td>6 &mdash; test early</td>
+          <td>9 &mdash; test first</td>
+        </tr>
+        <tr>
+          <td><strong>Impact Med</strong></td>
+          <td>2 &mdash; if time</td>
+          <td>4 &mdash; test</td>
+          <td>6 &mdash; test early</td>
+        </tr>
+        <tr>
+          <td><strong>Impact Low</strong></td>
+          <td>1 &mdash; drop it</td>
+          <td>2 &mdash; if time</td>
+          <td>3 &mdash; test</td>
+        </tr>
+      </table>
+    </div>
+
+    <h2>Evidence for each dial</h2>
+
+    <p>
+      A score without a reason is a guess. Reach for these when asked
+      &ldquo;why?&rdquo;
+    </p>
+
+    <div class="ref-grid">
+      <div class="card">
+        <h3>Raises likelihood</h3>
+        <ul>
+          <li>New or heavily changed code</li>
+          <li>Component with past defect history <span class="src">(defects cluster &mdash; principle 4)</span></li>
+          <li>High complexity, many branches</li>
+          <li>Unfamiliar technology or a new team</li>
+          <li>Behaviour that differs between staging and production</li>
+          <li>Integrations and third-party dependencies</li>
+          <li>Rushed or ambiguous requirements</li>
+          <li>Anything invisible on the happy path</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Raises impact</h3>
+        <ul>
+          <li>Number and type of users affected</li>
+          <li>Money moved, lost or mis-stated</li>
+          <li>Data loss or corruption</li>
+          <li>Legal, regulatory, privacy or safety exposure</li>
+          <li>Reputational or trust damage</li>
+          <li>No workaround available to the user</li>
+          <li>Failure is <em>silent</em> &mdash; nobody notices it happening</li>
+          <li>Blocks other features or downstream systems</li>
+        </ul>
+      </div>
+    </div>
+
+    <h2>Where risk candidates come from</h2>
+
+    <p>
+      When a feature description gives you nothing to grip, walk the nine quality
+      characteristics of ISO/IEC 25010 and ask &ldquo;how could this feature fail
+      <em>here</em>?&rdquo;<span class="sidenote"
+        >ISO/IEC 25010 product quality model, as published at
+        <a href="https://iso25000.com/index.php/en/iso-25000-standards/iso-25010"
+          >iso25000.com</a
+        >. Sub-characteristics exist under each; the top level is enough as a
+        prompt list.</span
+      >
+    </p>
+
+    <div class="ref-grid">
+      <div class="card">
+        <h3>The nine axes</h3>
+        <ul>
+          <li><strong>Functional suitability</strong> &mdash; does it do the right thing, completely and correctly?</li>
+          <li><strong>Performance efficiency</strong> &mdash; time, resources, capacity</li>
+          <li><strong>Compatibility</strong> &mdash; co-existence, interoperability</li>
+          <li><strong>Interaction capability</strong> &mdash; learnability, operability, error protection, inclusivity</li>
+          <li><strong>Reliability</strong> &mdash; availability, fault tolerance, recoverability</li>
+          <li><strong>Security</strong> &mdash; confidentiality, integrity, authenticity, resistance</li>
+          <li><strong>Maintainability</strong> &mdash; modularity, analysability, testability</li>
+          <li><strong>Flexibility</strong> &mdash; adaptability, scalability, installability</li>
+          <li><strong>Safety</strong> &mdash; hazard warning, fail-safe behaviour</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Fast prompts</h3>
+        <ul>
+          <li>What happens on the <em>second</em> attempt?</li>
+          <li>What if two people do this at once?</li>
+          <li>What if the network drops mid-way?</li>
+          <li>What does the user see when it fails?</li>
+          <li>Who can reach this without permission?</li>
+          <li>What happens at the boundary &mdash; zero, one, maximum, over?</li>
+          <li>What does the next system downstream receive?</li>
+          <li>Which failure would nobody notice for a month?</li>
+        </ul>
+      </div>
+    </div>
+
+    <h2>Product risk or project risk?</h2>
+
+    <div class="table-scroll">
+      <table>
+        <tr>
+          <th>Product risk &mdash; you test it</th>
+          <th>Project risk &mdash; you escalate it</th>
+        </tr>
+        <tr>
+          <td>Threatens the quality of what ships</td>
+          <td>Threatens the ability to ship at all</td>
+        </tr>
+        <tr>
+          <td>
+            Missing or wrong function, bad performance, security hole, unusable
+            interface, data corruption
+          </td>
+          <td>
+            Organisational, people, technical and supplier issues &mdash; hitting
+            schedule, budget or scope
+          </td>
+        </tr>
+        <tr>
+          <td>Becomes test cases</td>
+          <td>Becomes a conversation with whoever owns the plan</td>
+        </tr>
+      </table>
+    </div>
+
+    <h2>The defence template</h2>
+
+    <p class="template">
+      I&rsquo;d test <span class="blank"></span> first. Impact is
+      <span class="blank"></span> because <span class="blank"></span>, and
+      likelihood is <span class="blank"></span> because
+      <span class="blank"></span>.
+    </p>
+
+    <p>
+      Under pushback, hold one dial constant and argue the other &mdash;
+      &ldquo;<em>same</em> impact, but higher likelihood, because&hellip;&rdquo;
+      That is a claim someone can check, which is what makes it judgement rather
+      than taste.
+    </p>
+
+    <h2>Traps</h2>
+
+    <div class="ref-grid">
+      <div class="card">
+        <h3>Don&rsquo;t</h3>
+        <ul>
+          <li>Collapse both dials into &ldquo;it&rsquo;s critical&rdquo;</li>
+          <li>Confuse a dramatic symptom with high impact</li>
+          <li>Rank by what is easy to find</li>
+          <li>Rank by what is easy to test</li>
+          <li>Rate impact without asking <em>whose</em> value</li>
+          <li>Treat the score as an answer rather than a starting position</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Do</h3>
+        <ul>
+          <li>Name the stakeholder before calling something high impact</li>
+          <li>Look things up &mdash; analytics, defect history, logs</li>
+          <li>Say when a score is a guess, and what would sharpen it</li>
+          <li>Use test cost only as a tiebreaker between equal risks</li>
+          <li>Re-run the triage when the build or the deadline changes</li>
+          <li>Record residual risk you knowingly accepted</li>
+        </ul>
+      </div>
+    </div>
+
+    <nav class="footer-nav">
+      <strong>Sources</strong>
+      <ul>
+        <li>
+          ISTQB CTFL Syllabus v4.0.1, §1.3 (principles) and §5.2 (risk
+          management) &mdash;
+          <a
+            href="https://istqb.org/sdm_downloads/istqb-certified-tester-foundation-level-syllabus-v4-0/"
+            >official download</a
+          >,
+          <a href="https://astqb.org/5-2-risk-management/">§5.2 online</a>
+        </li>
+        <li>
+          <a href="https://iso25000.com/index.php/en/iso-25000-standards/iso-25010"
+            >ISO/IEC 25010 product quality model</a
+          >
+        </li>
+        <li>
+          Taught in
+          <a href="../lessons/01-quality-risk-triage.html"
+            >Lesson 01 &mdash; What to test first</a
+          >
+          &middot; terms defined in
+          <a href="glossary.html">the glossary</a>
+        </li>
+      </ul>
+    </nav>
+  </body>
+</html>

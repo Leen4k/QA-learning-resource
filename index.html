@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>A practical QA course</title>
+    <link rel="stylesheet" href="assets/lesson.css" />
+  </head>
+  <body>
+    <p class="eyebrow">Software testing &middot; from first principles</p>
+    <h1>A practical QA course</h1>
+    <p class="subtitle">
+      Short, interactive lessons on software testing. Each takes about ten
+      minutes and leaves you able to do something you couldn&rsquo;t before.
+    </p>
+
+    <div class="win">
+      <p>
+        <strong>Who this is for.</strong> Anyone moving into software testing, or
+        already testing and wanting the reasoning behind the habits. No coding
+        needed until lesson 24. Every claim is cited to a primary source &mdash;
+        mostly the
+        <a
+          href="https://istqb.org/sdm_downloads/istqb-certified-tester-foundation-level-syllabus-v4-0/"
+          >ISTQB Foundation syllabus</a
+        >
+        and
+        <a href="https://developsense.com/rst-approach">Rapid Software Testing</a
+        >, which disagree with each other in useful places.
+      </p>
+    </div>
+
+    <h2>How to use it</h2>
+
+    <p>
+      <strong>Learning from scratch?</strong> Start at lesson 1 and work
+      down.  Each lesson leans on the one before. Do the exercises rather than
+      reading past them &mdash; the feedback is where the learning is, and the
+      answers you get wrong are worth more than the ones you get right.
+    </p>
+
+    <p>
+      <strong>Following the 52-task plan?</strong> The
+      <a href="curriculum.html">curriculum</a> lists every task ID and links
+      straight to the lesson that covers it. Each lesson also shows its task ID
+      at the top.
+    </p>
+
+    <p>
+      <strong>Just need a fact?</strong> Skip to the
+      <a href="#reference">reference cards</a>. They are built for looking things
+      up, not for learning from.
+    </p>
+
+    <h2>Lessons 1&ndash;4 &mdash; Foundations</h2>
+
+    <p>
+      How to think about testing at all: what it is for, what to do first, and
+      how to find problems before anything runs.
+    </p>
+
+    <div class="card">
+      <h3>
+        1 &mdash;
+        <a href="lessons/01-quality-risk-triage.html"
+          >What to test first, when you can&rsquo;t test everything</a
+        >
+      </h3>
+      <p>
+        The QA mindset, and quality risk. Score what could go wrong on likelihood
+        and impact separately, then defend the ranking when someone pushes back.
+        <br /><span class="src"
+          >Interactive risk matrix &middot; 4 questions &middot; plan QA-001,
+          QA-003</span
+        >
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>
+        2 &mdash;
+        <a href="lessons/02-test-levels-and-types.html"
+          >Where a test belongs, and what kind it is</a
+        >
+      </h3>
+      <p>
+        Five test levels, four test types, and why the distinction is a cost
+        argument rather than vocabulary. Ends the confusion between confirmation
+        and regression testing.
+        <br /><span class="src"
+          >Sorting exercise &middot; 3 questions &middot; plan QA-004,
+          QA-005</span
+        >
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>
+        3 &mdash;
+        <a href="lessons/03-static-testing.html"
+          >Finding bugs before the code exists</a
+        >
+      </h3>
+      <p>
+        Static testing and reviews. Read a user story and name exactly how it
+        will hurt someone &mdash; ambiguous, incomplete, unverifiable,
+        contradictory &mdash; then turn each into a question worth asking.
+        <br /><span class="src"
+          >Story review exercise &middot; 3 questions &middot; not in the plan,
+          included anyway</span
+        >
+      </p>
+    </div>
+
+    <h2>Lessons 5&ndash;10 &mdash; Test management</h2>
+
+    <p>
+      Turning judgement into artifacts other people can use: plans, cases, and
+      bug reports.
+    </p>
+
+    <div class="card">
+      <h3>
+        5 &mdash;
+        <a href="lessons/05-equivalence-and-boundaries.html"
+          >Fewer tests, same coverage</a
+        >
+      </h3>
+      <p>
+        Equivalence partitioning and boundary value analysis. Turn a field with
+        rules on it into a short list of test values where every entry is
+        justifiable and nothing is redundant.
+        <br /><span class="src"
+          >Value-selection exercise &middot; 3 questions &middot; plan
+          QA-007</span
+        >
+      </p>
+    </div>
+
+    <h2>Lessons 11&ndash;53</h2>
+
+    <div class="card" style="opacity: 0.75">
+      <p style="margin-top: 0">
+        Not yet written. Every one of them is listed, with what it will teach, on
+        the <a href="curriculum.html">curriculum</a>.
+      </p>
+      <div class="table-scroll">
+        <table>
+          <tr><td>11&ndash;14</td><td>Process &mdash; V-model, Agile, TDD, verification vs validation</td></tr>
+          <tr><td>15&ndash;19</td><td>Manual testing &mdash; UAT, exploratory, smoke, regression, compatibility</td></tr>
+          <tr><td>20&ndash;23</td><td>Web fundamentals &mdash; HTML/CSS/JS, DevTools, async, SPA risks</td></tr>
+          <tr><td>24&ndash;29</td><td>Automation &mdash; test pyramid, Playwright, locators, fixtures, tool choice</td></tr>
+          <tr><td>30&ndash;33</td><td>API testing &mdash; HTTP, Postman, Newman, code-based tools</td></tr>
+          <tr><td>34&ndash;35</td><td>Mobile &mdash; device matrix, automation options</td></tr>
+          <tr><td>36&ndash;41</td><td>Non-functional &mdash; accessibility, performance, k6, OWASP</td></tr>
+          <tr><td>42&ndash;46</td><td>Supporting skills &mdash; reporting, logs, Git, CI gates</td></tr>
+          <tr><td>47&ndash;48</td><td>AI testing &mdash; GenAI as an aid; testing nondeterministic features</td></tr>
+          <tr><td>49&ndash;53</td><td>Capstone &mdash; strategy, sign-off cycle, E2E suite, final report</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <h2 id="reference">Reference cards</h2>
+
+    <p>
+      Compressed to a page each, designed to print. For looking things up, not
+      for learning from.
+    </p>
+
+    <div class="ref-grid">
+      <div class="card">
+        <h3><a href="reference/risk-triage.html">Quality risk triage</a></h3>
+        <p style="margin: 0">
+          The likelihood &times; impact matrix, evidence prompts for each dial,
+          the nine quality axes to generate risks from, and a template for
+          defending a ranking.
+        </p>
+      </div>
+      <div class="card">
+        <h3><a href="reference/glossary.html">Glossary</a></h3>
+        <p style="margin: 0">
+          Canonical definitions, each tagged with its source, plus the seven
+          testing principles. Where two schools disagree, both are given.
+        </p>
+      </div>
+      <div class="card">
+        <h3><a href="curriculum.html">Curriculum</a></h3>
+        <p style="margin: 0">
+          All 53 lessons in order, what each teaches, which plan task it maps to,
+          and what is still missing.
+        </p>
+      </div>
+    </div>
+
+    <h2>A note on the two voices</h2>
+
+    <p>
+      This course quotes ISTQB and Rapid Software Testing side by side, and they
+      do not always agree &mdash; on what testing <em>is</em>, on how much
+      process helps, on whether testing can be reduced to procedure. That
+      disagreement is left visible on purpose. ISTQB wording is what most
+      interviewers were trained on and is worth knowing precisely; RST is
+      generally the better account of <em>why</em> a practice works. Holding both,
+      and being able to say where you land, is a stronger position than picking a
+      team.
+    </p>
+
+    <nav class="footer-nav">
+      <strong>About</strong>
+      <ul>
+        <li>
+          An open learning workspace. Sources are listed in
+          <code>RESOURCES.md</code>; every lesson also links its own.
+        </li>
+        <li>
+          Community &mdash;
+          <a href="https://club.ministryoftesting.com/"
+            >Ministry of Testing, The Club</a
+          >
+          is where to take your answers once you have them. Judgement needs
+          someone to disagree with it.
+        </li>
+      </ul>
+    </nav>
+  </body>
+</html>
