@@ -37,6 +37,11 @@ Consequences:
   attempting all 52 at once would produce thin material.
 - Reference cards remain, but they are the secondary artifact now.
 
+## How to write the next lesson
+
+See `LESSON-RECIPE.md` — the invocation prompt, the quality bar, and the failure
+modes that cost quality. Follow it rather than improvising per lesson.
+
 ## Two courses now live here
 
 - **QA** — 53 lessons, 27 weeks, sheet tab `gid=1651117697`. Four lessons written.
