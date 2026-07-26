@@ -50,10 +50,12 @@ Paste this, replacing `<TASK-ID>`. One task per invocation.
 Write the next lesson. Follow LESSON-RECIPE.md exactly.
 
 1. READ THE TASK FIRST.
-   Fetch the plan row for <TASK-ID> from the sheet CSV export (follow the
-   307 redirect to the signed googleusercontent URL):
-   QA  → .../export?format=csv&gid=1651117697
-   PM  → .../export?format=csv&gid=487507119
+   Fetch the plan row for <TASK-ID> from the sheet CSV export. It returns
+   a 307 to a signed googleusercontent URL — follow it.
+   QA tasks (QA-001..QA-052):
+   https://docs.google.com/spreadsheets/d/1OK_OvNJc1IcmwqIYT3K6PAtV7XUzX8_gBPXf9jOyQA0/export?format=csv&gid=1651117697
+   PM tasks (PM-001..PM-063):
+   https://docs.google.com/spreadsheets/d/1OK_OvNJc1IcmwqIYT3K6PAtV7XUzX8_gBPXf9jOyQA0/export?format=csv&gid=487507119
    Take: Focus, "What I want to learn", "What I'll do", Week, Resource.
    The "What I'll do" column is the deliverable — the lesson must leave me
    able to produce exactly that thing.
