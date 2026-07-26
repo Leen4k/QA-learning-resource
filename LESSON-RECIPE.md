@@ -10,13 +10,33 @@ prompt is just how you invoke them.
 
 | Situation | Skill | Why |
 |---|---|---|
-| Writing a lesson | `/mattpocock-skills:teach <TASK-ID>` | Stateful. Reads MISSION, RESOURCES, NOTES and learning-records, so lessons stay grounded and in the zone of proximal development. |
-| A topic has no trustworthy source | `/mattpocock-skills:research <topic>` | Delegates the reading to a background agent and writes findings into the repo as Markdown. Use for the flagged gaps only — not for topics that already have a primary source. |
+| **Every lesson, before writing** | `/mattpocock-skills:research <topic>` | Runs in the background while other work continues. Establishes whether the named source is *sufficient*, and finds what it leaves out. |
+| Writing the lesson | `/mattpocock-skills:teach <TASK-ID>` | Stateful. Reads MISSION, RESOURCES, NOTES and learning-records, so lessons stay grounded and in the zone of proximal development. |
 | Checking a written lesson | `/mattpocock-skills:grilling` | Stress-tests claims. Useful before sharing a lesson you're unsure of. |
 
-Do **not** use `research` for a topic where `RESOURCES.md` already names a
-primary source. Re-researching a solved question burns budget and adds a
-paraphrase layer between the lesson and the source.
+**Research runs for every lesson, not only for the flagged gaps.** A source
+being named in the plan is not evidence that it covers the task. Three ways a
+named source fails, all of which have already happened here:
+
+- **It is the wrong document.** Eight QA tasks cite the ISTQB *certification
+  landing page* rather than the syllabus. The page teaches nothing.
+- **It is a map, not a textbook.** Around forty PM tasks cite one roadmap link.
+  Roadmaps name topics; they give no definitions and no worked examples.
+- **It is real but partial.** ISTQB §4.2.1 defines equivalence partitioning
+  precisely and offers no practice material. The definition was usable; the
+  exercise in lesson 5 had to be built from scratch.
+
+The cost of research is a few minutes of background work. The cost of finding
+out mid-lesson that the source was thin is a lesson written from memory — which
+is the one failure this course cannot absorb.
+
+### The one thing research does not get to do
+
+**Research output is a lead, not a fact.** A background agent returns a
+paraphrase, and paraphrases drift. Anything from a research pass that ends up as
+a claim in a lesson must be re-read at its source and cited by section number
+before it ships. Use research to decide *what to read*; use your own fetch of
+the primary document to decide *what to write*.
 
 ---
 
@@ -38,35 +58,62 @@ Write the next lesson. Follow LESSON-RECIPE.md exactly.
    The "What I'll do" column is the deliverable — the lesson must leave me
    able to produce exactly that thing.
 
-2. GET THE SOURCE BEFORE WRITING A WORD.
-   Fetch the primary source and read the actual section. Cite section
-   numbers. Never write from your own memory of the topic.
-   If no trustworthy source exists: STOP. Record the gap in RESOURCES.md
-   and mark the lesson blocked in the curriculum page. Tell me what you
-   need. Do not fill the hole from memory — a course that invents its
-   facts is worse than no course.
+2. RESEARCH FIRST — ALWAYS, even when the plan names a source.
+   Kick off /mattpocock-skills:research on the topic before writing. The
+   named source may be the wrong document, a roadmap rather than a
+   textbook, or real but too thin to teach from. Assume nothing.
+   Scope the research to these five questions:
+     a. Does the source named in the plan actually cover this learning
+        goal and this deliverable? Quote the part that does, or say it
+        doesn't.
+     b. What is the single best primary source on this topic, if it isn't
+        the one named?
+     c. What does the primary source leave out that a learner needs?
+     d. Is there a credible practitioner view that disagrees with it?
+     e. Are there worked examples, exercises or real defect stories worth
+        adapting?
 
-3. SCOPE TO ONE SKILL.
+3. THEN READ THE SOURCE YOURSELF.
+   Research output is a lead, not a fact — paraphrases drift. Fetch the
+   actual document, read the actual section, and cite section numbers.
+   Never write from your own memory of the topic, and never promote a
+   research summary straight into a lesson claim.
+   If after research no trustworthy source exists: STOP. Record the gap in
+   RESOURCES.md and mark the lesson blocked in the curriculum page. Tell
+   me what you need. Do not fill the hole from memory — a course that
+   invents its facts is worse than no course.
+
+4. SCOPE TO ONE SKILL.
    One tangible win, completable in about ten minutes. Teach only the
    knowledge that skill needs. If two skills are fighting for room, split
    it into two lessons and update the curriculum.
 
-4. BUILD FROM assets/.
+5. BUILD FROM assets/.
    Read the folder first. Reuse quiz.js, risk-grid.js, classify.js,
    select-set.js and the .rg-* style primitives. Only write a new widget
    if no existing one fits — and if you do, make it reusable and document
    its markup contract at the top of the file.
 
-5. HIT THE QUALITY BAR BELOW. All of it.
+6. HIT THE QUALITY BAR BELOW. All of it.
 
-6. WIRE IT IN.
+7. WIRE IT IN.
    Add the row to the curriculum page, the card to index.html, the
    .plan-tag line at the top of the lesson, and prev/next links in the
    footer. Verify every local link resolves before telling me you're done.
 ```
 
-For a batch, add: `Do tasks <A>, <B>, <C> in that order. Fetch all the sources
-first, then write. Stop and report if any source is missing.`
+For a batch, add:
+
+```
+Do tasks <A>, <B>, <C> in that order. Fire the research passes for all of
+them at once and let them run in the background, then read the primary
+sources yourself and write. Stop and report if any source turns out to be
+insufficient — don't quietly downgrade to memory for that one.
+```
+
+Batching is where research pays for itself: the passes run concurrently while
+you read the first source, so the cost is roughly one lesson's wait for the
+whole batch.
 
 ---
 
@@ -76,8 +123,13 @@ A lesson is not done until every line here is true.
 
 ### Sourcing
 
-- [ ] Every factual claim traces to a source **read this session**, not recalled.
+- [ ] A research pass ran for this task, whether or not the plan named a source.
+- [ ] Every factual claim traces to a source **read this session**, not recalled,
+      and not lifted from a research summary without re-reading the original.
 - [ ] Section numbers cited inline (`ISTQB CTFL v4.0 §5.2.1`), not just a link.
+- [ ] If the plan's named source turned out to be wrong or thin, `RESOURCES.md`
+      records what replaced it and why. That finding is worth more than the
+      lesson — it stops the same wrong source being trusted eleven times.
 - [ ] Where ISTQB and Rapid Software Testing disagree, both are given and the
       disagreement is named. Don't blend them into a mush.
 - [ ] The recommended primary source is the **best** one found, with an honest
@@ -138,17 +190,20 @@ Observed failure modes, worth naming so they get avoided:
 
 1. **Writing before reading.** The single biggest risk. Plausible, confident,
    subtly wrong content is harder to fix than no content.
-2. **One roadmap link as the source.** A roadmap names topics; it doesn't teach
-   them. About forty of the sixty-three PM tasks cite the same roadmap page —
-   each of those needs a real source found first.
-3. **Covering the task instead of teaching the skill.** The sheet's "What I'll
+2. **Trusting a named source without checking it covers the task.** The plan
+   naming a URL is not evidence. Eight QA tasks point at a certification landing
+   page; forty PM tasks point at one roadmap. Research every task.
+3. **Promoting a research summary into a lesson claim.** Background agents
+   paraphrase, and paraphrases drift from the original. Research tells you what
+   to read, not what to write.
+4. **Covering the task instead of teaching the skill.** The sheet's "What I'll
    do" column is the test. If the learner can't produce that artifact after the
    lesson, the lesson failed regardless of how much it covered.
-4. **Inventing a new widget per lesson.** Duplicated code, inconsistent feel.
+5. **Inventing a new widget per lesson.** Duplicated code, inconsistent feel.
    Read `assets/` first, every time.
-5. **Binary feedback on judgement calls.** Teaches learners to guess the
+6. **Binary feedback on judgement calls.** Teaches learners to guess the
    author's preference rather than to reason.
-6. **Renumbering lessons to close a gap.** Numbers are permanent. Lesson 4 is
+7. **Renumbering lessons to close a gap.** Numbers are permanent. Lesson 4 is
    unwritten and the file list jumps 03 → 05; leave it that way.
 
 ---
