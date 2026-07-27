@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Lesson 8 — The one-page test plan</title>
+    <link rel="stylesheet" href="../assets/lesson.css" />
+  </head>
+  <body>
+    <p class="eyebrow">Lesson 8 &middot; Test management</p>
+    <h1>The one-page test plan</h1>
+    <p class="subtitle">
+      What belongs in a test plan and &mdash; the harder half &mdash; what you
+      can leave out without losing the argument.
+    </p>
+
+    <p class="plan-tag">
+      <strong>Plan:</strong> QA-006 <em>Test planning</em> &middot; week 3
+      &middot; deliverable: a one-page test plan for an account permissions
+      feature &middot; <a href="../curriculum.html">coverage map</a>
+    </p>
+
+    <div class="win">
+      <p>
+        <strong>By the end of this lesson</strong> you will have written a
+        one-page test plan for a real feature, and be able to say of every line
+        why it earned its place &mdash; and of everything you cut, why the plan
+        is still complete without it. Cutting is the part that gets judged.
+      </p>
+    </div>
+
+    <div class="callout">
+      <span class="callout-label">The feature you are planning for</span>
+      <p>
+        <strong>Teamspace</strong>, a B2B workspace app, is adding role-based
+        permissions. Four roles: <strong>Owner</strong> (transfer ownership,
+        delete workspace), <strong>Admin</strong> (invite people, change roles
+        below Admin), <strong>Member</strong> (create and edit content),
+        <strong>Viewer</strong> (read only). The same rules apply in the web UI
+        and in a REST API. The UI hides controls a user cannot use. Role changes
+        are meant to take effect immediately, including for people already
+        signed in.
+      </p>
+      <p>
+        You are the only tester. You have four days. Everything below plans
+        <em>this</em>.
+      </p>
+    </div>
+
+    <h2>1. What a test plan is actually for</h2>
+
+    <p>
+      Not compliance. The syllabus is unusually direct about the real payoff:
+      &ldquo;Test planning guides the testers&rsquo; thinking and forces the
+      testers to confront the future challenges related to risks, schedules,
+      people, tools, costs, effort, etc. The process of preparing a test plan is
+      a useful way to think through the efforts needed to achieve the test
+      objectives.&rdquo;<span class="sidenote"
+        >ISTQB CTFL v4.0.1 §5.1.1. Learning objective FL-5.1.1 is K2 &mdash;
+        you are expected to <em>explain</em> the purpose and content of a test
+        plan, so this is a talking objective as much as a writing one.</span
+      >
+    </p>
+
+    <p>
+      The document is the residue of that thinking. §5.1.1 lists four jobs it
+      does once written: it documents the means and schedule for achieving test
+      objectives; helps ensure test activities will meet the established
+      criteria; serves as a means of communication with team members and other
+      stakeholders; and demonstrates that testing will adhere to the existing
+      test policy and test strategy, <em>or explains why it will deviate</em>.
+    </p>
+
+    <p>
+      That last clause is worth pocketing. A plan that departs from house
+      practice is not a broken plan &mdash; it is a plan that owes one sentence
+      of explanation.
+    </p>
+
+    <h2>2. The seven things a test plan can contain</h2>
+
+    <p>
+      §5.1.1 gives a list. Read it as the set of questions a plan must have an
+      answer to, not as a table of contents:
+    </p>
+
+    <div class="table-scroll">
+      <table>
+        <tr>
+          <th>Syllabus heading</th>
+          <th>The question it answers</th>
+          <th>On a one-pager</th>
+        </tr>
+        <tr>
+          <td>Context of testing<br /><em>scope, objectives, test basis</em></td>
+          <td>What am I testing, against what, and what is out?</td>
+          <td>2&ndash;3 lines. Never cut.</td>
+        </tr>
+        <tr>
+          <td>Assumptions and constraints</td>
+          <td>What must be true for this plan to hold?</td>
+          <td>2&ndash;3 lines. Never cut.</td>
+        </tr>
+        <tr>
+          <td>Stakeholders<br /><em>roles, responsibilities, training</em></td>
+          <td>Who decides, who signs off, who do I ask?</td>
+          <td>One line. Names, not an org chart.</td>
+        </tr>
+        <tr>
+          <td>Communication<br /><em>forms, frequency, templates</em></td>
+          <td>Where do results and defects go?</td>
+          <td>One line.</td>
+        </tr>
+        <tr>
+          <td>Risk register<br /><em>product risks, project risks</em></td>
+          <td>What could go wrong, ranked?</td>
+          <td>Top 5. This is the spine.</td>
+        </tr>
+        <tr>
+          <td>
+            Test approach<br /><em
+              >levels, types, techniques, deliverables, entry and exit criteria,
+              independence, metrics, test data, environments, deviations</em
+            >
+          </td>
+          <td>How will I test, and when am I done?</td>
+          <td>The biggest block. Link out, don&rsquo;t inline.</td>
+        </tr>
+        <tr>
+          <td>Budget and schedule</td>
+          <td>How much time, by when?</td>
+          <td>One line.</td>
+        </tr>
+      </table>
+    </div>
+
+    <p>
+      The syllabus adds: &ldquo;More details about the test plan and its content
+      can be found in the ISO/IEC/IEEE 29119-3 standard.&rdquo;<span
+        class="sidenote"
+        >ISTQB CTFL v4.0.1 §5.1.1, final line. Worth knowing that this pointer
+        is contested: parts 1&ndash;3 of ISO/IEC/IEEE 29119 were the subject of
+        a public petition from the context-driven testing community asking for
+        their withdrawal. I could not retrieve the petition text directly to
+        quote it, so treat the detail as background, not as something to assert
+        in an interview.</span
+      >
+      Note what that sentence concedes: §5.1.1 is a summary of a much heavier
+      standard. Nothing says you must ship the heavy version.
+    </p>
+
+    <h2>3. Why one page is not a lesser plan</h2>
+
+    <p>
+      Here the two source traditions in this course pull apart, and the
+      disagreement is the useful part.
+    </p>
+
+    <p>
+      <strong>ISTQB</strong> treats the test plan as a document with a content
+      list, and defers to a standard for more. <strong>Rapid Software
+      Testing</strong> denies the premise. Michael Bolton: &ldquo;a plan is the
+      sum or intersection of strategy and logistics&hellip; The most important
+      thing to note about this is that a plan is not a physical thing; it&rsquo;s
+      a set of ideas. Thus, it&rsquo;s important to keep clear the difference
+      between the plan and the planning documents.&rdquo;<span class="sidenote"
+        >Michael Bolton, <em>What Should A Test Plan Contain?</em>, DevelopSense,
+        December 2008. Written as a reply to a reader&rsquo;s question, which is
+        why it is unusually concrete.</span
+      >
+    </p>
+
+    <p>
+      Asked how long the document should be, he gives a rule you can actually
+      apply: &ldquo;The final answer is &lsquo;the very least expensive
+      representation of the idea that can sufficiently store or communicate the
+      idea.&rsquo;&rdquo; And the reason to care &mdash; &ldquo;the more time we
+      spend planning, the less time we spend interacting with the product.&rdquo;
+    </p>
+
+    <div class="callout">
+      <span class="callout-label">How to hold both at once</span>
+      <p>
+        The seven areas are a checklist for your <strong>thinking</strong>. They
+        are not a table of contents for your <strong>document</strong>. Cut the
+        document; never cut the thinking. A one-pager where budget collapsed to
+        &ldquo;me, four days&rdquo; has not skipped budget &mdash; it has
+        answered it in four words, which is the least expensive representation
+        that still communicates the idea.
+      </p>
+    </div>
+
+    <p>
+      Bolton offers one more test, which he credits to Cem Kaner, and it is the
+      fastest way to decide how much to write: is this document a
+      <strong>product</strong> &mdash; &ldquo;generally designed to supply
+      someone else with something that they want&rdquo; &mdash; or a
+      <strong>tool</strong>, &ldquo;generally designed to supply ourselves with
+      something that helps us to accomplish our own mission&rdquo;? A plan for
+      you and two developers is a tool. A plan going to an auditor is a product.
+      Same feature, very different page count, and you should be able to say
+      which one you were writing.
+    </p>
+
+    <h2>4. Exercise: what earns a place on the page?</h2>
+
+    <p>
+      You are drafting the Teamspace permissions plan. Audience: the two
+      developers who built the feature, and the PM who signs off. Nobody
+      external. Pick the items that belong on the one page &mdash; and leave out
+      the ones that cost more than they return.
+    </p>
+
+    <div class="select-set" data-select-set>
+      <script type="application/json">
+        {
+          "prompt": "Toggle the items you would keep on the one-pager.",
+          "itemNoun": "section",
+          "items": [
+            {
+              "id": "scope",
+              "label": "Scope — what is in, and what is explicitly out",
+              "include": true,
+              "why": "Context of testing (§5.1.1). This is the line that ends the argument three weeks later about why SSO provisioning was never tested. Writing 'out of scope: SSO, billing permissions' costs eight words and buys you the entire conversation."
+            },
+            {
+              "id": "assume",
+              "label": "Assumptions and constraints",
+              "note": "e.g. seeded accounts for all four roles exist in staging by Tuesday",
+              "include": true,
+              "why": "Named in §5.1.1, and the section beginners cut first because it feels like throat-clearing. It is the opposite: it is where you put the things that will sink the plan if untrue, in writing, before they do."
+            },
+            {
+              "id": "risks",
+              "label": "The top five risks, ranked",
+              "include": true,
+              "why": "The risk register (§5.1.1) is the spine of a short plan. It is what makes the order of work defensible when someone senior disagrees with it — and it is the section you already know how to build from lesson 1."
+            },
+            {
+              "id": "approach",
+              "label": "Test approach — levels, types, techniques",
+              "include": true,
+              "why": "§5.1.1's largest content area. On one page it is a few lines: API before UI, decision table over the role × action grid, exploratory session on ownership transfer. Enough that a reader can predict what you will actually do."
+            },
+            {
+              "id": "criteria",
+              "label": "Entry and exit criteria",
+              "include": true,
+              "why": "§5.1.3. Two or three lines, and the only part of the page that answers 'when are you done?' — the question you will be asked most often and can least afford to improvise."
+            },
+            {
+              "id": "sched",
+              "label": "Schedule and who signs off",
+              "include": true,
+              "why": "Budget and schedule, plus stakeholders (§5.1.1), compressed into one line: 'Test 11–14 Aug; sign-off Dana (PM); results daily in #teamspace-qa.' Three of the seven areas, one line. That is compression, not omission."
+            },
+            {
+              "id": "cases",
+              "label": "All forty test cases, written out in full",
+              "include": false,
+              "why": "The instinctive answer, and the one that destroys the page. Test cases are a test deliverable that the approach section *refers to*; they live in your case tool. Inline them and the plan is unreadable on day one and stale by day two — every case edit is now a plan edit."
+            },
+            {
+              "id": "daybyday",
+              "label": "A day-by-day breakdown of which test runs when",
+              "include": false,
+              "why": "False precision. §5.1.4 is blunt that an estimate 'is based on a number of assumptions and is always subject to estimation error.' You will know more on Wednesday than you do now; a schedule at this resolution is guaranteed wrong and quietly discourages you from re-planning when it is."
+            },
+            {
+              "id": "glossary",
+              "label": "Definitions of defect, failure, severity and priority",
+              "include": false,
+              "why": "Not in §5.1.1's list, and your audience is two developers and a PM who do not need a vocabulary lecture. Padding a plan with theory is a tell that the author had nothing specific to say about this feature."
+            },
+            {
+              "id": "policy",
+              "label": "The company test policy and strategy, restated in full",
+              "include": false,
+              "why": "§5.1.1 asks the plan to *demonstrate adherence* to the test policy and strategy, or explain deviation from them. Demonstrating adherence is a link plus a sentence. Copying the policy in is duplication that will drift out of date the first time the policy changes."
+            }
+          ]
+        }
+      </script>
+    </div>
+
+    <h2>5. Entry and exit criteria: the part everyone fakes</h2>
+
+    <p>
+      <strong>Entry criteria</strong> define the preconditions for undertaking a
+      given activity. The syllabus explains why they are worth two lines:
+      &ldquo;If entry criteria are not met, it is likely that the activity will
+      prove to be more difficult, time-consuming, costly, and riskier.&rdquo;
+      Typical ones are availability of resources, availability of testware, and
+      the initial quality level of the test object &mdash; for example, all
+      smoke tests have passed.<span class="sidenote"
+        >ISTQB CTFL v4.0.1 §5.1.3. In Agile teams these are usually called the
+        <strong>Definition of Ready</strong>; exit criteria are the
+        <strong>Definition of Done</strong>. Same idea, and the syllabus says so
+        explicitly &mdash; use whichever word the interviewer used.</span
+      >
+    </p>
+
+    <p>
+      <strong>Exit criteria</strong> define what must be achieved to declare an
+      activity completed. §5.1.3 gives two flavours: measures of thoroughness
+      &mdash; achieved level of coverage, number of unresolved defects, defect
+      density, number of failed test cases &mdash; and binary yes/no criteria,
+      such as planned tests have been executed, or all defects found are
+      reported.
+    </p>
+
+    <p>
+      Then it says something most people find surprising, and it is the honest
+      part: &ldquo;Running out of time or budget can also be viewed as valid
+      exit criteria. Even without other exit criteria being satisfied, it can be
+      acceptable to end testing under such circumstances, if the stakeholders
+      have reviewed and accepted the risk to go live without further
+      testing.&rdquo; The condition is the whole point. Stopping because time ran
+      out is legitimate; stopping <em>quietly</em> because time ran out is not.
+    </p>
+
+    <h2>6. Exercise: entry, exit, or neither</h2>
+
+    <p>
+      Same Teamspace feature. Sort each statement. One of these is a trap that
+      punishes the obvious answer.
+    </p>
+
+    <div class="classify" data-classify>
+      <script type="application/json">
+        {
+          "prompt": "Where does each statement belong?",
+          "categories": [
+            { "id": "entry", "label": "Entry criterion" },
+            { "id": "exit", "label": "Exit criterion" },
+            { "id": "neither", "label": "Neither" }
+          ],
+          "items": [
+            {
+              "id": "1",
+              "text": "Seeded accounts exist in staging for all four roles",
+              "answer": "entry",
+              "why": "Availability of test data — §5.1.3 lists test data explicitly under availability of resources. Without it you cannot start, and discovering that on Monday morning costs you a day."
+            },
+            {
+              "id": "2",
+              "text": "Every planned permission test has been executed",
+              "answer": "exit",
+              "why": "A binary yes/no exit criterion, in almost the syllabus's own words: 'planned tests have been executed' (§5.1.3). Note it says executed, not passed — those are different claims and only one of them is in your control."
+            },
+            {
+              "id": "3",
+              "text": "The sprint ends and the PM accepts the remaining risk",
+              "answer": "exit",
+              "why": "The trap. The instinct is 'that is not a criterion, that is giving up.' §5.1.3 disagrees: 'Running out of time or budget can also be viewed as valid exit criteria… if the stakeholders have reviewed and accepted the risk to go live without further testing.' The acceptance is what converts running out of time from a failure into a decision."
+            },
+            {
+              "id": "4",
+              "text": "Acceptance criteria for the story are written and reviewed",
+              "answer": "entry",
+              "why": "Availability of testware — §5.1.3 names 'test basis, testable requirements, user stories' as entry conditions. Reviewing them is also the cheapest defect removal available, which is the whole argument of lesson 3."
+            },
+            {
+              "id": "5",
+              "text": "No unresolved high-severity role-enforcement defect remains",
+              "answer": "exit",
+              "why": "A measure of thoroughness — §5.1.3 lists 'number of unresolved defects'. The severity qualifier is what makes it usable: it lets you ship with a known cosmetic bug instead of blocking the release on a misaligned tooltip."
+            },
+            {
+              "id": "6",
+              "text": "Regression for permissions moves to Playwright next quarter",
+              "answer": "neither",
+              "why": "A statement about future approach and tooling. It is neither a precondition for starting nor a condition for declaring this activity complete, so it cannot gate anything. It may still be worth a line under approach — just not here."
+            }
+          ]
+        }
+      </script>
+    </div>
+
+    <h2>7. The deliverable, worked</h2>
+
+    <p>
+      Here is the plan those decisions produce. Every one of §5.1.1&rsquo;s seven
+      areas is answered; three of them collapsed to a single line.
+    </p>
+
+    <div class="callout">
+      <span class="callout-label"
+        >Test plan &mdash; Teamspace account permissions &middot; v1 &middot;
+        11 Aug 2026</span
+      >
+      <p>
+        <strong>Scope.</strong> Role enforcement for Owner, Admin, Member and
+        Viewer across the web UI and the REST API: invite, role change,
+        ownership transfer, revoke. <em>Out:</em> SSO provisioning (unchanged
+        this release), billing permissions (separate feature), load behaviour.
+      </p>
+      <p>
+        <strong>Assumptions and constraints.</strong> Seeded accounts for all
+        four roles exist in staging by 11 Aug. One tester, four days. Staging
+        shares auth config with production, so ownership-transfer tests run only
+        inside seeded workspaces.
+      </p>
+      <p>
+        <strong>Risks, ranked.</strong>
+        (1) API does not enforce what the UI hides &mdash; a Viewer calls the
+        endpoint directly and succeeds. Impact high, likelihood medium.
+        (2) A demoted Admin keeps privileges until their session expires. Impact
+        high, likelihood medium.
+        (3) The last Owner can leave, orphaning the workspace. Impact high,
+        likelihood low.
+        (4) An Admin can invite someone at a role above their own. Impact
+        medium, likelihood medium.
+        (5) Denials leak resource existence &mdash; 404 where 403 was meant.
+        Impact low, likelihood medium.
+      </p>
+      <p>
+        <strong>Approach.</strong> Risk order. Risks 1&ndash;2 at API level
+        first, because that is where the fastest signal is; UI after. Decision
+        table across the role &times; action grid for systematic coverage.
+        Equivalence partitioning and boundary values on the invite email and
+        role fields. One 60-minute exploratory session on ownership transfer,
+        charter and notes attached. No automation this cycle; risk 1 becomes an
+        automated API check next sprint.
+      </p>
+      <p>
+        <strong>Entry.</strong> Four seeded role accounts available; acceptance
+        criteria reviewed; feature deployed to staging with smoke tests passing.
+      </p>
+      <p>
+        <strong>Exit.</strong> All planned tests executed; no unresolved
+        high-severity role-enforcement defect; risks 1&ndash;3 each covered by
+        at least one executed test; anything unfinished listed with its residual
+        risk and accepted in writing by the PM.
+      </p>
+      <p>
+        <strong>Schedule and people.</strong> Test 11&ndash;14 Aug; sign-off
+        Dana (PM); defects in Linear, daily summary in #teamspace-qa.
+      </p>
+    </div>
+
+    <p>
+      Risk 1 is first for a reason: authorisation enforced in the interface
+      rather than the server is the top entry in the current OWASP list &mdash;
+      <strong>A01:2025, Broken Access Control</strong>.<span class="sidenote"
+        >OWASP Top 10:2025, category A01. The list was revised in 2025; broken
+        access control remains at number one. Naming the category in a risk line
+        is a cheap way to show a reviewer the risk is not your personal
+        hunch.</span
+      >
+      A hidden button is not a permission check.
+    </p>
+
+    <div class="ask-teacher">
+      <strong>Now write yours.</strong> Take a feature you know &mdash; or ask
+      me for a fresh one &mdash; and write the seven blocks above on one page.
+      Paste it back and I will do two passes: which of the seven you answered
+      without noticing, and which line a developer would still have to ask you
+      about. The second pass is the one that improves the page.
+    </div>
+
+    <h2>8. Retrieval</h2>
+
+    <p><span data-quiz-score></span></p>
+
+    <div class="quiz" data-quiz>
+      <p class="quiz-q">
+        <span class="quiz-num">Recall 1</span>Your permissions plan is for you
+        and the two developers on your team &mdash; nobody outside. Kaner&rsquo;s
+        tool-or-product question decides what next?
+      </p>
+      <ol class="quiz-options">
+        <li>
+          <button
+            data-correct
+            data-feedback="Right. A tool exists to help you accomplish your own mission, so it only has to be good enough to guide your work — Bolton's 'least expensive representation that can sufficiently store or communicate the idea.' Polishing past that point is time not spent with the product."
+          >
+            It is a tool, so write the least that still guides your work.
+          </button>
+        </li>
+        <li>
+          <button
+            data-feedback="This is the audit answer applied to the wrong audience. A product is designed to supply someone else with something they want — a regulator, a client. Polishing a plan nobody outside will read spends your four days on formatting instead of on the API that may not check roles."
+          >
+            It is a product, so polish it until an auditor would accept it.
+          </button>
+        </li>
+        <li>
+          <button
+            data-feedback="Half right, then it reverses itself. Calling it a tool and still demanding seven headings is exactly the confusion this lesson exists to break: the seven areas are a checklist for your thinking, not a required table of contents for the page."
+          >
+            It is a tool, so the seven syllabus sections are each still required.
+          </button>
+        </li>
+        <li>
+          <button
+            data-feedback="Wrong on both counts. It is not a product — no external audience — and per-risk written justification is the kind of weight that makes people stop reading plans, which costs you the communication value §5.1.1 says the plan is for."
+          >
+            It is a product, so every risk needs its own justification written down.
+          </button>
+        </li>
+      </ol>
+    </div>
+
+    <div class="quiz" data-quiz>
+      <p class="quiz-q">
+        <span class="quiz-num">Recall 2</span>The PM asks when testing will be
+        done. Which answer is the strongest exit criterion?
+      </p>
+      <ol class="quiz-options">
+        <li>
+          <button
+            data-feedback="The instinctive answer, and the trap. Zero failures sounds rigorous but has no severity filter, so a misaligned tooltip blocks the release exactly as hard as a Viewer being able to delete content. §5.1.3's examples are thresholds — 'number of unresolved defects' — not zero."
+          >
+            When every permission test I wrote has passed, with zero failures.
+          </button>
+        </li>
+        <li>
+          <button
+            data-correct
+            data-feedback="Correct, and it is two syllabus criteria combined: a binary one ('planned tests have been executed') and a measure of thoroughness ('number of unresolved defects'), with a severity qualifier that lets you ship with known trivia. §5.1.3."
+          >
+            When all planned tests ran and no high-severity defect stays open.
+          </button>
+        </li>
+        <li>
+          <button
+            data-feedback="Unbounded. Four roles across every action, state and entry point is a combinatorial space you cannot finish, so this criterion can never be satisfied — which in practice means the real stopping rule is undeclared and someone else picks it for you."
+          >
+            When I have tested every role against every permission that exists.
+          </button>
+        </li>
+        <li>
+          <button
+            data-feedback="No measure at all, and it hands back the judgement you were hired to make. It also asks the two people least able to be objective — the authors — whether their own work is finished."
+          >
+            When both developers agree that the feature is complete and correct.
+          </button>
+        </li>
+      </ol>
+    </div>
+
+    <div class="quiz" data-quiz>
+      <p class="quiz-q">
+        <span class="quiz-num">Recall 3</span>Your draft has run to three pages
+        and must come down to one. Which cut costs you least?
+      </p>
+      <ol class="quiz-options">
+        <li>
+          <button
+            data-feedback="Entry criteria are two lines and they are what stops you starting on a broken environment. §5.1.3: if they are not met the activity will 'prove to be more difficult, time-consuming, costly, and riskier.' Cheapest section on the page; do not spend the cut here."
+          >
+            Delete the entry criteria, since the team knows what it needs.
+          </button>
+        </li>
+        <li>
+          <button
+            data-correct
+            data-feedback="Correct. Test cases are a deliverable the approach section refers to, not content the plan must carry. Linking them keeps every idea in the plan while removing most of the paper — the least expensive representation that still communicates it."
+          >
+            Delete the forty test cases, linking to the tool holding them.
+          </button>
+        </li>
+        <li>
+          <button
+            data-feedback="The risk register is the spine of a short plan — it is what makes your order of work defensible when someone senior wants it reordered. 'I can explain it out loud' works right up to the meeting you are not invited to."
+          >
+            Delete the risk register, since you can explain the order aloud.
+          </button>
+        </li>
+        <li>
+          <button
+            data-feedback="The story says what was built, not what you will test. Scope is where 'SSO provisioning is out' lives, and that line is your entire defence in the post-incident review. Two or three lines protecting the most expensive conversation on the project."
+          >
+            Delete the scope section, since the story says what is included.
+          </button>
+        </li>
+      </ol>
+    </div>
+
+    <h2>The interview move</h2>
+
+    <p>
+      &ldquo;Show me a test plan you wrote&rdquo; is really asking whether you
+      can defend your omissions. Lead with the audience, then the compression:
+    </p>
+
+    <p class="template">
+      This plan was a <span class="blank"></span> for
+      <span class="blank"></span>, so I kept it to one page. I worked through all
+      seven content areas; <span class="blank"></span> and
+      <span class="blank"></span> collapsed to a line each because
+      <span class="blank"></span>. The section I would defend hardest is
+      <span class="blank"></span>, because <span class="blank"></span>.
+    </p>
+
+    <p>
+      Saying &ldquo;I thought through all seven and compressed three&rdquo; is a
+      different claim from &ldquo;I wrote a short plan.&rdquo; The first is
+      judgement; the second is a page count.
+    </p>
+
+    <h2>Read this next</h2>
+
+    <p>
+      <strong>Primary source &mdash;</strong>
+      <a href="https://istqb.org/wp-content/uploads/2024/11/ISTQB_CTFL_Syllabus_v4.0.1.pdf"
+        >ISTQB CTFL Syllabus v4.0.1</a
+      >, §5.1.1 and §5.1.3 (pages 48&ndash;49). About eight minutes. Skip §5.1.4
+      estimation and §5.1.5 prioritisation for now &mdash; useful, but not needed
+      for the one-pager.
+    </p>
+
+    <p>
+      <strong>Then the counterweight &mdash;</strong>
+      <a href="https://developsense.com/blog/2008/12/what-should-test-plan-contain"
+        >Michael Bolton, <em>What Should A Test Plan Contain?</em></a
+      >. Around ten minutes, and the better read of the two if you only do one.
+      It is where the tool-or-product question and the least-expensive-
+      representation rule come from.
+    </p>
+
+    <div class="ask-teacher">
+      <strong>Stuck on the cut?</strong> The hardest judgement in this lesson is
+      what to compress versus what to delete. Send me your draft with a note on
+      what you removed and why, and I will argue the other side &mdash; that is
+      the rehearsal for the interview question, and for the sign-off meeting.
+    </div>
+
+    <nav class="footer-nav">
+      <strong>Where this connects</strong>
+      <ul>
+        <li>
+          Previous &mdash; Lesson 7: test cases someone else can run
+          <em
+            >(not yet written &mdash;
+            <a href="../curriculum.html">see the curriculum</a>)</em
+          >. The last written lesson is
+          <a href="05-equivalence-and-boundaries.html"
+            >Lesson 5: Fewer tests, same coverage</a
+          >, which is the technique behind the approach section above.
+        </li>
+        <li>
+          Builds on &mdash;
+          <a href="01-quality-risk-triage.html"
+            >Lesson 1: What to test when you cannot test everything</a
+          >. The ranked risk register you built there is section five of this
+          plan, unchanged. This lesson is where lessons 1, 2 and 5 meet on one
+          page.
+        </li>
+        <li>
+          Also relevant &mdash;
+          <a href="03-static-testing.html">Lesson 3: Finding bugs before code</a>
+          &mdash; reviewing acceptance criteria is an entry criterion here.
+        </li>
+        <li>
+          Next &mdash; Lesson 9: bug reports that get reproduced first try
+          <em>(not yet written)</em>
+        </li>
+        <li>
+          Reference &mdash;
+          <a href="../reference/test-plan-one-pager.html"
+            >One-page test plan template</a
+          >
+          &middot;
+          <a href="../reference/risk-triage.html">Risk triage card</a>
+          &middot; <a href="../reference/glossary.html">Glossary</a>
+        </li>
+        <li><a href="../index.html">All lessons</a></li>
+      </ul>
+    </nav>
+
+    <script src="../assets/quiz.js"></script>
+    <script src="../assets/select-set.js"></script>
+    <script src="../assets/classify.js"></script>
+  </body>
+</html>

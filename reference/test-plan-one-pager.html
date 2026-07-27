@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Reference — One-page test plan template</title>
+    <link rel="stylesheet" href="../assets/lesson.css" />
+  </head>
+  <body>
+    <p class="eyebrow">Reference card &middot; print me</p>
+    <h1>The one-page test plan</h1>
+    <p class="subtitle">
+      Seven questions to answer, and the rules for how little you can write in
+      answering them.
+    </p>
+
+    <h2>The rule</h2>
+
+    <p class="template" style="line-height: 1.8">
+      <strong
+        >The seven areas are a checklist for your thinking, not a table of
+        contents for your document.</strong
+      ><br />
+      Answer all seven. Compress freely. Never delete the thinking.
+    </p>
+
+    <p>
+      Source of the seven: ISTQB CTFL v4.0.1 §5.1.1. Source of the compression
+      rule: Michael Bolton, <em>What Should A Test Plan Contain?</em> &mdash;
+      write &ldquo;the very least expensive representation of the idea that can
+      sufficiently store or communicate the idea.&rdquo;
+    </p>
+
+    <h2>Decide the size before you write</h2>
+
+    <div class="table-scroll">
+      <table>
+        <tr>
+          <th></th>
+          <th>Tool</th>
+          <th>Product</th>
+        </tr>
+        <tr>
+          <td><strong>For</strong></td>
+          <td>You and your team</td>
+          <td>An auditor, client, regulator</td>
+        </tr>
+        <tr>
+          <td><strong>Job</strong></td>
+          <td>Help you accomplish the mission</td>
+          <td>Supply someone else what they want</td>
+        </tr>
+        <tr>
+          <td><strong>Length</strong></td>
+          <td>One page, or less</td>
+          <td>As long as the audience requires</td>
+        </tr>
+        <tr>
+          <td><strong>Failure</strong></td>
+          <td>Too polished to be worth the time</td>
+          <td>Too terse to be accepted</td>
+        </tr>
+      </table>
+    </div>
+
+    <p>
+      Kaner&rsquo;s question, via Bolton. Ask it first; it settles most
+      arguments about length before they start.
+    </p>
+
+    <h2>The template</h2>
+
+    <div class="table-scroll">
+      <table>
+        <tr>
+          <th>Block</th>
+          <th>Answer this</th>
+          <th>Budget</th>
+        </tr>
+        <tr>
+          <td><strong>Scope</strong><br /><em>context of testing</em></td>
+          <td>
+            What am I testing, against what test basis, and what is
+            <em>explicitly out</em>?
+          </td>
+          <td>2&ndash;3 lines</td>
+        </tr>
+        <tr>
+          <td><strong>Assumptions &amp; constraints</strong></td>
+          <td>What must be true for this plan to hold? What limits me?</td>
+          <td>2&ndash;3 lines</td>
+        </tr>
+        <tr>
+          <td><strong>Risks, ranked</strong><br /><em>risk register</em></td>
+          <td>
+            Top five. Each with impact and likelihood scored
+            <em>separately</em>.
+          </td>
+          <td>5 lines</td>
+        </tr>
+        <tr>
+          <td><strong>Approach</strong></td>
+          <td>
+            Which levels, types and techniques, in what order, and why that
+            order?
+          </td>
+          <td>4&ndash;6 lines</td>
+        </tr>
+        <tr>
+          <td><strong>Entry</strong></td>
+          <td>What must exist before I can start?</td>
+          <td>1&ndash;2 lines</td>
+        </tr>
+        <tr>
+          <td><strong>Exit</strong></td>
+          <td>What must be true before I say it is done?</td>
+          <td>1&ndash;2 lines</td>
+        </tr>
+        <tr>
+          <td>
+            <strong>Schedule &amp; people</strong><br /><em
+              >budget, schedule, stakeholders, communication</em
+            >
+          </td>
+          <td>By when, by whom, signed off by whom, reported where?</td>
+          <td>1 line</td>
+        </tr>
+      </table>
+    </div>
+
+    <p>
+      Four of the seven syllabus areas &mdash; stakeholders, communication,
+      budget, schedule &mdash; collapse into that last line on a normal internal
+      feature. That is compression, not omission.
+    </p>
+
+    <h2>Entry and exit criteria &mdash; patterns that work</h2>
+
+    <div class="table-scroll">
+      <table>
+        <tr>
+          <th>Entry (Definition of Ready)</th>
+          <th>Exit (Definition of Done)</th>
+        </tr>
+        <tr>
+          <td>Test data and accounts exist</td>
+          <td>All planned tests <em>executed</em></td>
+        </tr>
+        <tr>
+          <td>Environment deployed, smoke passing</td>
+          <td>No unresolved defect above severity <em>X</em></td>
+        </tr>
+        <tr>
+          <td>Acceptance criteria written and reviewed</td>
+          <td>Top <em>N</em> risks each covered by an executed test</td>
+        </tr>
+        <tr>
+          <td>Tools and access available</td>
+          <td>Unfinished work listed with residual risk, accepted in writing</td>
+        </tr>
+      </table>
+    </div>
+
+    <p>
+      All drawn from ISTQB CTFL v4.0.1 §5.1.3, which splits exit criteria into
+      <strong>measures of thoroughness</strong> (coverage, unresolved defects,
+      defect density, failed test cases) and <strong>binary yes/no</strong>
+      criteria (planned tests executed, static testing performed, all defects
+      reported, regression tests automated).
+    </p>
+
+    <h2>Three traps</h2>
+
+    <div class="table-scroll">
+      <table>
+        <tr>
+          <th>Tempting</th>
+          <th>Why it fails</th>
+          <th>Instead</th>
+        </tr>
+        <tr>
+          <td>&ldquo;Exit when every test passes&rdquo;</td>
+          <td>
+            No severity filter &mdash; a cosmetic bug blocks release as hard as
+            a data-loss bug
+          </td>
+          <td>Threshold on unresolved defects <em>by severity</em></td>
+        </tr>
+        <tr>
+          <td>Inlining every test case</td>
+          <td>Unreadable on day one, stale on day two</td>
+          <td>Link to the case tool from the approach block</td>
+        </tr>
+        <tr>
+          <td>A day-by-day schedule</td>
+          <td>
+            False precision &mdash; §5.1.4: estimates are &ldquo;always subject
+            to estimation error&rdquo;
+          </td>
+          <td>A range, and a named re-plan point</td>
+        </tr>
+      </table>
+    </div>
+
+    <h2>The permitted escape hatch</h2>
+
+    <p>
+      §5.1.3: &ldquo;Running out of time or budget can also be viewed as valid
+      exit criteria. Even without other exit criteria being satisfied, it can be
+      acceptable to end testing under such circumstances, <strong
+        >if the stakeholders have reviewed and accepted the risk</strong
+      > to go live without further testing.&rdquo;
+    </p>
+
+    <p>
+      Stopping because you ran out of time is legitimate. Stopping quietly is
+      not. The written acceptance is what turns a failure into a decision.
+    </p>
+
+    <h2>Say it out loud</h2>
+
+    <p class="template">
+      This plan was a <span class="blank"></span> for
+      <span class="blank"></span>, so I kept it to one page. I worked through all
+      seven content areas; <span class="blank"></span> and
+      <span class="blank"></span> collapsed to a line each because
+      <span class="blank"></span>. The section I would defend hardest is
+      <span class="blank"></span>, because <span class="blank"></span>.
+    </p>
+
+    <nav class="footer-nav">
+      <strong>Where this comes from</strong>
+      <ul>
+        <li>
+          <a href="../lessons/08-one-page-test-plan.html"
+            >Lesson 8: The one-page test plan</a
+          >
+        </li>
+        <li>
+          <a href="risk-triage.html">Risk triage card</a> &mdash; how to build
+          the ranked risk block
+        </li>
+        <li><a href="glossary.html">Glossary</a></li>
+        <li><a href="../index.html">All lessons</a></li>
+      </ul>
+    </nav>
+  </body>
+</html>
