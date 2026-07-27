@@ -132,9 +132,23 @@ never quotable into a lesson. Re-read the original and cite the section number.
 Promoting a dossier claim straight into a lesson is failure mode 3 in
 `LESSON-RECIPE.md`.
 
-First full pass: 2026-07-27. Headline — of 52 tasks, roughly half named a source
-that cannot teach the topic (roadmap.sh is a node diagram; the ISTQB link is a
-certification storefront). No task has yet come back with *no* usable source.
+First full pass complete, 2026-07-27 — all 52 QA tasks:
+
+| Verdict | Count | Meaning |
+|---|---|---|
+| `WRONG-DOCUMENT` | 39 | Named source cannot teach the task; a real one was found |
+| `PARTIAL` | 13 | Named source is real but incomplete |
+| `SUFFICIENT` | 0 | — |
+| `NO-SOURCE` | 0 | — |
+
+Two findings worth more than any single lesson:
+
+- **Not one named source fully covers its task.** Zero `SUFFICIENT`. This is the
+  evidence for the recipe's rule that research runs for *every* task, not only
+  the flagged gaps.
+- **Every task is writable.** Nothing came back `NO-SOURCE`, including the
+  capstone tasks and the fourteen that pointed at roadmap.sh. The plan's
+  Resource column is wrong; the course underneath it is sound.
 
 ## The teaching skills
 

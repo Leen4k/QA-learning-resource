@@ -61,7 +61,8 @@ Each file answers "does a real source exist for this task, and where is it?"
 **A dossier is a lead, not a fact.** It tells you what to read and where; it is
 never quotable into a lesson. Re-read the original and cite the section number.
 
-The first full pass (2026-07-27) found that roughly two thirds of the plan's
-named sources cannot teach their topic — roadmap.sh is a node diagram, and the
-ISTQB link is a certification storefront rather than the syllabus. Almost every
-task has a usable source; the plan was just pointing at the wrong document.
+The first full pass (2026-07-27) covered all 52 QA tasks. Not one named source
+fully covers its task, and 39 cannot teach it at all — roadmap.sh is a node
+diagram, and the ISTQB link is a certification storefront rather than the
+syllabus. But nothing came back unwritable: every task has a usable primary
+source. The plan was pointing at the wrong document, not at nothing.
