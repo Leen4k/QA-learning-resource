@@ -39,8 +39,12 @@ Consequences:
 
 ## How to write the next lesson
 
-See `LESSON-RECIPE.md` — the invocation prompt, the quality bar, and the failure
-modes that cost quality. Follow it rather than improvising per lesson.
+`/lesson QA-006`, or `/lesson next`, or `/lesson QA-006 QA-007 QA-008` for a
+batch. The command lives in `.claude/commands/lesson.md` and carries the full
+recipe; `LESSON-RECIPE.md` holds the quality bar and the failure modes.
+
+Edit `.claude/commands/lesson.md` when the recipe changes — it is the prompt,
+not a copy of it.
 
 ## Two courses now live here
 
@@ -64,12 +68,14 @@ PM plan notes worth keeping:
   machinery), PM-037/038 (quality plan ↔ QA lesson 8), PM-057 (test pyramid ↔
   QA lesson 24). Cross-reference rather than teach twice.
 
-## Plan of record — now machine-readable
+## Plan of record — now machine-readable and cached
 
-The Google Sheet is publicly exportable. Fetch it as CSV rather than asking:
-`https://docs.google.com/spreadsheets/d/1OK_OvNJc1IcmwqIYT3K6PAtV7XUzX8_gBPXf9jOyQA0/export?format=csv&gid=1651117697`
-(follow the 307 redirect). Columns: Task ID, Learning area, Week, Focus, What I
-want to learn, What I'll do, Resource, dates, hours, Priority, Status, Progress.
+The Google Sheet is publicly exportable, and `./scripts/refresh-plan.sh` caches
+both tabs to `plan/qa.csv` and `plan/pm.csv`. Read a task with
+`grep -m1 '^QA-006' plan/qa.csv` rather than fetching per lesson. Re-run the
+script when the sheet changes. Columns: Task ID, Learning area, Week, Focus,
+What I want to learn, What I'll do, Resource, dates, hours, Priority, Status,
+Progress.
 
 Twelve learning areas: Foundations, Test management, SDLC, Manual testing, Web
 basics, Automation, API testing, Mobile testing, Non-functional, Supporting
@@ -102,15 +108,28 @@ skills, AI testing, Capstone. Weeks 1–27, start 2026-07-27.
 ## Teaching state
 
 - Written: lessons 1 (risk triage), 2 (test levels & types), 3 (static testing),
-  5 (equivalence partitioning & boundary values). Plus `index.html` and
-  `curriculum.html`.
+  5 (equivalence partitioning & boundary values), 8 (one-page test plan).
+  Plus `index.html` and `curriculum.html`.
 - Next up in curriculum order: 4 (test oracles — QA-002, due week 1), then
-  6 (decision tables & state transition), 7 (test cases), 8 (test plan),
-  9 (bug reports), 10 (test management tools).
-- **Three source gaps to close before writing:** lesson 4 (test oracles) and
-  lesson 10 (tool comparison) have no trustworthy source yet; lesson 9 needs a
-  route to ISTQB §5.5 that includes the defect-report contents list — the ASTQB
-  page omits it. Do not write any of these from memory.
+  6 (decision tables & state transition), 7 (test cases), 9 (bug reports),
+  10 (test management tools).
+- Lesson 8 introduced a running worked example, **Teamspace** — a B2B workspace
+  app with Owner/Admin/Member/Viewer roles enforced in both a web UI and a REST
+  API. It generates good material (UI hides the button but the API does not
+  check; demoted admin keeps a live session; last owner leaves). Reuse it for
+  lessons 6, 7 and 9 rather than inventing a new domain each time — the learner
+  then plans, specifies, executes and reports against one feature, which is
+  also how the portfolio artifact should read.
+- **Two source gaps left:** lesson 4 (test oracles) and lesson 10 (tool
+  comparison) have no trustworthy source yet. Do not write either from memory.
+- **Lesson 9 is unblocked (2026-07-26).** The ISTQB PDF *is* fetchable — `curl -L`
+  with a browser user-agent, then `pdftotext -layout`. §5.5 Defect Management is
+  on pages 56–57 and carries the full defect-report contents list the ASTQB page
+  dropped. See RESOURCES.md.
+- **Quote from the PDF, link to ASTQB.** Fetching an ASTQB section page returns a
+  *summary*, not the text: for §5.1.1 it silently dropped four of the seven items
+  in the test-plan content list. Sub-section URLs (`/5-1-1-.../`) do not exist at
+  all. Getting this wrong is exactly failure mode 3 in LESSON-RECIPE.md.
 - No learning record yet — coverage isn't learning. Write LR-0001 once there's
   evidence: the user ranking a fresh feature's risks unprompted, or arguing back
   on a reference score.
@@ -124,3 +143,19 @@ skills, AI testing, Capstone. Weeks 1–27, start 2026-07-27.
   redundant picks.
 - All share the `.rg-*` style primitives in `lesson.css`. Build new widgets on
   those rather than inventing parallel styles.
+
+## Grounding ledger (added 2026-07-27)
+
+`GROUNDED.md` tracks which lesson grounds which concept, borrowed from the
+`writing-beats` skill: a lesson may lean on a concept only if it is a listed
+prerequisite or an *earlier* lesson grounded it. Mark the first mention of a
+term with `<dfn>`; `check-lesson.mjs` errors if a `<dfn>` term is missing from
+the ledger.
+
+This is the concrete reason lessons cannot be written in parallel — the grounded
+set is sequential state. It is also where the quality bar's *spacing* callback
+should come from: the ledger says what is available to call back to.
+
+The five pre-convention lessons have no `<dfn>` markup yet (warns, does not
+error). Their terms are already listed in the ledger, which is what later
+lessons read, so retrofitting is optional.

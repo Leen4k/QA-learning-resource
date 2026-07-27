@@ -13,16 +13,34 @@ from here — not from the agent's parametric guesses.
   decision tables), test management, and defect reporting. Use for: QA-002
   through QA-009, and anywhere a precise definition is needed. This is the
   actual syllabus — prefer it over any summary or course page.
+
+  **It is fetchable, contrary to the earlier note here (corrected 2026-07-26).**
+  `curl -L` with a browser user-agent returns the full 78-page PDF; `pdftotext
+  -layout` then gives clean, greppable text with section numbers intact. This is
+  the only way to quote the syllabus *verbatim*, and it should be the default
+  route from now on. Section 5.1 is on pages 48–50.
 - [ISTQB CTFL v4.0 download index](https://istqb.org/sdm_categories/certified-tester-foundation-level-ctfl-v4-0/)
   Official listing for the syllabus, sample exams, and glossary. Use for:
   checking for a newer errata release, and pulling sample exam questions for
   retrieval practice.
 - [ASTQB — syllabus section pages](https://astqb.org/5-2-risk-management/)
   The American board republishes the CTFL v4.0 syllabus section by section as
-  web pages (e.g. `/5-2-risk-management/`, `/1-3-testing-principles/`). Same
-  wording as the PDF, but readable and linkable. Use for: citing a specific
-  section in a lesson. Note the official PDF blocks automated fetching, so this
-  is the practical route to the exact text.
+  web pages (e.g. `/5-2-risk-management/`, `/1-3-testing-principles/`). Use for:
+  giving the learner a readable, linkable destination for one section.
+  **Do not use it to source a quote.** Only top-level section pages exist
+  (`/5-1-test-planning/` resolves; `/5-1-1-.../` is a 404), and fetching one
+  returns a *summary* of the section rather than its text — during lesson 8 it
+  silently dropped four of the seven items in the §5.1.1 content list. Quote
+  from the PDF; link to ASTQB.
+- [Michael Bolton — *What Should A Test Plan Contain?*](https://developsense.com/blog/2008/12/what-should-test-plan-contain)
+  The counterweight to ISTQB §5.1 on test planning, and the source used for
+  lesson 8. Written as a reply to a reader's question, so it is unusually
+  concrete: a plan is "the sum or intersection of strategy and logistics" and
+  "not a physical thing; it's a set of ideas"; the document should be "the very
+  least expensive representation of the idea that can sufficiently store or
+  communicate the idea". Also the source of Kaner's tool-vs-product heuristic,
+  which is the fastest available rule for deciding how much plan to write. Use
+  for: QA-006, and QA-049 (test strategy) later. ~10 minutes.
 - [Rapid Software Testing — the RST approach (Bach & Bolton)](https://developsense.com/rst-approach)
   The main counterweight to ISTQB. Source of "quality is value to some person
   who matters", the testing-vs-checking distinction, and the framing of testing
@@ -73,8 +91,15 @@ from here — not from the agent's parametric guesses.
   Use for: QA-035. WebAIM is a high-trust, practitioner-focused source.
 - [Grafana k6 — Running k6](https://grafana.com/docs/k6/latest/get-started/running-k6/)
   Use for: QA-037, QA-038, QA-051.
-- [OWASP Top Ten](https://owasp.org/www-project-top-ten/)
+- [OWASP Top 10:2025](https://owasp.org/Top10/2025/)
   Use for: QA-039, QA-040. Authoritative on common web risk categories.
+  **The list was revised in 2025 — cite `A01:2025`, not `A01:2021`.** Current
+  order: A01 Broken Access Control, A02 Security Misconfiguration, A03 Software
+  Supply Chain Failures, A04 Cryptographic Failures, A05 Injection, A06 Insecure
+  Design, A07 Authentication Failures, A08 Software or Data Integrity Failures,
+  A09 Security Logging and Alerting Failures, A10 Mishandling of Exceptional
+  Conditions. Verified 2026-07-26. Note the generic project landing page does
+  not carry the list; fetch `/Top10/2025/` directly.
 
 ### Supporting (Weeks 21–24)
 
@@ -96,9 +121,39 @@ from here — not from the agent's parametric guesses.
 Not yet tried. Worth adding once used in anger: r/QualityAssurance for job-market
 and interview reality-checks, which The Club covers less.
 
+## Source dossiers (`sources/`)
+
+`./scripts/audit-sources.sh` runs one headless Claude per plan task and writes
+`sources/<TASK>.md` — what the plan's named source actually covers, the best
+primary source found, what it leaves out, and where practitioners disagree.
+
+**A dossier is a lead, not a fact.** It says *what to read and where*; it is
+never quotable into a lesson. Re-read the original and cite the section number.
+Promoting a dossier claim straight into a lesson is failure mode 3 in
+`LESSON-RECIPE.md`.
+
+First full pass: 2026-07-27. Headline — of 52 tasks, roughly half named a source
+that cannot teach the topic (roadmap.sh is a node diagram; the ISTQB link is a
+certification storefront). No task has yet come back with *no* usable source.
+
+## The teaching skills
+
+The lesson workflow leans on four skills from Matt Pocock's plugin, installed at
+user level and deliberately **not** vendored here — `skills/` is gitignored
+because it is a nested git repo, and a copy would go stale silently.
+
+- Upstream: <https://github.com/mattpocock/skills> (version in use: 1.2.0)
+- Which four, and why each earns its place: see `LESSON-RECIPE.md`.
+
 ## Gaps
 
-Areas the plan needs where no strong source is yet identified:
+Areas the plan needs where no strong source is yet identified.
+
+**Under review as of 2026-07-27** — the audit proposes answers for the test
+oracle, test management tool and AI testing gaps below. Those are unverified
+leads in `sources/QA-002.md`, `sources/QA-008.md`, `sources/QA-046.md` and
+`sources/QA-047.md`. Each entry stays listed as a gap until the lesson that
+needs it has read the original and confirmed it.
 
 - **Test oracles (QA-002).** The CTFL syllabus touches expected results but does
   not treat the oracle problem directly. Needs a dedicated source.

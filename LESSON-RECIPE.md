@@ -8,11 +8,33 @@ prompt is just how you invoke them.
 
 ## Which skill to use
 
+All 40 mattpocock skills were surveyed on 2026-07-27. These four earn a place:
+
 | Situation | Skill | Why |
 |---|---|---|
-| **Every lesson, before writing** | `/mattpocock-skills:research <topic>` | Runs in the background while other work continues. Establishes whether the named source is *sufficient*, and finds what it leaves out. |
-| Writing the lesson | `/mattpocock-skills:teach <TASK-ID>` | Stateful. Reads MISSION, RESOURCES, NOTES and learning-records, so lessons stay grounded and in the zone of proximal development. |
-| Checking a written lesson | `/mattpocock-skills:grilling` | Stress-tests claims. Useful before sharing a lesson you're unsure of. |
+| **Every lesson, before writing** | `/mattpocock-skills:research <topic>` | Runs in the background while other work continues. Establishes whether the named source is *sufficient*, and finds what it leaves out. Skip it when `sources/<TASK>.md` already exists. |
+| Writing the lesson | `/mattpocock-skills:teach <TASK-ID>` | Stateful. Reads MISSION, RESOURCES, NOTES and learning-records, so lessons stay grounded and in the zone of proximal development. `disable-model-invocation: true` — **only the user can invoke it**, so this half can never be automated behind your back. |
+| Ordering concepts across lessons | `/mattpocock-skills:writing-beats` | Not run directly — it is an interactive, one-beat-at-a-time loop. What is borrowed is its **grounding** rule, now enforced by `GROUNDED.md`: a lesson may lean on a concept only if a prerequisite or an earlier lesson grounded it. |
+| Checking a written lesson | `/mattpocock-skills:grilling` | Stress-tests claims. Run it before shipping a lesson you're unsure of. |
+
+Considered and rejected, so nobody re-litigates it:
+
+- **`wayfinder`** — the closest fit conceptually ("too big for one agent
+  session", and it names *course content* as in-scope). Its charting step even
+  fires parallel `/research` subagents, which is what `scripts/audit-sources.sh`
+  does. Rejected because it needs an issue tracker and is explicitly *planning
+  only* — "Plan, don't do". It decides unknowns; it does not produce 49 lessons.
+  Worth revisiting if the source audit turns up enough dead ends that the
+  *shape* of the course becomes the open question.
+- **`scaffold-exercises`** — sounds ideal, isn't. It scaffolds directories for
+  Matt's ai-hero TypeScript repo and validates with `pnpm ai-hero-cli internal
+  lint`. Nothing transfers to standalone HTML lessons.
+- **`handoff`** — real use across many sessions, but `NOTES.md` already carries
+  the teaching state that a handoff doc would.
+- **`to-questionnaire`** — turns a decision *you* can't answer into questions
+  for a human. Not a quiz generator.
+- The ~25 engineering skills (`tdd`, `code-review`, `implement`, `triage`, …)
+  are about shipping code. This repo ships lessons.
 
 **Research runs for every lesson, not only for the flagged gaps.** A source
 being named in the plan is not evidence that it covers the task. Three ways a
@@ -42,80 +64,48 @@ the primary document to decide *what to write*.
 
 ## The prompt
 
-Paste this, replacing `<TASK-ID>`. One task per invocation.
+It's a slash command. The full instructions live in
+[`.claude/commands/lesson.md`](.claude/commands/lesson.md) — that file *is* the
+prompt that used to be pasted here, so edit it when the recipe changes.
 
 ```
-/mattpocock-skills:teach <TASK-ID>
-
-Write the next lesson. Follow LESSON-RECIPE.md exactly.
-
-1. READ THE TASK FIRST.
-   Fetch the plan row for <TASK-ID> from the sheet CSV export. It returns
-   a 307 to a signed googleusercontent URL — follow it.
-   QA tasks (QA-001..QA-052):
-   https://docs.google.com/spreadsheets/d/1OK_OvNJc1IcmwqIYT3K6PAtV7XUzX8_gBPXf9jOyQA0/export?format=csv&gid=1651117697
-   PM tasks (PM-001..PM-063):
-   https://docs.google.com/spreadsheets/d/1OK_OvNJc1IcmwqIYT3K6PAtV7XUzX8_gBPXf9jOyQA0/export?format=csv&gid=487507119
-   Take: Focus, "What I want to learn", "What I'll do", Week, Resource.
-   The "What I'll do" column is the deliverable — the lesson must leave me
-   able to produce exactly that thing.
-
-2. RESEARCH FIRST — ALWAYS, even when the plan names a source.
-   Kick off /mattpocock-skills:research on the topic before writing. The
-   named source may be the wrong document, a roadmap rather than a
-   textbook, or real but too thin to teach from. Assume nothing.
-   Scope the research to these five questions:
-     a. Does the source named in the plan actually cover this learning
-        goal and this deliverable? Quote the part that does, or say it
-        doesn't.
-     b. What is the single best primary source on this topic, if it isn't
-        the one named?
-     c. What does the primary source leave out that a learner needs?
-     d. Is there a credible practitioner view that disagrees with it?
-     e. Are there worked examples, exercises or real defect stories worth
-        adapting?
-
-3. THEN READ THE SOURCE YOURSELF.
-   Research output is a lead, not a fact — paraphrases drift. Fetch the
-   actual document, read the actual section, and cite section numbers.
-   Never write from your own memory of the topic, and never promote a
-   research summary straight into a lesson claim.
-   If after research no trustworthy source exists: STOP. Record the gap in
-   RESOURCES.md and mark the lesson blocked in the curriculum page. Tell
-   me what you need. Do not fill the hole from memory — a course that
-   invents its facts is worse than no course.
-
-4. SCOPE TO ONE SKILL.
-   One tangible win, completable in about ten minutes. Teach only the
-   knowledge that skill needs. If two skills are fighting for room, split
-   it into two lessons and update the curriculum.
-
-5. BUILD FROM assets/.
-   Read the folder first. Reuse quiz.js, risk-grid.js, classify.js,
-   select-set.js and the .rg-* style primitives. Only write a new widget
-   if no existing one fits — and if you do, make it reusable and document
-   its markup contract at the top of the file.
-
-6. HIT THE QUALITY BAR BELOW. All of it.
-
-7. WIRE IT IN.
-   Add the row to the curriculum page, the card to index.html, the
-   .plan-tag line at the top of the lesson, and prev/next links in the
-   footer. Verify every local link resolves before telling me you're done.
-```
-
-For a batch, add:
-
-```
-Do tasks <A>, <B>, <C> in that order. Fire the research passes for all of
-them at once and let them run in the background, then read the primary
-sources yourself and write. Stop and report if any source turns out to be
-insufficient — don't quietly downgrade to memory for that one.
+/lesson QA-006                 one lesson
+/lesson QA-006 QA-007 QA-008   a batch, in that order
+/lesson next                   next unwritten lesson in curriculum order
+/lesson next 3                 next three
 ```
 
 Batching is where research pays for itself: the passes run concurrently while
-you read the first source, so the cost is roughly one lesson's wait for the
-whole batch.
+the first primary source is being read, so the cost is roughly one lesson's wait
+for the whole batch. Batches of 3–4 keep quality up; more than that produces
+thin material.
+
+### What the command does not do
+
+It replaces the *typing*, not the *judgement*. It still runs a research pass per
+task, still re-reads the primary source before any claim ships, and still stops
+dead when no trustworthy source exists. Nothing here should ever become a
+fire-and-forget pipeline that writes lessons unattended — the failure mode that
+would produce (§ *What breaks quality*, item 3) is the one this course cannot
+absorb, because plausible wrong content is harder to fix than no content.
+
+## The supporting scripts
+
+```
+./scripts/refresh-plan.sh                       cache both sheet tabs -> plan/*.csv
+grep -m1 '^QA-006' plan/qa.csv                  read one task row
+node scripts/check-lesson.mjs [file...]         mechanical half of the quality bar
+```
+
+`check-lesson.mjs` verifies what is boring to check by hand and therefore gets
+skipped: dead local links, a lesson missing from `index.html` or
+`curriculum.html`, a missing `.plan-tag` or prev/next, quiz options whose word
+counts give the answer away, options with no `data-feedback`, no `§` citation
+anywhere, and inline widget code that should have been extracted to `assets/`.
+
+A clean run is **necessary, not sufficient**. It checks plumbing. Everything
+below — is the source real, is the distractor a genuine misconception, can the
+learner now produce the deliverable — is still a judgement call.
 
 ---
 
