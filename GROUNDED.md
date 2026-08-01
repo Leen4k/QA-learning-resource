@@ -81,6 +81,7 @@ is for — someone moving into QA, not someone already in it.
 ### Lesson 8 — The one-page test plan `QA-006`
 - **Test plan** `[ISTQB §5.1.1]` — the seven content categories
 - **Entry criteria** and **exit criteria** `[ISTQB §5.1.3]`
+- **Definition of ready** — the agile relative of entry criteria
 - **Definition of done** — the agile relative of exit criteria
 - **Teamspace** — the running worked example (B2B workspace app; Owner /
   Admin / Member / Viewer roles across a web UI and a REST API)

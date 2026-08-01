@@ -132,9 +132,10 @@ answer, missing `data-feedback`, inline widget code that should live in
 `assets/`, and `<dfn>` terms absent from `GROUNDED.md`. A clean run is
 necessary, not sufficient — it checks plumbing, not teaching.
 
-**If any claim in the lesson still feels shaky, run `/mattpocock-skills:grilling`
-on it before reporting done.** Cheaper than shipping a confident wrong claim to
-a stranger.
+**If any claim in the lesson still feels shaky, re-open the primary source and
+verify it before reporting done.** The `/mattpocock-skills:grilling` skill is an
+interview for resolving human decisions; it is not a factual claim checker.
+Never ask the user to stand in for evidence that can be read directly.
 
 ## 8. Report
 

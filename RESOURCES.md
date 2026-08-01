@@ -152,12 +152,12 @@ Two findings worth more than any single lesson:
 
 ## The teaching skills
 
-The lesson workflow leans on four skills from Matt Pocock's plugin, installed at
+The lesson workflow leans on three skills from Matt Pocock's plugin, installed at
 user level and deliberately **not** vendored here — `skills/` is gitignored
 because it is a nested git repo, and a copy would go stale silently.
 
 - Upstream: <https://github.com/mattpocock/skills> (version in use: 1.2.0)
-- Which four, and why each earns its place: see `LESSON-RECIPE.md`.
+- Which three, and why each earns its place: see `LESSON-RECIPE.md`.
 
 ## Gaps
 

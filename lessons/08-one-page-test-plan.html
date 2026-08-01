@@ -37,9 +37,9 @@
         delete workspace), <strong>Admin</strong> (invite people, change roles
         below Admin), <strong>Member</strong> (create and edit content),
         <strong>Viewer</strong> (read only). The same rules apply in the web UI
-        and in a REST API. The UI hides controls a user cannot use. Role changes
-        are meant to take effect immediately, including for people already
-        signed in.
+        and in a REST API &mdash; the server interface other software calls.
+        The UI hides controls a user cannot use. Role changes are meant to take
+        effect immediately, including for people already signed in.
       </p>
       <p>
         You are the only tester. You have four days. Everything below plans
@@ -94,12 +94,12 @@
         <tr>
           <td>Context of testing<br /><em>scope, objectives, test basis</em></td>
           <td>What am I testing, against what, and what is out?</td>
-          <td>2&ndash;3 lines. Never cut.</td>
+          <td>Usually state explicitly; compress when already shared.</td>
         </tr>
         <tr>
           <td>Assumptions and constraints</td>
           <td>What must be true for this plan to hold?</td>
-          <td>2&ndash;3 lines. Never cut.</td>
+          <td>Usually state explicitly; compress when already shared.</td>
         </tr>
         <tr>
           <td>Stakeholders<br /><em>roles, responsibilities, training</em></td>
@@ -124,7 +124,7 @@
             >
           </td>
           <td>How will I test, and when am I done?</td>
-          <td>The biggest block. Link out, don&rsquo;t inline.</td>
+          <td>Summarise here; link supporting details.</td>
         </tr>
         <tr>
           <td>Budget and schedule</td>
@@ -240,7 +240,7 @@
               "id": "approach",
               "label": "Test approach — levels, types, techniques",
               "include": true,
-              "why": "§5.1.1's largest content area. On one page it is a few lines: API before UI, decision table over the role × action grid, exploratory session on ownership transfer. Enough that a reader can predict what you will actually do."
+              "why": "§5.1.1's largest content area. On one page it is a few lines: API before UI, a role × action grid for systematic coverage, and a focused session on ownership transfer. Enough that a reader can predict what you will actually do. Lessons 6 and 15 will name and formalize those techniques."
             },
             {
               "id": "criteria",
@@ -256,9 +256,9 @@
             },
             {
               "id": "cases",
-              "label": "All forty test cases, written out in full",
+              "label": "All forty detailed tests, written out in full",
               "include": false,
-              "why": "The instinctive answer, and the one that destroys the page. Test cases are a test deliverable that the approach section *refers to*; they live in your case tool. Inline them and the plan is unreadable on day one and stale by day two — every case edit is now a plan edit."
+              "why": "The instinctive answer, and the one that destroys the page. Detailed test instructions are a supporting deliverable that the approach section *refers to*; they live in a separate test document or tool. Inline them and the plan is unreadable on day one and stale by day two — every test edit is now a plan edit. Lesson 7 will teach how to write those instructions."
             },
             {
               "id": "daybyday",
@@ -268,7 +268,7 @@
             },
             {
               "id": "glossary",
-              "label": "Definitions of defect, failure, severity and priority",
+              "label": "Definitions of every QA term used by the team",
               "include": false,
               "why": "Not in §5.1.1's list, and your audience is two developers and a PM who do not need a vocabulary lecture. Padding a plan with theory is a tell that the author had nothing specific to say about this feature."
             },
@@ -290,9 +290,9 @@
       given activity. The syllabus explains why they are worth two lines:
       &ldquo;If entry criteria are not met, it is likely that the activity will
       prove to be more difficult, time-consuming, costly, and riskier.&rdquo;
-      Typical ones are availability of resources, availability of testware, and
-      the initial quality level of the test object &mdash; for example, all
-      smoke tests have passed.<span class="sidenote"
+      Typical ones are available resources, available testing materials, and a
+      stable enough feature to test &mdash; for example, quick checks of its main
+      paths have passed.<span class="sidenote"
         >ISTQB CTFL v4.0.1 §5.1.3. In Agile teams these are usually called the
         <strong>Definition of Ready</strong>; exit criteria are the
         <strong>Definition of Done</strong>. Same idea, and the syllabus says so
@@ -304,7 +304,7 @@
       <strong>Exit criteria</strong> define what must be achieved to declare an
       activity completed. §5.1.3 gives two flavours: measures of thoroughness
       &mdash; achieved level of coverage, number of unresolved defects, defect
-      density, number of failed test cases &mdash; and binary yes/no criteria,
+      density, number of failed checks &mdash; and binary yes/no criteria,
       such as planned tests have been executed, or all defects found are
       reported.
     </p>
@@ -358,13 +358,13 @@
               "id": "4",
               "text": "Acceptance criteria for the story are written and reviewed",
               "answer": "entry",
-              "why": "Availability of testware — §5.1.3 names 'test basis, testable requirements, user stories' as entry conditions. Reviewing them is also the cheapest defect removal available, which is the whole argument of lesson 3."
+              "why": "Availability of testing materials — §5.1.3 names 'test basis, testable requirements, user stories' as entry conditions. Reviewing them is also the cheapest defect removal available, which is the whole argument of lesson 3."
             },
             {
               "id": "5",
-              "text": "No unresolved high-severity role-enforcement defect remains",
+              "text": "No unresolved defect permits an unauthorised role action",
               "answer": "exit",
-              "why": "A measure of thoroughness — §5.1.3 lists 'number of unresolved defects'. The severity qualifier is what makes it usable: it lets you ship with a known cosmetic bug instead of blocking the release on a misaligned tooltip."
+              "why": "A measure of thoroughness — §5.1.3 lists 'number of unresolved defects'. Tying the threshold to the feature's central risk makes it usable: a misaligned tooltip does not block release, but a Viewer deleting content does. Lesson 9 will introduce severity and priority labels."
             },
             {
               "id": "6",
@@ -407,30 +407,32 @@
         endpoint directly and succeeds. Impact high, likelihood medium.
         (2) A demoted Admin keeps privileges until their session expires. Impact
         high, likelihood medium.
-        (3) The last Owner can leave, orphaning the workspace. Impact high,
-        likelihood low.
-        (4) An Admin can invite someone at a role above their own. Impact
+        (3) An Admin can invite someone at a role above their own. Impact
         medium, likelihood medium.
-        (5) Denials leak resource existence &mdash; 404 where 403 was meant.
-        Impact low, likelihood medium.
+        (4) The last Owner can leave, orphaning the workspace. Impact high,
+        likelihood low.
+        (5) Denial responses reveal whether a resource exists &mdash; 403 for an
+        existing forbidden resource but 404 for a missing one. Impact low,
+        likelihood medium.
       </p>
       <p>
         <strong>Approach.</strong> Risk order. Risks 1&ndash;2 at API level
-        first, because that is where the fastest signal is; UI after. Decision
-        table across the role &times; action grid for systematic coverage.
+        first, because that is where the fastest signal is; UI after. A grid
+        across every role and action for systematic coverage.
         Equivalence partitioning and boundary values on the invite email and
-        role fields. One 60-minute exploratory session on ownership transfer,
-        charter and notes attached. No automation this cycle; risk 1 becomes an
-        automated API check next sprint.
+        role fields. One 60-minute focused session on ownership transfer, guided
+        by a short charter, with notes attached. No automation this cycle; risk 1
+        becomes an automated API check next sprint.
       </p>
       <p>
         <strong>Entry.</strong> Four seeded role accounts available; acceptance
-        criteria reviewed; feature deployed to staging with smoke tests passing.
+        criteria reviewed; feature deployed to staging with quick checks of its
+        main paths passing.
       </p>
       <p>
-        <strong>Exit.</strong> All planned tests executed; no unresolved
-        high-severity role-enforcement defect; risks 1&ndash;3 each covered by
-        at least one executed test; anything unfinished listed with its residual
+        <strong>Exit.</strong> All planned tests executed; no unresolved defect
+        permits an unauthorised role action; risks 1&ndash;3 each covered by at
+        least one executed test; anything unfinished listed with its residual
         risk and accepted in writing by the PM.
       </p>
       <p>
@@ -440,15 +442,33 @@
     </div>
 
     <p>
-      Risk 1 is first for a reason: authorisation enforced in the interface
-      rather than the server is the top entry in the current OWASP list &mdash;
-      <strong>A01:2025, Broken Access Control</strong>.<span class="sidenote"
+      The ranking follows Lesson 1&rsquo;s 1&ndash;3 matrix: the scores are 6, 6,
+      4, 3 and 2. Risks 1 and 2 tie; risk 1 goes first because a direct API check
+      gives fast signal across all four roles. Risk 1 falls under the top category
+      in the current OWASP list &mdash;
+      <strong
+        ><a href="https://owasp.org/Top10/2025/A01_2025-Broken_Access_Control/"
+          >A01:2025, Broken Access Control</a
+        ></strong
+      >. <span class="sidenote"
         >OWASP Top 10:2025, category A01. The list was revised in 2025; broken
         access control remains at number one. Naming the category in a risk line
         is a cheap way to show a reviewer the risk is not your personal
         hunch.</span
       >
       A hidden button is not a permission check.
+    </p>
+
+    <p>
+      Risk 5 is not saying that 403 is always wrong. HTTP explicitly allows a
+      server to return 404 when it wants to hide that a forbidden resource exists.
+      The leak happens when an unauthorised caller can distinguish an existing ID
+      from a missing one by comparing the responses. <span class="sidenote"
+        ><a href="https://www.rfc-editor.org/rfc/rfc9110.html#name-403-forbidden"
+          >RFC 9110 §15.5.4</a
+        >: an origin server that wishes to hide a forbidden resource may respond
+        with 404 instead.</span
+      >
     </p>
 
     <div class="ask-teacher">
@@ -510,7 +530,7 @@
       <ol class="quiz-options">
         <li>
           <button
-            data-feedback="The instinctive answer, and the trap. Zero failures sounds rigorous but has no severity filter, so a misaligned tooltip blocks the release exactly as hard as a Viewer being able to delete content. §5.1.3's examples are thresholds — 'number of unresolved defects' — not zero."
+            data-feedback="The instinctive answer, and the trap. Zero failures sounds rigorous but treats a misaligned tooltip exactly like a Viewer being able to delete content. §5.1.3's examples use measurable thresholds — such as the number of unresolved defects — rather than demanding zero."
           >
             When every permission test I wrote has passed, with zero failures.
           </button>
@@ -518,9 +538,9 @@
         <li>
           <button
             data-correct
-            data-feedback="Correct, and it is two syllabus criteria combined: a binary one ('planned tests have been executed') and a measure of thoroughness ('number of unresolved defects'), with a severity qualifier that lets you ship with known trivia. §5.1.3."
+            data-feedback="Correct, and it combines two syllabus patterns: a binary one ('planned tests have been executed') and a measure of thoroughness ('number of unresolved defects'). The second clause is tied to the feature's central risk rather than a label not taught until lesson 9. §5.1.3."
           >
-            When all planned tests ran and no high-severity defect stays open.
+            When all planned tests ran and no defect allows an unauthorised action.
           </button>
         </li>
         <li>
@@ -556,9 +576,9 @@
         <li>
           <button
             data-correct
-            data-feedback="Correct. Test cases are a deliverable the approach section refers to, not content the plan must carry. Linking them keeps every idea in the plan while removing most of the paper — the least expensive representation that still communicates it."
+            data-feedback="Correct. Detailed tests are a supporting deliverable the approach section refers to, not content the plan must carry. Linking them keeps every idea in the plan while removing most of the paper — the least expensive representation that still communicates it."
           >
-            Delete the forty test cases, linking to the tool holding them.
+            Delete the forty detailed tests, linking to the tool holding them.
           </button>
         </li>
         <li>

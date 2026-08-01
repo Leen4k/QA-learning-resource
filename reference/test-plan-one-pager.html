@@ -129,9 +129,9 @@
     </div>
 
     <p>
-      Four of the seven syllabus areas &mdash; stakeholders, communication,
-      budget, schedule &mdash; collapse into that last line on a normal internal
-      feature. That is compression, not omission.
+      Three of the seven syllabus areas &mdash; stakeholders, communication, and
+      budget and schedule &mdash; collapse into that last line on a normal
+      internal feature. That is compression, not omission.
     </p>
 
     <h2>Entry and exit criteria &mdash; patterns that work</h2>
@@ -147,8 +147,8 @@
           <td>All planned tests <em>executed</em></td>
         </tr>
         <tr>
-          <td>Environment deployed, smoke passing</td>
-          <td>No unresolved defect above severity <em>X</em></td>
+          <td>Environment deployed; quick checks passing</td>
+          <td>No unresolved defect remains for a top-ranked risk</td>
         </tr>
         <tr>
           <td>Acceptance criteria written and reviewed</td>
@@ -162,9 +162,9 @@
     </div>
 
     <p>
-      All drawn from ISTQB CTFL v4.0.1 §5.1.3, which splits exit criteria into
+      Adapted from ISTQB CTFL v4.0.1 §5.1.3, which splits exit criteria into
       <strong>measures of thoroughness</strong> (coverage, unresolved defects,
-      defect density, failed test cases) and <strong>binary yes/no</strong>
+      defect density, failed detailed checks) and <strong>binary yes/no</strong>
       criteria (planned tests executed, static testing performed, all defects
       reported, regression tests automated).
     </p>
@@ -181,15 +181,14 @@
         <tr>
           <td>&ldquo;Exit when every test passes&rdquo;</td>
           <td>
-            No severity filter &mdash; a cosmetic bug blocks release as hard as
-            a data-loss bug
+            Treats a cosmetic bug as equal to a release-threatening failure
           </td>
-          <td>Threshold on unresolved defects <em>by severity</em></td>
+          <td>Block only on defects tied to release risk</td>
         </tr>
         <tr>
-          <td>Inlining every test case</td>
+          <td>Inlining every detailed test</td>
           <td>Unreadable on day one, stale on day two</td>
-          <td>Link to the case tool from the approach block</td>
+          <td>Link to the supporting tests from the approach block</td>
         </tr>
         <tr>
           <td>A day-by-day schedule</td>

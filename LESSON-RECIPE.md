@@ -8,14 +8,13 @@ prompt is just how you invoke them.
 
 ## Which skill to use
 
-All 40 mattpocock skills were surveyed on 2026-07-27. These four earn a place:
+All 40 mattpocock skills were surveyed on 2026-07-27. These three earn a place:
 
 | Situation | Skill | Why |
 |---|---|---|
 | **Every lesson, before writing** | `/mattpocock-skills:research <topic>` | Runs in the background while other work continues. Establishes whether the named source is *sufficient*, and finds what it leaves out. Skip it when `sources/<TASK>.md` already exists. |
 | Writing the lesson | `/mattpocock-skills:teach <TASK-ID>` | Stateful. Reads MISSION, RESOURCES, NOTES and learning-records, so lessons stay grounded and in the zone of proximal development. `disable-model-invocation: true` — **only the user can invoke it**, so this half can never be automated behind your back. |
 | Ordering concepts across lessons | `/mattpocock-skills:writing-beats` | Not run directly — it is an interactive, one-beat-at-a-time loop. What is borrowed is its **grounding** rule, now enforced by `GROUNDED.md`: a lesson may lean on a concept only if a prerequisite or an earlier lesson grounded it. |
-| Checking a written lesson | `/mattpocock-skills:grilling` | Stress-tests claims. Run it before shipping a lesson you're unsure of. |
 
 Considered and rejected, so nobody re-litigates it:
 
@@ -33,6 +32,10 @@ Considered and rejected, so nobody re-litigates it:
   the teaching state that a handoff doc would.
 - **`to-questionnaire`** — turns a decision *you* can't answer into questions
   for a human. Not a quiz generator.
+- **`grilling`** — interviews the user one decision at a time until both sides
+  share an understanding. It is useful for unresolved product decisions, but it
+  does not verify factual claims. Re-open the primary source to check a claim;
+  never ask the user to stand in for evidence.
 - The ~25 engineering skills (`tdd`, `code-review`, `implement`, `triage`, …)
   are about shipping code. This repo ships lessons.
 
