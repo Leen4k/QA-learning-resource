@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Lesson 4 — Knowing what “correct” means</title>
+    <link rel="icon" href="data:," />
+    <link rel="stylesheet" href="../assets/lesson.css" />
+  </head>
+  <body>
+    <p class="eyebrow">Lesson 4 &middot; Foundations</p>
+    <h1>Knowing what &ldquo;correct&rdquo; means</h1>
+    <p class="subtitle">
+      Test oracles: how to write a defensible expected result when the
+      requirement goes quiet.
+    </p>
+
+    <p class="plan-tag">
+      <strong>Plan:</strong> QA-002 &middot; Test oracles and expected results
+      &middot; week 1 &middot; must know &middot;
+      <a href="../curriculum.html">coverage map</a>
+    </p>
+
+    <div class="win">
+      <p>
+        <strong>By the end of this lesson</strong> you will be able to take one
+        familiar user flow and write ten observable expected results. Each one
+        will name the evidence behind it, expose any assumption you made, and
+        become a question when two sources disagree. That is an interview-ready
+        judgement, not a guess dressed up as a test case.
+      </p>
+    </div>
+
+    <h2>1. The requirement stops; testing does not</h2>
+
+    <p>
+      In lesson 3, an incomplete requirement was something you could catch in a
+      review. Now imagine it reached testing unanswered. You sign in with the
+      right password and land on the news feed. Is that correct? The story says
+      only, &ldquo;Registered users can sign in.&rdquo;
+    </p>
+
+    <p>
+      An <dfn>expected result</dfn> is the observable outcome you have reason to
+      anticipate after a particular action and starting condition. The phrase
+      &ldquo;have reason&rdquo; carries the whole lesson. ISTQB describes test
+      execution as comparing actual results with expected results, but its
+      Foundation syllabus does not explain where those expectations come from.
+      <span class="sidenote"
+        >ISTQB CTFL v4.0.1 §1.4.1, p.19. The syllabus presupposes the expected
+        result; QA-002 needs a source dedicated to finding one.</span
+      >
+    </p>
+
+    <p>
+      That reason comes from a <dfn>test oracle</dfn>: a principle or mechanism
+      you use to recognise a possible problem. Michael Bolton&rsquo;s important
+      warning is that an oracle is <strong>fallible and
+      context-dependent</strong>. It points to a problem; it does not prove one.
+      Two sensible people can use different evidence and reach different
+      expectations.<span class="sidenote"
+        >Michael Bolton, <em>Oracles</em>, p.1. Barr et al. §2.2, Definition
+        2.4, p.509 gives the formal automation view: an oracle accepts or rejects
+        an observed sequence as allowable behaviour.</span
+      >
+    </p>
+
+    <p>
+      The <dfn>test oracle problem</dfn> is the difficulty of distinguishing the
+      desired behaviour from behaviour that may be incorrect. A precise formal
+      specification can make that easy. Most teams have prose, tickets, help
+      pages, conversations and an existing product instead. Barr and colleagues
+      note that natural-language documentation is commonly partial and
+      ambiguous &mdash; useful evidence, but not a complete judge.
+      <span class="sidenote"
+        >Barr, Harman, McMinn, Shahbaz &amp; Yoo, <em>The Oracle Problem in
+        Software Testing: A Survey</em>, §1, p.507 and §5.5, p.518.</span
+      >
+    </p>
+
+    <div class="callout">
+      <span class="callout-label">Two source voices &mdash; keep them separate</span>
+      <p>
+        <strong>ISTQB&rsquo;s workflow:</strong> compare the actual result with a
+        stated expected result. <strong>Bolton&rsquo;s practitioner view:</strong>
+        you often cannot know one definite answer in advance; an oracle may
+        become visible while you test or even afterwards. Pre-write expectations
+        when the evidence supports them. When it does not, write the uncertainty
+        rather than manufacturing certainty.
+      </p>
+    </div>
+
+    <h2>2. Nine places to look for evidence</h2>
+
+    <p>
+      &ldquo;The requirements&rdquo; are only one oracle. Bolton&rsquo;s nine
+      guidewords widen the search. You do not need to memorise the acronym. You
+      need to ask, <em>what specific thing makes me expect this?</em>
+    </p>
+
+    <div class="table-scroll wide">
+      <table>
+        <tr>
+          <th>Evidence family</th>
+          <th>Bolton&rsquo;s guideword</th>
+          <th>What you compare against</th>
+        </tr>
+        <tr>
+          <td rowspan="3"><strong>The product</strong></td>
+          <td>History</td>
+          <td>An earlier version or previously observed behaviour</td>
+        </tr>
+        <tr>
+          <td>Product</td>
+          <td>Another part of the same product</td>
+        </tr>
+        <tr>
+          <td>Familiarity</td>
+          <td>A pattern you recognise from familiar failures</td>
+        </tr>
+        <tr>
+          <td rowspan="4"><strong>People and intent</strong></td>
+          <td>Claims</td>
+          <td>A story, help page, contract, conversation or promise</td>
+        </tr>
+        <tr>
+          <td>Users&rsquo; expectations</td>
+          <td>What a particular kind of user needs or reasonably anticipates</td>
+        </tr>
+        <tr>
+          <td>Purpose</td>
+          <td>The job the feature exists to help someone complete</td>
+        </tr>
+        <tr>
+          <td>Image</td>
+          <td>The reputation or identity the organisation wants to project</td>
+        </tr>
+        <tr>
+          <td rowspan="2"><strong>The outside world</strong></td>
+          <td>Comparable products</td>
+          <td>Another product, service or non-software process worth comparing</td>
+        </tr>
+        <tr>
+          <td>Standards and statutes</td>
+          <td>A relevant standard, rule, regulation or law</td>
+        </tr>
+      </table>
+    </div>
+
+    <p>
+      These categories overlap, and Bolton says that is fine. The category is a
+      search prompt, not proof. &ldquo;Claims&rdquo; is weak on its own;
+      &ldquo;acceptance criterion AC-2 says the Account page opens&rdquo; is
+      evidence another person can inspect. Name the specific source.
+      <span class="sidenote"
+        >Bolton, <em>Oracles</em>, pp.1&ndash;2. His mnemonic is HICCUPPS(F):
+        History, Image, Comparable Products, Claims, Users&rsquo; Expectations,
+        Product, Purpose, Standards and Statutes, plus Familiarity.</span
+      >
+    </p>
+
+    <h2>3. Turn evidence into an expected result</h2>
+
+    <p>
+      Use five columns. The first two make the result executable; the next three
+      make your judgement reviewable.
+    </p>
+
+    <div class="callout">
+      <span class="callout-label">A thin fictional sign-in brief</span>
+      <p>
+        C1: A registered user who enters the correct email and password reaches
+        the Account page. C2: Wrong credentials show &ldquo;Email or password not
+        recognised.&rdquo; C3: The form offers &ldquo;Remember me.&rdquo; Nothing
+        else is specified.
+      </p>
+    </div>
+
+    <div class="table-scroll wide">
+      <table>
+        <tr>
+          <th>Starting condition + action</th>
+          <th>Expected result</th>
+          <th>Specific oracle</th>
+          <th>Assumption</th>
+          <th>Question raised</th>
+        </tr>
+        <tr>
+          <td>Registered user submits correct credentials</td>
+          <td>The Account page opens</td>
+          <td>Claim C1</td>
+          <td>&ldquo;Account page&rdquo; is the default destination</td>
+          <td>Should a deep link return the user to its original page?</td>
+        </tr>
+        <tr>
+          <td>User submits a wrong password</td>
+          <td>&ldquo;Email or password not recognised&rdquo; appears</td>
+          <td>Claim C2</td>
+          <td>The wording is identical for every invalid credential</td>
+          <td>Is there a retry limit?</td>
+        </tr>
+        <tr>
+          <td>User submits with email empty</td>
+          <td>The form stays open and identifies the missing email</td>
+          <td>Required-field pattern on the registration form</td>
+          <td>The sign-in form follows the same product pattern</td>
+          <td>Should validation happen before or after submit?</td>
+        </tr>
+        <tr>
+          <td>User signs in with &ldquo;Remember me&rdquo; selected</td>
+          <td>The user remains signed in after closing and reopening the browser</td>
+          <td>The control label and its apparent purpose</td>
+          <td>&ldquo;Remember&rdquo; survives a browser restart</td>
+          <td>For how long, and on which devices?</td>
+        </tr>
+      </table>
+    </div>
+
+    <p>
+      Notice the first row is not just &ldquo;sign-in works.&rdquo; It names the
+      condition, action and observable destination. It also refuses to hide the
+      deep-link assumption. The fourth row is weaker: a label and a plausible
+      purpose suggest the result, but they do not define duration. That row is
+      useful precisely because it creates a decision.
+    </p>
+
+    <p class="template">
+      Given <span class="blank"></span>, when
+      <span class="blank"></span>, I expect
+      <span class="blank"></span> because
+      <span class="blank"></span>. I assumed
+      <span class="blank"></span>; confirm with
+      <span class="blank"></span>.
+    </p>
+
+    <h2>4. Conflicting oracles are a result</h2>
+
+    <p>
+      Suppose the help page says &ldquo;Remember me keeps you signed in for 30
+      days,&rdquo; while the security lead says every session closes overnight.
+      There is no honest single expected result yet. Bolton&rsquo;s instruction is
+      not to decide which important person wins; it is to make the disagreement
+      visible. Your row should show both sources and ask for a decision.
+    </p>
+
+    <div class="card">
+      <p>
+        <strong>Expectation:</strong> unresolved &mdash; 30 days according to
+        Help article H-14; overnight according to the security lead.
+      </p>
+      <p>
+        <strong>Assumption:</strong> neither source automatically outranks the
+        other.
+      </p>
+      <p>
+        <strong>Question:</strong> which session rule will the product promise,
+        and which source must be updated?
+      </p>
+    </div>
+
+    <p>
+      Even apparently obvious oracles need context. Barr et al. §6 calls a crash
+      a typical implicit sign of failure, then immediately notes that a crash can
+      be desired in a system built to find crashes. The habit is not
+      &ldquo;doubt everything forever.&rdquo; It is &ldquo;state why this observation
+      matters here.&rdquo;
+    </p>
+
+    <h2>Choose the evidence, not the comfortable answer</h2>
+
+    <p class="quiz-score" data-quiz-score></p>
+
+    <div class="quiz" data-quiz>
+      <p class="quiz-q">
+        <span class="quiz-num">Oracle 1</span>A requirement says that after five
+        failed sign-in attempts, access is blocked for fifteen minutes. The new
+        build allows a sixth attempt. What is the strongest oracle?
+      </p>
+      <ol class="quiz-options">
+        <li>
+          <button
+            data-correct
+            data-feedback="This names the exact claim the build contradicts. It is inspectable and specific; no appeal to preference or convention is needed."
+          >
+            The written security requirement states the precise lockout behavior.
+          </button>
+        </li>
+        <li>
+          <button
+            data-feedback="A comparable product can suggest a question, but it cannot outrank this product's explicit requirement without a reason. Start with the direct claim."
+          >
+            A competing application uses the same precise lockout behavior.
+          </button>
+        </li>
+        <li>
+          <button
+            data-feedback="Interface consistency may reveal a different problem, but it does not decide whether a sixth attempt is allowed. The written limit does."
+          >
+            The current interface looks inconsistent with earlier sign-in screens.
+          </button>
+        </li>
+        <li>
+          <button
+            data-feedback="Personal preference is evidence about one person, not the agreed product. It is the weakest option when a precise, relevant claim already exists."
+          >
+            A tester personally prefers the stricter account lockout behavior.
+          </button>
+        </li>
+      </ol>
+    </div>
+
+    <div class="quiz" data-quiz>
+      <p class="quiz-q">
+        <span class="quiz-num">Oracle 2 &middot; deliberate trap</span>The cart
+        total becomes negative after removing an item. The specification says
+        nothing about it. What is the best first response?
+      </p>
+      <ol class="quiz-options">
+        <li>
+          <button
+            data-correct
+            data-feedback="Purpose and familiar failure patterns make this plausibly problematic, so investigate and gather another oracle. 'Investigate' preserves the signal without pretending surprise is proof."
+          >
+            Investigate because product purpose and familiar patterns suggest trouble.
+          </button>
+        </li>
+        <li>
+          <button
+            data-feedback="Silence is not approval. Barr et al. §5.5 explains why informal documentation is often partial. Use other oracles and surface the missing rule."
+          >
+            Close testing because silent requirements make every result acceptable.
+          </button>
+        </li>
+        <li>
+          <button
+            data-feedback="This jumps from suspicion to certainty. An unexpected result is a reason to investigate; context could still make it intended. Name the oracle and collect evidence."
+          >
+            Report a defect because every surprising result is automatically wrong.
+          </button>
+        </li>
+        <li>
+          <button
+            data-feedback="Comparable products generate useful expectations, but they do not define absolute correctness for this product. They are one oracle among several."
+          >
+            Copy a competitor because comparable products define absolute correctness.
+          </button>
+        </li>
+      </ol>
+    </div>
+
+    <div class="quiz" data-quiz>
+      <p class="quiz-q">
+        <span class="quiz-num">Oracle 3</span>The help page promises a 30-day
+        remembered session. The security lead says sessions close overnight.
+        What should the tester write?
+      </p>
+      <ol class="quiz-options">
+        <li>
+          <button
+            data-correct
+            data-feedback="The disagreement is itself useful information. Record both specific sources, show the consequence for testing, and ask the product owner to resolve the promise."
+          >
+            Record both oracles, show conflict, and request a decision.
+          </button>
+        </li>
+        <li>
+          <button
+            data-feedback="Newer does not automatically mean authorised, and silent deletion hides a stale public promise. Record the conflict so both product and documentation can be corrected."
+          >
+            Follow the newest statement and silently discard the older claim.
+          </button>
+        </li>
+        <li>
+          <button
+            data-feedback="Written evidence is inspectable, but a published page can be obsolete or wrong. Bolton explicitly warns that claims can conflict; expose that conflict."
+          >
+            Follow the written page because documents always outrank spoken evidence.
+          </button>
+        </li>
+        <li>
+          <button
+            data-feedback="Security matters, but 'always overrides' is another unsupported oracle. The tester supplies credible information; the authorised decision belongs with the accountable people."
+          >
+            Choose the stricter behavior because security always overrides product intent.
+          </button>
+        </li>
+      </ol>
+    </div>
+
+    <div class="quiz" data-quiz>
+      <p class="quiz-q">
+        <span class="quiz-num">Oracle 4</span>Which line is an expected result
+        you could defend to another person?
+      </p>
+      <ol class="quiz-options">
+        <li>
+          <button
+            data-correct
+            data-feedback="It names an observable destination and the exact claim behind it. A reviewer can inspect AC-2 and challenge the expectation if the claim changed."
+          >
+            After valid sign-in, Account page opens because story AC-2 says so.
+          </button>
+        </li>
+        <li>
+          <button
+            data-feedback="'Everything works' is not observable, and 'users' names no particular person or evidence. Split the flow into outcomes and name the source."
+          >
+            After valid sign-in, everything works because users expect normal behavior there.
+          </button>
+        </li>
+        <li>
+          <button
+            data-feedback="'Quickly' and 'correct enough' move the uncertainty into two vague words. Give a measurable outcome and identify who or what sets it."
+          >
+            After valid sign-in, the system responds quickly and looks correct enough.
+          </button>
+        </li>
+        <li>
+          <button
+            data-feedback="The absence of visible problems is not a specific result, and 'remaining flow' has no boundary. State one observation per row."
+          >
+            After valid sign-in, no problems appear during the remaining user flow.
+          </button>
+        </li>
+      </ol>
+    </div>
+
+    <h2>Build your ten expected results</h2>
+
+    <p>
+      Pick a flow you already know well: signing in, resetting a password,
+      adding an item to a cart, booking an appointment, or uploading a file.
+      Write one observable outcome per row. Click a cell and type; copy the table
+      into your portfolio notes before reloading this page, because this
+      standalone lesson does not store what you enter.
+    </p>
+
+    <div class="table-scroll wide">
+      <table class="worksheet">
+        <tr>
+          <th>#</th>
+          <th>Condition + action</th>
+          <th>Expected result</th>
+          <th>Specific oracle</th>
+          <th>Assumption or question</th>
+        </tr>
+        <tr>
+          <td>1</td>
+          <td contenteditable="true" role="textbox" aria-label="Row 1 condition and action" data-placeholder="Given&hellip; when&hellip;"></td>
+          <td contenteditable="true" role="textbox" aria-label="Row 1 expected result" data-placeholder="I observe&hellip;"></td>
+          <td contenteditable="true" role="textbox" aria-label="Row 1 oracle" data-placeholder="Exact source&hellip;"></td>
+          <td contenteditable="true" role="textbox" aria-label="Row 1 assumption or question" data-placeholder="I assumed&hellip;"></td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td contenteditable="true" role="textbox" aria-label="Row 2 condition and action" data-placeholder="Given&hellip; when&hellip;"></td>
+          <td contenteditable="true" role="textbox" aria-label="Row 2 expected result" data-placeholder="I observe&hellip;"></td>
+          <td contenteditable="true" role="textbox" aria-label="Row 2 oracle" data-placeholder="Exact source&hellip;"></td>
+          <td contenteditable="true" role="textbox" aria-label="Row 2 assumption or question" data-placeholder="I assumed&hellip;"></td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td contenteditable="true" role="textbox" aria-label="Row 3 condition and action" data-placeholder="Given&hellip; when&hellip;"></td>
+          <td contenteditable="true" role="textbox" aria-label="Row 3 expected result" data-placeholder="I observe&hellip;"></td>
+          <td contenteditable="true" role="textbox" aria-label="Row 3 oracle" data-placeholder="Exact source&hellip;"></td>
+          <td contenteditable="true" role="textbox" aria-label="Row 3 assumption or question" data-placeholder="I assumed&hellip;"></td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td contenteditable="true" role="textbox" aria-label="Row 4 condition and action" data-placeholder="Given&hellip; when&hellip;"></td>
+          <td contenteditable="true" role="textbox" aria-label="Row 4 expected result" data-placeholder="I observe&hellip;"></td>
+          <td contenteditable="true" role="textbox" aria-label="Row 4 oracle" data-placeholder="Exact source&hellip;"></td>
+          <td contenteditable="true" role="textbox" aria-label="Row 4 assumption or question" data-placeholder="I assumed&hellip;"></td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td contenteditable="true" role="textbox" aria-label="Row 5 condition and action" data-placeholder="Given&hellip; when&hellip;"></td>
+          <td contenteditable="true" role="textbox" aria-label="Row 5 expected result" data-placeholder="I observe&hellip;"></td>
+          <td contenteditable="true" role="textbox" aria-label="Row 5 oracle" data-placeholder="Exact source&hellip;"></td>
+          <td contenteditable="true" role="textbox" aria-label="Row 5 assumption or question" data-placeholder="I assumed&hellip;"></td>
+        </tr>
+        <tr>
+          <td>6</td>
+          <td contenteditable="true" role="textbox" aria-label="Row 6 condition and action" data-placeholder="Given&hellip; when&hellip;"></td>
+          <td contenteditable="true" role="textbox" aria-label="Row 6 expected result" data-placeholder="I observe&hellip;"></td>
+          <td contenteditable="true" role="textbox" aria-label="Row 6 oracle" data-placeholder="Exact source&hellip;"></td>
+          <td contenteditable="true" role="textbox" aria-label="Row 6 assumption or question" data-placeholder="I assumed&hellip;"></td>
+        </tr>
+        <tr>
+          <td>7</td>
+          <td contenteditable="true" role="textbox" aria-label="Row 7 condition and action" data-placeholder="Given&hellip; when&hellip;"></td>
+          <td contenteditable="true" role="textbox" aria-label="Row 7 expected result" data-placeholder="I observe&hellip;"></td>
+          <td contenteditable="true" role="textbox" aria-label="Row 7 oracle" data-placeholder="Exact source&hellip;"></td>
+          <td contenteditable="true" role="textbox" aria-label="Row 7 assumption or question" data-placeholder="I assumed&hellip;"></td>
+        </tr>
+        <tr>
+          <td>8</td>
+          <td contenteditable="true" role="textbox" aria-label="Row 8 condition and action" data-placeholder="Given&hellip; when&hellip;"></td>
+          <td contenteditable="true" role="textbox" aria-label="Row 8 expected result" data-placeholder="I observe&hellip;"></td>
+          <td contenteditable="true" role="textbox" aria-label="Row 8 oracle" data-placeholder="Exact source&hellip;"></td>
+          <td contenteditable="true" role="textbox" aria-label="Row 8 assumption or question" data-placeholder="I assumed&hellip;"></td>
+        </tr>
+        <tr>
+          <td>9</td>
+          <td contenteditable="true" role="textbox" aria-label="Row 9 condition and action" data-placeholder="Given&hellip; when&hellip;"></td>
+          <td contenteditable="true" role="textbox" aria-label="Row 9 expected result" data-placeholder="I observe&hellip;"></td>
+          <td contenteditable="true" role="textbox" aria-label="Row 9 oracle" data-placeholder="Exact source&hellip;"></td>
+          <td contenteditable="true" role="textbox" aria-label="Row 9 assumption or question" data-placeholder="I assumed&hellip;"></td>
+        </tr>
+        <tr>
+          <td>10</td>
+          <td contenteditable="true" role="textbox" aria-label="Row 10 condition and action" data-placeholder="Given&hellip; when&hellip;"></td>
+          <td contenteditable="true" role="textbox" aria-label="Row 10 expected result" data-placeholder="I observe&hellip;"></td>
+          <td contenteditable="true" role="textbox" aria-label="Row 10 oracle" data-placeholder="Exact source&hellip;"></td>
+          <td contenteditable="true" role="textbox" aria-label="Row 10 assumption or question" data-placeholder="I assumed&hellip;"></td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="callout">
+      <span class="callout-label">Self-review before you call it done</span>
+      <ul>
+        <li>Every result is visible or otherwise observable &mdash; never &ldquo;works.&rdquo;</li>
+        <li>Every oracle names a specific artifact, person, behaviour or rule.</li>
+        <li>Every unsupported choice appears as an assumption or a question.</li>
+        <li>Conflicting evidence is visible; you did not silently choose a winner.</li>
+        <li>The ten rows advance through one flow instead of repeating one result.</li>
+      </ul>
+      <p>
+        Ten is the plan&rsquo;s practice target, not proof of completeness.
+        Oracles are heuristics; they do not tell you when you have found every
+        relevant expectation.
+      </p>
+    </div>
+
+    <h2>Say it in an interview</h2>
+
+    <p>
+      If an interviewer asks, &ldquo;How do you test when requirements are
+      incomplete?&rdquo;, avoid both extremes: do not say you stop, and do not
+      say you invent the answer.
+    </p>
+
+    <p class="template">
+      I expected <span class="blank"></span> because
+      <span class="blank"></span>. I assumed
+      <span class="blank"></span>; I would confirm it with
+      <span class="blank"></span>.
+    </p>
+
+    <p>
+      Then add: &ldquo;If two credible oracles disagree, that disagreement is a
+      test result. I record both and get the product decision made.&rdquo;
+    </p>
+
+    <h2>Read this next</h2>
+
+    <p>
+      <strong>Primary source &mdash;</strong>
+      <a href="https://www.developsense.com/resource/Oracles.pdf"
+        >Michael Bolton, <em>Oracles</em>, pp.1&ndash;3</a
+      >. It is the best short practical source for this lesson: three dense
+      pages, about ten minutes. It supplies the guidewords and the warning that
+      oracles are fallible; it does <em>not</em> supply a written expected-result
+      template, which is why this lesson adds one.
+    </p>
+
+    <p>
+      <strong>Deeper source &mdash;</strong>
+      <a href="https://discovery.ucl.ac.uk/1471263/1/06963470.pdf"
+        >Barr et al., <em>The Oracle Problem in Software Testing: A Survey</em></a
+      >, especially §1, §2.2 Definition 2.4, §5.5, §6 and §7. Allow about 25
+      minutes for those sections. It is an automation survey, so use it to
+      understand the problem, not as a method for writing your ten rows.
+    </p>
+
+    <div class="ask-teacher">
+      <strong>Want your judgement challenged?</strong> Paste your ten-row table
+      and name the flow. I&rsquo;ll challenge the weakest oracle, look for a hidden
+      assumption, and give you one conflicting source to resolve. Defending a
+      row under pushback is the interview practice this artifact is for.
+    </div>
+
+    <nav class="footer-nav">
+      <strong>Where this connects</strong>
+      <ul>
+        <li>
+          Previous &mdash;
+          <a href="03-static-testing.html"
+            >Lesson 3: Finding bugs before the code exists</a
+          >
+          &mdash; where an incomplete expectation first becomes visible
+        </li>
+        <li>
+          Next &mdash;
+          <a href="05-equivalence-and-boundaries.html"
+            >Lesson 5: Fewer tests, same coverage</a
+          >
+          &mdash; which chooses inputs after you know what outcome to expect
+        </li>
+        <li>
+          Reference &mdash; <a href="../reference/glossary.html">Glossary</a>
+        </li>
+        <li><a href="../index.html">All lessons</a></li>
+      </ul>
+    </nav>
+
+    <script src="../assets/quiz.js"></script>
+  </body>
+</html>

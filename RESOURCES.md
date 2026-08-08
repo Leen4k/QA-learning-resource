@@ -8,11 +8,13 @@ from here — not from the agent's parametric guesses.
 ### Foundations (Weeks 1–5)
 
 - [ISTQB Certified Tester Foundation Level Syllabus v4.0.1 (PDF)](https://istqb.org/wp-content/uploads/2024/11/ISTQB_CTFL_Syllabus_v4.0.1.pdf)
-  The primary source for weeks 1–9. Covers test levels, test types, static
-  testing, test techniques (equivalence partitioning, boundary value analysis,
-  decision tables), test management, and defect reporting. Use for: QA-002
-  through QA-009, and anywhere a precise definition is needed. This is the
-  actual syllabus — prefer it over any summary or course page.
+  The primary source for most topics in weeks 1–9. Covers test levels, test
+  types, static testing, test techniques (equivalence partitioning, boundary
+  value analysis, decision tables), test management, and defect reporting. Use
+  for: QA-003 through QA-009, and anywhere a precise definition is needed. It
+  presupposes expected results in §1.4.1 but does not teach the oracle problem,
+  so do not use it as the source for QA-002. This is the actual syllabus —
+  prefer it over any summary or course page.
 
   **It is fetchable, contrary to the earlier note here (corrected 2026-07-26).**
   `curl -L` with a browser user-agent returns the full 78-page PDF; `pdftotext
@@ -32,6 +34,20 @@ from here — not from the agent's parametric guesses.
   returns a *summary* of the section rather than its text — during lesson 8 it
   silently dropped four of the seven items in the §5.1.1 content list. Quote
   from the PDF; link to ASTQB.
+- [Michael Bolton — *Oracles* (PDF)](https://www.developsense.com/resource/Oracles.pdf)
+  The primary practical source for QA-002, verified from the original three-page
+  PDF on 2026-08-08. Defines an oracle as a fallible, context-dependent aid to
+  recognising a problem; explains the HICCUPPS(F) consistency guidewords; and
+  shows that oracles may be used before, during or after testing. It does not
+  provide a written expected-result template or a complete worked flow, so
+  lesson 4 supplies those openly. ~10 minutes.
+- [Barr et al. — *The Oracle Problem in Software Testing: A Survey* (PDF)](https://discovery.ucl.ac.uk/1471263/1/06963470.pdf)
+  The research authority behind QA-002, verified from the CC BY 3.0 paper on
+  2026-08-08. Read §1, §2.2 Definition 2.4, §5.5, §6 and §7 for the formal
+  oracle problem, partial and ambiguous textual specifications, implicit
+  oracles, and the cases where a human must judge behaviour. Use for framing;
+  it is an automation survey, not a method for writing expectations. ~25
+  minutes for the relevant sections.
 - [Michael Bolton — *What Should A Test Plan Contain?*](https://developsense.com/blog/2008/12/what-should-test-plan-contain)
   The counterweight to ISTQB §5.1 on test planning, and the source used for
   lesson 8. Written as a reply to a reader's question, so it is unusually
@@ -163,14 +179,10 @@ because it is a nested git repo, and a copy would go stale silently.
 
 Areas the plan needs where no strong source is yet identified.
 
-**Under review as of 2026-07-27** — the audit proposes answers for the test
-oracle, test management tool and AI testing gaps below. Those are unverified
-leads in `sources/QA-002.md`, `sources/QA-008.md`, `sources/QA-046.md` and
-`sources/QA-047.md`. Each entry stays listed as a gap until the lesson that
-needs it has read the original and confirmed it.
-
-- **Test oracles (QA-002).** The CTFL syllabus touches expected results but does
-  not treat the oracle problem directly. Needs a dedicated source.
+**Under review as of 2026-08-08** — the audit proposes answers for the test
+management tool and AI testing gaps below. Those remain unverified leads in
+`sources/QA-008.md`, `sources/QA-046.md` and `sources/QA-047.md`. The QA-002
+test-oracle gap is resolved above after reading the original sources.
 - **Exploratory testing (QA-015).** The syllabus covers it only briefly; the
   practitioner literature is much richer. Partially addressed by the Test
   Heuristics Cheat Sheet above; still needs a source on session-based test

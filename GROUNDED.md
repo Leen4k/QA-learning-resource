@@ -70,6 +70,14 @@ is for — someone moving into QA, not someone already in it.
 - **Defect vs failure** — static testing finds defects directly, not failures
 - **Shift left** — cost of a defect rises with how late it is found
 
+### Lesson 4 — Test oracles and expected results `QA-002`
+- **Expected result** `[ISTQB §1.4.1]` — the observable outcome a tester has
+  reason to anticipate after a particular action and starting condition
+- **Test oracle** `[Bolton, Oracles, p.1]` — a fallible, context-dependent
+  principle or mechanism used to recognise a possible problem
+- **Test oracle problem** `[Barr et al. §1]` — distinguishing desired behaviour
+  from behaviour that may be incorrect
+
 ### Lesson 5 — Equivalence partitioning and boundary values `QA-007`
 - **Equivalence partition** `[ISTQB §4.2.1]` — a set of values expected to be
   treated the same
@@ -91,8 +99,6 @@ is for — someone moving into QA, not someone already in it.
 Terms later lessons will reach for. Whichever lesson gets there first grounds
 them; note it here when it does.
 
-- **Test oracle** — lesson 4 `QA-002`. Lesson 5 already leans on "expected
-  result" without grounding it, which is a small existing debt.
 - **Test condition**, **test case**, **test procedure** — lesson 7 `QA-007`
 - **Decision table**, **state transition** — lesson 6
 - **Defect report** fields — lesson 9 `QA-009`

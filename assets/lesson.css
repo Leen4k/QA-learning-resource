@@ -297,6 +297,40 @@ th {
   max-width: 54rem;
 }
 
+/* Editable worksheet cells: reusable by lessons whose deliverable is a
+   learner-authored table. Content stays in the DOM for copying and printing;
+   no persistence is implied by this visual primitive. */
+
+.worksheet {
+  min-width: 52rem;
+}
+
+.worksheet th:first-child,
+.worksheet td:first-child {
+  width: 2rem;
+  text-align: center;
+}
+
+.worksheet td[contenteditable="true"] {
+  min-width: 10rem;
+  height: 4.5rem;
+  padding: 0.55rem 0.65rem;
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  outline: none;
+}
+
+.worksheet td[contenteditable="true"]:focus {
+  border-color: var(--accent);
+  box-shadow: inset 0 0 0 1px var(--accent);
+}
+
+.worksheet td[contenteditable="true"]:empty::before {
+  content: attr(data-placeholder);
+  color: var(--ink-faint);
+  font-style: italic;
+}
+
 tr.is-pending td {
   color: var(--ink-faint);
 }

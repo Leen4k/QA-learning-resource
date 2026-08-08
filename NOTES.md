@@ -48,7 +48,7 @@ not a copy of it.
 
 ## Two courses now live here
 
-- **QA** — 53 lessons, 27 weeks, sheet tab `gid=1651117697`. Four lessons written.
+- **QA** — 53 lessons, 27 weeks, sheet tab `gid=1651117697`. Six lessons written.
   `index.html` + `curriculum.html` + `lessons/`.
 - **Project management** — 63 lessons, 32 weeks, sheet tab `gid=487507119`,
   tasks PM-001 → PM-063, starting 2026-07-27. Only `curriculum-project-management.html`
@@ -87,9 +87,9 @@ skills, AI testing, Capstone. Weeks 1–27, start 2026-07-27.
   explicitly asked for this after seeing a "Module 1 · Foundations · Lesson 1"
   scheme — it read as clutter.
 - `lessons/NN-slug.html`, flat, numbered in teaching order across all 53.
-- **Numbers are permanent.** Lesson 04 (test oracles) is unwritten, so the file
-  list jumps 03 → 05. Never renumber to close a gap; links and the curriculum
-  page depend on the slot staying put.
+- **Numbers are permanent.** Lesson 04 (test oracles) was initially unwritten,
+  so the file list jumped 03 → 05 until its slot was filled. Never renumber to
+  close a gap; links and the curriculum page depend on each slot staying put.
 - `curriculum.html` is the full 53-lesson plan with plan-task mapping.
   `index.html` is the front door. Every lesson carries a `.plan-tag` line
   linking it back to its QA-0XX task.
@@ -108,10 +108,10 @@ skills, AI testing, Capstone. Weeks 1–27, start 2026-07-27.
 ## Teaching state
 
 - Written: lessons 1 (risk triage), 2 (test levels & types), 3 (static testing),
-  5 (equivalence partitioning & boundary values), 8 (one-page test plan).
-  Plus `index.html` and `curriculum.html`.
-- Next up in curriculum order: 4 (test oracles — QA-002, due week 1), then
-  6 (decision tables & state transition), 7 (test cases), 9 (bug reports),
+  4 (test oracles), 5 (equivalence partitioning & boundary values), 8 (one-page
+  test plan). Plus `index.html` and `curriculum.html`.
+- Next up in curriculum order: 6 (decision tables & state transition), then
+  7 (test cases), 9 (bug reports),
   10 (test management tools).
 - Lesson 8 introduced a running worked example, **Teamspace** — a B2B workspace
   app with Owner/Admin/Member/Viewer roles enforced in both a web UI and a REST
@@ -120,8 +120,13 @@ skills, AI testing, Capstone. Weeks 1–27, start 2026-07-27.
   lessons 6, 7 and 9 rather than inventing a new domain each time — the learner
   then plans, specifies, executes and reports against one feature, which is
   also how the portfolio artifact should read.
-- **Two source gaps left:** lesson 4 (test oracles) and lesson 10 (tool
-  comparison) have no trustworthy source yet. Do not write either from memory.
+- **One source gap left:** lesson 10 (tool comparison) has no trustworthy
+  neutral source yet. Do not write it from memory.
+- **Lesson 4 is unblocked and written (2026-08-08).** Bolton's
+  `Oracles.pdf` supplies the practical HICCUPPS(F) guidewords and fallibility
+  model; Barr et al. supplies the formal oracle problem and explains why prose
+  specifications are partial. The CTFL syllabus only presupposes expected
+  results in §1.4.1, so it remains explicitly the wrong source for QA-002.
 - **Lesson 9 is unblocked (2026-07-26).** The ISTQB PDF *is* fetchable — `curl -L`
   with a browser user-agent, then `pdftotext -layout`. §5.5 Defect Management is
   on pages 56–57 and carries the full defect-report contents list the ASTQB page
