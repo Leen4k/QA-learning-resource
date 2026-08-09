@@ -48,7 +48,7 @@ not a copy of it.
 
 ## Two courses now live here
 
-- **QA** — 53 lessons, 27 weeks, sheet tab `gid=1651117697`. Six lessons written.
+- **QA** — 53 lessons, 27 weeks, sheet tab `gid=1651117697`. Eight lesson files available.
   `index.html` + `curriculum.html` + `lessons/`.
 - **Project management** — 63 lessons, 32 weeks, sheet tab `gid=487507119`,
   tasks PM-001 → PM-063, starting 2026-07-27. Only `curriculum-project-management.html`
@@ -109,13 +109,12 @@ skills, AI testing, Capstone. Weeks 1–27, start 2026-07-27.
 
 - Written: lessons 1 (risk triage), 2 (test levels & types), 3 (static testing),
   4 (test oracles), 5 (equivalence partitioning & boundary values), 6 (decision
-  tables & state transitions), 8 (one-page test plan). Plus `index.html` and
-  `curriculum.html`.
-- Next up in curriculum order: 7 (test cases), then 9 (bug reports), 10 (test
-  management tools).
+  tables & state transitions), 7 (handoff-ready test cases), and 8 (one-page
+  test plan). Plus `index.html` and `curriculum.html`.
+- Next up in curriculum order: 9 (bug reports), then 10 (test management tools).
 - Lesson 6 turns Teamspace permissions into five decision rules and four valid
-  state transitions. Lesson 7 should use those nine coverage targets rather
-  than inventing a new flow or choosing 10–15 cases by intuition.
+  state transitions. Lesson 7 uses those nine targets to derive a 12-case suite,
+  adding only three cases for UI/API parity and stale-authorization risk.
 - Lesson 8 introduced a running worked example, **Teamspace** — a B2B workspace
   app with Owner/Admin/Member/Viewer roles enforced in both a web UI and a REST
   API. It generates good material (UI hides the button but the API does not

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Reference — Test-case handoff sheet</title>
+    <link rel="stylesheet" href="../assets/lesson.css" />
+  </head>
+  <body>
+    <p class="eyebrow">Reference card &middot; fill, copy, print</p>
+    <h1>The test-case handoff sheet</h1>
+    <p class="subtitle">
+      A compact case contract: enough detail for another tester to run the
+      check, plus enough traceability for a reviewer to know why it exists.
+    </p>
+
+    <p class="template">
+      <strong>Given</strong> a named state and concrete data,
+      <strong>when</strong> a named actor takes a specific action through a
+      specific interface, <strong>then</strong> an observable result occurs;
+      <strong>covers</strong> a named rule, transition, boundary, or risk.
+    </p>
+
+    <h2>Write the shared setup once</h2>
+
+    <div class="table-scroll wide">
+      <table class="worksheet">
+        <tr>
+          <th>#</th>
+          <th>Setup field</th>
+          <th>Your shared test basis</th>
+        </tr>
+        <tr>
+          <td>1</td>
+          <td><strong>Feature and version</strong></td>
+          <td contenteditable="true" spellcheck="true" data-placeholder="Name the feature, build or commit"></td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td><strong>Environment</strong></td>
+          <td contenteditable="true" spellcheck="true" data-placeholder="URL, browser/API client, relevant configuration"></td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td><strong>Accounts and data</strong></td>
+          <td contenteditable="true" spellcheck="true" data-placeholder="Stable names, IDs, roles and values"></td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td><strong>Reset rule</strong></td>
+          <td contenteditable="true" spellcheck="true" data-placeholder="What must be restored, and before which cases?"></td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td><strong>Response contract</strong></td>
+          <td contenteditable="true" spellcheck="true" data-placeholder="Observable UI, status, body and persisted state"></td>
+        </tr>
+      </table>
+    </div>
+
+    <h2>Derive before you detail</h2>
+
+    <div class="table-scroll wide">
+      <table class="worksheet">
+        <tr>
+          <th>#</th>
+          <th>Coverage target</th>
+          <th>Why it matters</th>
+          <th>Case ID</th>
+        </tr>
+        <tr>
+          <td>1</td>
+          <td contenteditable="true" spellcheck="true" data-placeholder="Rule / transition / partition / risk"></td>
+          <td contenteditable="true" spellcheck="true" data-placeholder="Failure or coverage argument"></td>
+          <td contenteditable="true" spellcheck="false" data-placeholder="TC-01"></td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td contenteditable="true" spellcheck="true" data-placeholder="Rule / transition / partition / risk"></td>
+          <td contenteditable="true" spellcheck="true" data-placeholder="Failure or coverage argument"></td>
+          <td contenteditable="true" spellcheck="false" data-placeholder="TC-02"></td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td contenteditable="true" spellcheck="true" data-placeholder="Rule / transition / partition / risk"></td>
+          <td contenteditable="true" spellcheck="true" data-placeholder="Failure or coverage argument"></td>
+          <td contenteditable="true" spellcheck="false" data-placeholder="TC-03"></td>
+        </tr>
+      </table>
+    </div>
+
+    <p>
+      Add rows only when a distinct target earns them. A requested case count
+      is a constraint; it is not a coverage model.
+    </p>
+
+    <h2>Specify each case</h2>
+
+    <div class="table-scroll wide">
+      <table class="worksheet">
+        <tr>
+          <th>ID</th>
+          <th>Covers</th>
+          <th>Precondition</th>
+          <th>Action + concrete data</th>
+          <th>Expected observable result</th>
+        </tr>
+        <tr>
+          <td contenteditable="true" spellcheck="false" data-placeholder="TC-01"></td>
+          <td contenteditable="true" spellcheck="true" data-placeholder="Named target"></td>
+          <td contenteditable="true" spellcheck="true" data-placeholder="Actor, data, state"></td>
+          <td contenteditable="true" spellcheck="true" data-placeholder="Interface, action, input"></td>
+          <td contenteditable="true" spellcheck="true" data-placeholder="Response and resulting state"></td>
+        </tr>
+        <tr>
+          <td contenteditable="true" spellcheck="false" data-placeholder="TC-02"></td>
+          <td contenteditable="true" spellcheck="true" data-placeholder="Named target"></td>
+          <td contenteditable="true" spellcheck="true" data-placeholder="Actor, data, state"></td>
+          <td contenteditable="true" spellcheck="true" data-placeholder="Interface, action, input"></td>
+          <td contenteditable="true" spellcheck="true" data-placeholder="Response and resulting state"></td>
+        </tr>
+        <tr>
+          <td contenteditable="true" spellcheck="false" data-placeholder="TC-03"></td>
+          <td contenteditable="true" spellcheck="true" data-placeholder="Named target"></td>
+          <td contenteditable="true" spellcheck="true" data-placeholder="Actor, data, state"></td>
+          <td contenteditable="true" spellcheck="true" data-placeholder="Interface, action, input"></td>
+          <td contenteditable="true" spellcheck="true" data-placeholder="Response and resulting state"></td>
+        </tr>
+      </table>
+    </div>
+
+    <h2>Keep execution evidence separate</h2>
+
+    <div class="table-scroll wide">
+      <table class="worksheet">
+        <tr>
+          <th>Case</th>
+          <th>Run / build</th>
+          <th>Actual result + evidence</th>
+          <th>Status</th>
+          <th>Defect</th>
+        </tr>
+        <tr>
+          <td contenteditable="true" spellcheck="false" data-placeholder="TC-01"></td>
+          <td contenteditable="true" spellcheck="false" data-placeholder="Date / build"></td>
+          <td contenteditable="true" spellcheck="true" data-placeholder="What happened; link screenshot or log"></td>
+          <td contenteditable="true" spellcheck="false" data-placeholder="Pass / fail / blocked"></td>
+          <td contenteditable="true" spellcheck="false" data-placeholder="BUG-123 or —"></td>
+        </tr>
+      </table>
+    </div>
+
+    <h2>Handoff gate</h2>
+
+    <ul>
+      <li>Every case traces to a distinct target or a named interface risk.</li>
+      <li>The starting state can be recreated without asking the author.</li>
+      <li>The action names the actor, interface, target and concrete data.</li>
+      <li>The expected result is observable and states what must remain unchanged.</li>
+      <li>Normal, invalid and relevant boundary behavior are represented.</li>
+      <li>Setup and reset order are explicit where cases change shared state.</li>
+      <li>Uncovered risks are listed; a green case count never means &ldquo;fully tested.&rdquo;</li>
+    </ul>
+
+    <nav class="footer-nav">
+      <strong>Learn the reasoning</strong>
+      <ul>
+        <li>
+          <a href="../lessons/07-test-cases-someone-else-can-run.html"
+            >Lesson 7: Test cases someone else can run</a
+          >
+        </li>
+        <li>
+          Models &mdash;
+          <a href="../lessons/05-equivalence-and-boundaries.html">Lesson 5</a>
+          &middot;
+          <a href="../lessons/06-rules-and-state.html">Lesson 6</a>
+        </li>
+        <li><a href="glossary.html">Glossary</a></li>
+        <li><a href="../index.html">All lessons</a></li>
+      </ul>
+    </nav>
+  </body>
+</html>

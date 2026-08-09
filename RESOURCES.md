@@ -74,6 +74,12 @@ from here — not from the agent's parametric guesses.
   as discovering threats to value. Use for: the *why* behind a practice, and for
   interview answers that need to sound like a thinker rather than a syllabus.
   Read alongside ISTQB, not instead of it — the two disagree deliberately.
+- [James Bach & Aaron Hodder — *Test Cases Are Not Testing*](https://www.satisfice.com/download/test-cases-are-not-testing)
+  The practitioner counterweight used in lesson 7. It argues that creating and
+  executing scripted cases is not equivalent to testing, and that case counts
+  are a poor measure of testing progress. Use this to keep test cases in their
+  proper role: repeatable checks, handoff artifacts and regression evidence,
+  not proof that investigation is complete.
 - [ISO/IEC 25010 product quality model](https://iso25000.com/index.php/en/iso-25000-standards/iso-25010)
   The nine quality characteristics and their sub-characteristics. Use for: a
   checklist of *axes along which a thing can fail* when generating risks or test

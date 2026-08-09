@@ -99,6 +99,16 @@ is for — someone moving into QA, not someone already in it.
 - **Valid transitions coverage** — valid transitions exercised ÷ valid
   transitions identified
 
+### Lesson 7 — Test cases someone else can run `QA-007`
+- **Test condition** `[ISTQB §1.4.1]` — a testable aspect identified during
+  analysis; a rule, transition, risk, or other target that answers what to test
+- **Test case** `[ISTQB §1.4.1, §4.5.3]` — a concrete example with the necessary
+  starting state, inputs or actions, and observable expected result
+- **Test procedure** `[ISTQB §1.4.1]` — cases organised into an executable order,
+  including the setup, reset and cleanup needed to run them
+- **Traceability** `[ISTQB §1.4.4]` — visible links from the test basis through
+  conditions and cases to results and defects
+
 ### Lesson 8 — The one-page test plan `QA-006`
 - **Test plan** `[ISTQB §5.1.1]` — the seven content categories
 - **Entry criteria** and **exit criteria** `[ISTQB §5.1.3]`
@@ -112,7 +122,6 @@ is for — someone moving into QA, not someone already in it.
 Terms later lessons will reach for. Whichever lesson gets there first grounds
 them; note it here when it does.
 
-- **Test condition**, **test case**, **test procedure** — lesson 7 `QA-007`
 - **Defect report** fields — lesson 9 `QA-009`
 - **Severity vs priority** — lesson 9; commonly confused, worth an explicit beat
 - **Test pyramid** — lesson 23 `QA-023`; ISTQB §5.1.6

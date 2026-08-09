@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Lesson 7 — Test cases someone else can run</title>
+    <link rel="stylesheet" href="../assets/lesson.css" />
+  </head>
+  <body>
+    <p class="eyebrow">Lesson 7 &middot; Test management</p>
+    <h1>Test cases someone else can run</h1>
+    <p class="subtitle">
+      Turn coverage targets into concrete, traceable instructions &mdash; then
+      hand the suite to a tester who was not in the room.
+    </p>
+
+    <p class="plan-tag">
+      <strong>Plan:</strong> completes QA-007
+      <em>Test cases and scenarios</em> &mdash; write 10&ndash;15 cases for one
+      flow, covering normal, invalid, and boundary inputs &middot; week 4 &middot;
+      <a href="../curriculum.html">coverage map</a>
+    </p>
+
+    <div class="win">
+      <p>
+        <strong>By the end of this lesson</strong> you will have a 12-case
+        Teamspace role-management suite: every case names its starting state,
+        concrete action and observable result, and every case earns its place
+        by tracing to a decision rule, transition, boundary, or interface risk.
+      </p>
+    </div>
+
+    <div class="callout">
+      <span class="callout-label">Start from the model, not the number</span>
+      <p>
+        <a href="06-rules-and-state.html">Lesson 6</a> found five decision
+        rules and four valid state transitions. Those are the first nine
+        coverage targets. The request for &ldquo;10&ndash;15 cases&rdquo; is a
+        delivery constraint, not a technique; risk justifies the three extra
+        cases.
+      </p>
+    </div>
+
+    <h2>1. Separate what to test from how to run it</h2>
+
+    <p>
+      A <dfn>test condition</dfn> is a testable aspect identified during test
+      analysis: a rule, transition, risk, or other coverage target that answers
+      <em>what should be examined?</em> &ldquo;A sole Owner cannot demote
+      themself&rdquo; is a condition. It is not yet runnable.
+      <span class="sidenote"
+        >ISTQB CTFL v4.0.1 §1.4.1 places test conditions in analysis and asks
+        &ldquo;what to test?&rdquo;</span
+      >
+    </p>
+
+    <p>
+      A <dfn>test case</dfn> turns one or more conditions into a concrete
+      example: a known starting state, an action with specific data, and an
+      observable expected result. It answers <em>how will we test this?</em>
+      A <dfn>test procedure</dfn> then puts cases into an executable order,
+      including setup, reset, and cleanup.
+      <span class="sidenote"
+        >ISTQB §1.4.1 separates design (elaborate conditions into cases) from
+        implementation (organise cases into procedures and suites). §4.5.3 says
+        natural-language cases include the necessary preconditions, inputs and
+        postconditions.</span
+      >
+    </p>
+
+    <div class="table-scroll wide">
+      <table>
+        <tr>
+          <th>Artifact</th>
+          <th>Question it answers</th>
+          <th>Teamspace example</th>
+        </tr>
+        <tr>
+          <td><strong>Condition</strong></td>
+          <td>What deserves examination?</td>
+          <td>R1: a role change must not leave zero Owners</td>
+        </tr>
+        <tr>
+          <td><strong>Case</strong></td>
+          <td>How will one example exercise it?</td>
+          <td>TC-01: Olivia, the sole Owner, tries to become Admin in the UI</td>
+        </tr>
+        <tr>
+          <td><strong>Procedure</strong></td>
+          <td>In what order can the cases be run?</td>
+          <td>Reset Base A; run denial cases; reset; run live-session cases</td>
+        </tr>
+      </table>
+    </div>
+
+    <p class="template">
+      <strong>The handoff test:</strong> if another tester must ask which
+      account, which starting state, which action or data, or what they should
+      observe, the case is not ready to hand off.
+    </p>
+
+    <h2>2. Use a small case contract</h2>
+
+    <p>
+      The syllabus does not prescribe a test-case spreadsheet. For this course,
+      use five fields because each prevents a common handoff failure:
+    </p>
+
+    <div class="table-scroll wide">
+      <table>
+        <tr>
+          <th>Field</th>
+          <th>What belongs there</th>
+          <th>Weak version to reject</th>
+        </tr>
+        <tr>
+          <td><strong>ID</strong></td>
+          <td>A stable name such as TC-07</td>
+          <td>&ldquo;the permissions test&rdquo;</td>
+        </tr>
+        <tr>
+          <td><strong>Covers</strong></td>
+          <td>The rule, transition, boundary, or risk that earns the case</td>
+          <td>&ldquo;role changes&rdquo;</td>
+        </tr>
+        <tr>
+          <td><strong>Precondition</strong></td>
+          <td>Actor, data and state that must exist before the action</td>
+          <td>&ldquo;log in as an Owner&rdquo;</td>
+        </tr>
+        <tr>
+          <td><strong>Action + data</strong></td>
+          <td>Interface, target and concrete value or event</td>
+          <td>&ldquo;change the role&rdquo;</td>
+        </tr>
+        <tr>
+          <td><strong>Expected result</strong></td>
+          <td>An observable response and the state that must remain afterward</td>
+          <td>&ldquo;works correctly&rdquo;</td>
+        </tr>
+      </table>
+    </div>
+
+    <p>
+      Keep actual result, pass/fail status, evidence and defect ID in an
+      execution record. They describe a particular run; they are not part of
+      the reusable design. This separation prevents yesterday&rsquo;s result
+      from masquerading as tomorrow&rsquo;s expectation.
+    </p>
+
+    <h2>3. Make the test basis concrete</h2>
+
+    <p>
+      A runnable case cannot be more precise than its oracle. The Teamspace rule
+      sheet from Lesson 6 now has this small interface contract. These details
+      are part of the worked feature, not claims from ISTQB:
+    </p>
+
+    <ul>
+      <li>
+        Role changes use
+        <code>PATCH /api/teamspaces/redwood/members/{id}/role</code> with
+        <code>{"role":"ADMIN"}</code> (or another role).
+      </li>
+      <li>
+        An allowed change returns <code>200</code> and the new role. An
+        unauthorised change returns <code>403 FORBIDDEN_ROLE_CHANGE</code>.
+      </li>
+      <li>
+        A change that would leave zero Owners returns
+        <code>409 LAST_OWNER</code>. The UI explains that ownership must be
+        transferred; the stored role does not change.
+      </li>
+      <li>
+        Removal uses <code>DELETE .../members/{id}</code> and returns
+        <code>204</code>. Permissions are rechecked on the next request, even
+        from an already-open session.
+      </li>
+      <li>
+        Invitations use <code>POST .../invitations</code>. An Admin receives
+        <code>201</code>; a Member receives <code>403 INSUFFICIENT_ROLE</code>.
+        A removed member&rsquo;s workspace request returns
+        <code>403 MEMBERSHIP_REQUIRED</code>, and the UI shows that access was
+        removed.
+      </li>
+    </ul>
+
+    <p>
+      Reset the seeded workspace before each independent case. The names and
+      IDs below make short preconditions unambiguous:
+    </p>
+
+    <div class="table-scroll wide">
+      <table>
+        <tr>
+          <th>Fixture</th>
+          <th>Owners</th>
+          <th>Other members</th>
+        </tr>
+        <tr>
+          <td><strong>Base A</strong></td>
+          <td>Olivia <code>u-101</code> (sole Owner)</td>
+          <td>
+            Ada <code>u-201</code> Admin; Mina <code>u-301</code> Member; Vic
+            <code>u-401</code> Viewer
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Base B</strong></td>
+          <td>
+            Olivia <code>u-101</code> and Omar <code>u-102</code> (two Owners)
+          </td>
+          <td>Same Ada, Mina and Vic accounts as Base A</td>
+        </tr>
+      </table>
+    </div>
+
+    <h2>4. The 12-case Teamspace suite</h2>
+
+    <p>
+      <dfn>Traceability</dfn> is the visible connection from the test basis to
+      conditions, cases and results. It lets a reviewer ask &ldquo;which case
+      covers R4?&rdquo; or &ldquo;why does TC-12 exist?&rdquo; and get an immediate
+      answer. ISTQB §1.4.4 says tracing cases to requirements supports coverage
+      evaluation and change impact analysis.
+    </p>
+
+    <div class="table-scroll wide">
+      <table>
+        <tr>
+          <th>ID / kind</th>
+          <th>Covers</th>
+          <th>Precondition</th>
+          <th>Action + concrete data</th>
+          <th>Expected observable result</th>
+        </tr>
+        <tr>
+          <td><strong>TC-01</strong><br /><span class="pill pill-part">boundary</span></td>
+          <td>R1; Owner count = 1</td>
+          <td>Reset Base A; sign in as Olivia</td>
+          <td>UI: Members &rarr; Olivia &rarr; Change role to Admin &rarr; Confirm</td>
+          <td>
+            UI reports ownership must be transferred; server returns
+            <code>409 LAST_OWNER</code>; Olivia remains Owner; Owner count stays 1
+          </td>
+        </tr>
+        <tr>
+          <td><strong>TC-02</strong><br /><span class="pill pill-todo">invalid</span></td>
+          <td>R1; UI/API parity risk</td>
+          <td>Reset Base A; use Olivia&rsquo;s API token</td>
+          <td>
+            PATCH Olivia <code>u-101</code> with
+            <code>{"role":"ADMIN"}</code>
+          </td>
+          <td>
+            <code>409 LAST_OWNER</code>; stored role remains Owner; Owner count
+            stays 1
+          </td>
+        </tr>
+        <tr>
+          <td><strong>TC-03</strong><br /><span class="pill pill-part">boundary</span></td>
+          <td>R2; Owner count = 2</td>
+          <td>Reset Base B; use Olivia&rsquo;s API token</td>
+          <td>
+            PATCH Olivia <code>u-101</code> with
+            <code>{"role":"ADMIN"}</code>
+          </td>
+          <td>
+            <code>200</code>; Olivia becomes Admin; Omar remains Owner; Owner
+            count becomes 1
+          </td>
+        </tr>
+        <tr>
+          <td><strong>TC-04</strong><br /><span class="pill pill-done">normal</span></td>
+          <td>R2; allowed UI path</td>
+          <td>Reset Base A; sign in as Olivia</td>
+          <td>UI: change Mina <code>u-301</code> from Member to Admin</td>
+          <td>Success is shown; Mina&rsquo;s stored role and member row both show Admin</td>
+        </tr>
+        <tr>
+          <td><strong>TC-05</strong><br /><span class="pill pill-done">normal</span></td>
+          <td>R3; below-Admin change</td>
+          <td>Reset Base A; use Ada&rsquo;s Admin token</td>
+          <td>
+            PATCH Mina <code>u-301</code> with
+            <code>{"role":"VIEWER"}</code>
+          </td>
+          <td><code>200</code>; response and stored membership both show Viewer</td>
+        </tr>
+        <tr>
+          <td><strong>TC-06</strong><br /><span class="pill pill-todo">invalid</span></td>
+          <td>R4; Admin cannot grant Admin</td>
+          <td>Reset Base A; use Ada&rsquo;s Admin token</td>
+          <td>
+            PATCH Mina <code>u-301</code> with
+            <code>{"role":"ADMIN"}</code>
+          </td>
+          <td><code>403 FORBIDDEN_ROLE_CHANGE</code>; Mina remains Member</td>
+        </tr>
+        <tr>
+          <td><strong>TC-07</strong><br /><span class="pill pill-todo">invalid</span></td>
+          <td>R5; Member cannot change roles</td>
+          <td>Reset Base A; use Mina&rsquo;s Member token</td>
+          <td>
+            PATCH Vic <code>u-401</code> with
+            <code>{"role":"MEMBER"}</code>
+          </td>
+          <td><code>403 FORBIDDEN_ROLE_CHANGE</code>; Vic remains Viewer</td>
+        </tr>
+        <tr>
+          <td><strong>TC-08</strong><br /><span class="pill pill-todo">invalid</span></td>
+          <td>Admin &rarr; Member; stale-session risk</td>
+          <td>Reset Base A; Ada has an open Admin session; Olivia is signed in separately</td>
+          <td>
+            Olivia demotes Ada to Member; without re-login, Ada POSTs an invite
+            for <code>new.qa@example.test</code>
+          </td>
+          <td>
+            Demotion returns <code>200</code>; Ada&rsquo;s invite returns
+            <code>403 INSUFFICIENT_ROLE</code>; the address is not invited
+          </td>
+        </tr>
+        <tr>
+          <td><strong>TC-09</strong><br /><span class="pill pill-done">normal</span></td>
+          <td>Member &rarr; Admin; live permission gain</td>
+          <td>Reset Base A; Mina has an open Member session; Olivia is signed in separately</td>
+          <td>
+            Olivia promotes Mina to Admin; Mina refreshes Members and invites
+            <code>new.qa@example.test</code>
+          </td>
+          <td>
+            Promotion returns <code>200</code>; invite control appears; Mina&rsquo;s
+            invite returns <code>201</code> without re-login
+          </td>
+        </tr>
+        <tr>
+          <td><strong>TC-10</strong><br /><span class="pill pill-todo">invalid</span></td>
+          <td>Admin &rarr; Removed</td>
+          <td>Reset Base A; Ada has an open Admin session; Olivia is signed in separately</td>
+          <td>
+            Olivia removes Ada; without re-login, Ada GETs
+            <code>/api/teamspaces/redwood/members</code>
+          </td>
+          <td>
+            Removal returns <code>204</code>; Ada&rsquo;s GET returns
+            <code>403 MEMBERSHIP_REQUIRED</code>; Ada is absent from the list
+          </td>
+        </tr>
+        <tr>
+          <td><strong>TC-11</strong><br /><span class="pill pill-todo">invalid</span></td>
+          <td>Member &rarr; Removed</td>
+          <td>Reset Base A; Mina has an open Member session; Olivia is signed in separately</td>
+          <td>Olivia removes Mina; without re-login, Mina reloads the Redwood workspace</td>
+          <td>
+            Removal returns <code>204</code>; the member request returns
+            <code>403 MEMBERSHIP_REQUIRED</code>; UI shows access was removed;
+            Mina is absent from the list
+          </td>
+        </tr>
+        <tr>
+          <td><strong>TC-12</strong><br /><span class="pill pill-todo">invalid</span></td>
+          <td>Removed-token API risk</td>
+          <td>Reset Base A; Olivia removes Ada; retain Ada&rsquo;s old token</td>
+          <td>
+            With Ada&rsquo;s token, PATCH Vic <code>u-401</code> with
+            <code>{"role":"MEMBER"}</code>
+          </td>
+          <td>
+            <code>403 MEMBERSHIP_REQUIRED</code>; Vic remains Viewer; Ada
+            remains removed
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <p>
+      The boundary pair is TC-01 and TC-03: one Owner is the smallest valid
+      workspace state, while two Owners is the nearest value from which one may
+      safely step down. TC-02, TC-04 and TC-12 are not padding. They add the
+      two-interface and stale-authorization risks from the test plan. The other
+      nine cases cover every Lesson 6 rule and valid transition at least once.
+    </p>
+
+    <h2>5. Practice: name the artifact before editing it</h2>
+
+    <div class="classify" data-classify>
+      <script type="application/json">
+        {
+          "prompt": "Sort each Teamspace fragment by the job it actually does.",
+          "categories": [
+            { "id": "condition", "label": "Test condition" },
+            { "id": "case", "label": "Test case" },
+            { "id": "procedure", "label": "Test procedure" }
+          ],
+          "items": [
+            {
+              "id": "1",
+              "text": "A role change must not leave the workspace with zero Owners",
+              "answer": "condition",
+              "why": "This names what deserves examination: the last-Owner invariant. It has no concrete actor, action, interface, or expected response yet."
+            },
+            {
+              "id": "2",
+              "text": "Reset Base A, execute TC-01 and TC-02, then reset Base B before TC-03",
+              "answer": "procedure",
+              "why": "This organises setup and cases into an execution order. It does not introduce a new coverage target or fully specify an individual example."
+            },
+            {
+              "id": "3",
+              "text": "With Ada's Admin token, PATCH Mina to ADMIN; expect 403 and Mina to remain Member",
+              "answer": "case",
+              "why": "The actor, target, action, input and observable result are concrete enough to exercise R4."
+            },
+            {
+              "id": "4",
+              "text": "A demoted Admin's next request must use the new permissions",
+              "answer": "condition",
+              "why": "This identifies a stale-session behavior to cover, but another tester still needs a starting account, transition, next request and expected response."
+            },
+            {
+              "id": "5",
+              "text": "Run the five decision-rule cases before the four live-session transition cases",
+              "answer": "procedure",
+              "why": "This is sequencing: complete independent rule checks before cases that need two simultaneous sessions and more setup."
+            },
+            {
+              "id": "6",
+              "text": "In Base A, Olivia removes Ada; Ada's open session then requests Members; expect denial",
+              "answer": "case",
+              "why": "This is a concrete example of Admin to Removed. A production version should add the exact endpoint and response contract, as TC-10 does."
+            }
+          ]
+        }
+      </script>
+    </div>
+
+    <h2>6. Practice: repair the handoff gaps</h2>
+
+    <p>
+      Each draft below sounds plausible but forces the next tester to guess.
+      Rewrite the missing field. Use the fixtures and interface contract above;
+      then compare your wording with the review answer.
+    </p>
+
+    <div class="table-scroll wide">
+      <table class="worksheet">
+        <tr>
+          <th>#</th>
+          <th>Draft</th>
+          <th>Missing field</th>
+          <th>Your repair</th>
+        </tr>
+        <tr>
+          <td>1</td>
+          <td>&ldquo;An Owner changes a role to Admin; expect success.&rdquo;</td>
+          <td>Precondition + target</td>
+          <td contenteditable="true" spellcheck="true" data-placeholder="Name the fixture, actor and target"></td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>&ldquo;As Ada, try an invalid role change; expect 403.&rdquo;</td>
+          <td>Action + concrete data</td>
+          <td contenteditable="true" spellcheck="true" data-placeholder="Name endpoint, target and role value"></td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>&ldquo;Remove Mina and verify it works correctly.&rdquo;</td>
+          <td>Expected result</td>
+          <td contenteditable="true" spellcheck="true" data-placeholder="Name the response and resulting state"></td>
+        </tr>
+      </table>
+    </div>
+
+    <details>
+      <summary>Compare with one handoff-ready repair</summary>
+      <ol>
+        <li>
+          Reset Base A; Olivia is Owner and Mina <code>u-301</code> is Member.
+          Olivia changes Mina to Admin in the UI.
+        </li>
+        <li>
+          With Ada&rsquo;s token, PATCH Mina <code>u-301</code> with
+          <code>{"role":"ADMIN"}</code>.
+        </li>
+        <li>
+          DELETE returns <code>204</code>; Mina disappears from the member list,
+          and Mina&rsquo;s next request from the open session is denied.
+        </li>
+      </ol>
+    </details>
+
+    <h2>7. Keep the case set honest</h2>
+
+    <p>
+      A scripted case is a repeatable check and a useful handoff or regression
+      artifact. It is not proof that testing is complete. James Bach and Aaron
+      Hodder argue that counting created or executed cases is a poor proxy for
+      testing progress: cases can guide specific checks, while investigation,
+      learning and noticing still require a tester.
+    </p>
+
+    <p>
+      That tension improves the artifact. Traceability tells you what the suite
+      covers; the uncovered-risk note tells you what it does not. For this
+      suite, concurrent role changes, re-invitation after removal, accessibility
+      and performance remain outside the 12 cases. Name them rather than letting
+      a green pass count imply they vanished.
+    </p>
+
+    <div class="quiz" data-quiz>
+      <p class="quiz-q">
+        <span class="quiz-num">Recall 1</span>Which sentence is a test condition,
+        not yet a runnable test case?
+      </p>
+      <ol class="quiz-options">
+        <li>
+          <button
+            data-correct
+            data-feedback="Correct. It identifies what matters, but gives no concrete fixture, actor action, interface, or expected response."
+          >A sole Owner must not leave the workspace with zero Owners.</button>
+        </li>
+        <li>
+          <button
+            data-feedback="This supplies a fixture, actor, action, input and expected status, so it is already a concrete case."
+          >In Base A, Olivia requests Admin for herself and receives status 409.</button>
+        </li>
+        <li>
+          <button
+            data-feedback="This organises named cases and their reset steps, so its job is a test procedure."
+          >Reset Base A, run TC-01 and TC-02, then restore the seed.</button>
+        </li>
+        <li>
+          <button
+            data-feedback="This records what happened during one execution, so it is a result rather than a condition."
+          >TC-01 failed because Olivia became Admin and no Owner remained afterward.</button>
+        </li>
+      </ol>
+    </div>
+
+    <div class="quiz" data-quiz>
+      <p class="quiz-q">
+        <span class="quiz-num">Recall 2</span>Why do TC-01 and TC-03 belong
+        together as boundary coverage?
+      </p>
+      <ol class="quiz-options">
+        <li>
+          <button
+            data-correct
+            data-feedback="Correct. The business invariant is a minimum of one Owner. The pair checks that minimum and its nearest safe neighbour."
+          >They exercise one Owner and the nearest count above that minimum.</button>
+        </li>
+        <li>
+          <button
+            data-feedback="Different interfaces justify TC-01 and TC-02. TC-03 exists because the owner count crosses the decision boundary."
+          >They exercise the user interface and the API with identical data.</button>
+        </li>
+        <li>
+          <button
+            data-feedback="Both cases use a valid role value. The relevant boundary is the number of Owners left after the change."
+          >They exercise one valid role value and one invalid role value.</button>
+        </li>
+        <li>
+          <button
+            data-feedback="Case count is not the coverage argument. These two values sit directly on either side of the business decision."
+          >They raise the suite total into the requested range of twelve cases.</button>
+        </li>
+      </ol>
+    </div>
+
+    <div class="quiz" data-quiz>
+      <p class="quiz-q">
+        <span class="quiz-num">Recall 3</span>What is the strongest reason to
+        keep TC-12 after the nine model-derived cases exist?
+      </p>
+      <ol class="quiz-options">
+        <li>
+          <button
+            data-correct
+            data-feedback="Correct. TC-12 targets an authorization risk at a second interface after a state change; its purpose differs from merely repeating a rule."
+          >It checks whether a removed token can bypass the server authorization boundary.</button>
+        </li>
+        <li>
+          <button
+            data-feedback="A round count is a constraint, not evidence. Without a distinct target this would be padding."
+          >It makes the suite look complete by reaching an even case count.</button>
+        </li>
+        <li>
+          <button
+            data-feedback="Every case should be repeatable. Ease of repetition alone does not explain which risk this case covers."
+          >It is easier to repeat than the live-session cases in the browser.</button>
+        </li>
+        <li>
+          <button
+            data-feedback="TC-12 is invalid-path coverage and should not replace normal evidence such as the allowed R2 and R3 cases."
+          >It can replace every normal role-change case because denial is riskier.</button>
+        </li>
+      </ol>
+    </div>
+
+    <p class="quiz-score" data-quiz-score></p>
+
+    <h2>The portfolio move</h2>
+
+    <p>
+      Export the suite with its rule sheet, fixtures and uncovered-risk note.
+      In an interview, explain its derivation in one sentence:
+    </p>
+
+    <p class="template">
+      I began with <span class="blank"></span> coverage targets from the
+      decision and state models, then added <span class="blank"></span> cases
+      for the <span class="blank"></span> risks. Every case names its
+      <span class="blank"></span>, action and observable result, and traces
+      back to <span class="blank"></span>.
+    </p>
+
+    <p>
+      Use the
+      <a href="../reference/test-case-template.html">printable test-case sheet</a>
+      for your next feature. The goal is not to copy Teamspace; it is to carry
+      the derivation and handoff standard into a new domain.
+    </p>
+
+    <h2>Read this next</h2>
+
+    <p>
+      <strong>Primary source &mdash;</strong>
+      <a href="https://istqb.org/wp-content/uploads/2024/11/ISTQB_CTFL_Syllabus_v4.0.1.pdf"
+        >ISTQB CTFL Syllabus v4.0.1</a
+      >, §1.4.1, §1.4.3&ndash;§1.4.4 and §4.5.3. About twelve minutes. Read for
+      the path from condition to case to procedure, the traceability purpose,
+      and the minimum natural-language case ingredients.
+    </p>
+
+    <p>
+      <strong>Useful disagreement &mdash;</strong>
+      <a href="https://www.satisfice.com/download/test-cases-are-not-testing"
+        >James Bach and Aaron Hodder, <em>Test Cases Are Not Testing</em></a
+      >. Read the article summary, then the paper if the distinction interests
+      you. It explains why an executed-case count cannot stand in for testing
+      progress.
+    </p>
+
+    <p>
+      <strong>Worked official practice &mdash;</strong>
+      <a href="https://astqb.org/assets/documents/ISTQB_CTFL_Sample-Exam-Questions_v4.0.pdf"
+        >CTFL Sample Exam A questions</a
+      > and
+      <a href="https://astqb.org/assets/documents/ISTQB_CTFL_Sample-Exam-Answers_v4.0.pdf"
+        >published rationales</a
+      >, Q29. Notice why the accepted example covers the story&rsquo;s editing
+      and saving behavior without wandering outside its acceptance criteria.
+    </p>
+
+    <div class="ask-teacher">
+      <strong>Want a handoff review?</strong> Send me a requirement, your
+      coverage model and three cases. I will respond only with the questions a
+      second tester would still need to ask, then identify any case that cannot
+      name the distinct target earning its place.
+    </div>
+
+    <nav class="footer-nav">
+      <strong>Where this connects</strong>
+      <ul>
+        <li>
+          Previous &mdash;
+          <a href="06-rules-and-state.html">Lesson 6: When the rules interact</a>
+          &mdash; the five rules and four transitions that justify this suite
+        </li>
+        <li>
+          Builds on &mdash;
+          <a href="04-test-oracles.html">Lesson 4: Knowing what correct means</a>
+          &mdash; every expected result still needs evidence behind it
+        </li>
+        <li>
+          Next &mdash;
+          <a href="08-one-page-test-plan.html">Lesson 8: The one-page test plan</a>
+          &mdash; decide where this suite fits and what evidence permits release
+        </li>
+        <li>
+          Reference &mdash;
+          <a href="../reference/test-case-template.html">Test-case sheet</a>
+          &middot; <a href="../reference/glossary.html">Glossary</a>
+        </li>
+        <li><a href="../index.html">All lessons</a></li>
+      </ul>
+    </nav>
+
+    <script src="../assets/classify.js"></script>
+    <script src="../assets/quiz.js"></script>
+  </body>
+</html>
