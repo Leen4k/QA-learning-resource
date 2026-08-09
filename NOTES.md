@@ -108,11 +108,14 @@ skills, AI testing, Capstone. Weeks 1–27, start 2026-07-27.
 ## Teaching state
 
 - Written: lessons 1 (risk triage), 2 (test levels & types), 3 (static testing),
-  4 (test oracles), 5 (equivalence partitioning & boundary values), 8 (one-page
-  test plan). Plus `index.html` and `curriculum.html`.
-- Next up in curriculum order: 6 (decision tables & state transition), then
-  7 (test cases), 9 (bug reports),
-  10 (test management tools).
+  4 (test oracles), 5 (equivalence partitioning & boundary values), 6 (decision
+  tables & state transitions), 8 (one-page test plan). Plus `index.html` and
+  `curriculum.html`.
+- Next up in curriculum order: 7 (test cases), then 9 (bug reports), 10 (test
+  management tools).
+- Lesson 6 turns Teamspace permissions into five decision rules and four valid
+  state transitions. Lesson 7 should use those nine coverage targets rather
+  than inventing a new flow or choosing 10–15 cases by intuition.
 - Lesson 8 introduced a running worked example, **Teamspace** — a B2B workspace
   app with Owner/Admin/Member/Viewer roles enforced in both a web UI and a REST
   API. It generates good material (UI hides the button but the API does not
@@ -146,6 +149,9 @@ skills, AI testing, Capstone. Weeks 1–27, start 2026-07-27.
 - `classify.js` — sort items into named categories.
 - `select-set.js` — choose a minimal covering set; flags both missed and
   redundant picks.
+- `coverage-set.js` — choose paths or scenarios whose union covers named
+  targets; accepts alternate minimal sets and distinguishes gaps from complete
+  but redundant answers.
 - All share the `.rg-*` style primitives in `lesson.css`. Build new widgets on
   those rather than inventing parallel styles.
 

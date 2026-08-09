@@ -86,6 +86,19 @@ is for — someone moving into QA, not someone already in it.
 - **Two-value** vs **three-value** boundary testing
 - **Coverage** — partitions exercised ÷ partitions identified
 
+### Lesson 6 — Decision tables and state transitions `QA-007`
+- **Decision table** `[ISTQB §4.2.3]` — conditions and actions as rows, with
+  each feasible combination represented by a column
+- **Decision rule** — one table column: a unique condition combination and its
+  resulting actions
+- **State** — the current situation that matters to what the system may do next
+- **State transition** `[ISTQB §4.2.4]` — a move between states initiated by an
+  event
+- **State table** — states as rows and events as columns, including invalid
+  transitions
+- **Valid transitions coverage** — valid transitions exercised ÷ valid
+  transitions identified
+
 ### Lesson 8 — The one-page test plan `QA-006`
 - **Test plan** `[ISTQB §5.1.1]` — the seven content categories
 - **Entry criteria** and **exit criteria** `[ISTQB §5.1.3]`
@@ -100,7 +113,6 @@ Terms later lessons will reach for. Whichever lesson gets there first grounds
 them; note it here when it does.
 
 - **Test condition**, **test case**, **test procedure** — lesson 7 `QA-007`
-- **Decision table**, **state transition** — lesson 6
 - **Defect report** fields — lesson 9 `QA-009`
 - **Severity vs priority** — lesson 9; commonly confused, worth an explicit beat
 - **Test pyramid** — lesson 23 `QA-023`; ISTQB §5.1.6

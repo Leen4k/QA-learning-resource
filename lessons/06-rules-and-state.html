@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Lesson 6 — When the rules interact</title>
+    <link rel="stylesheet" href="../assets/lesson.css" />
+  </head>
+  <body>
+    <p class="eyebrow">Lesson 6 &middot; Test management</p>
+    <h1>When the rules interact</h1>
+    <p class="subtitle">
+      Decision tables for combinations; state transitions for history. Two
+      compact models for the cases a list of input values cannot reach.
+    </p>
+
+    <p class="plan-tag">
+      <strong>Plan:</strong> covers the modelling step behind QA-007
+      <em>Test cases and scenarios</em> &mdash; write 10&ndash;15 cases for one
+      flow &middot; week 4 &middot;
+      <a href="../curriculum.html">coverage map</a>
+    </p>
+
+    <div class="win">
+      <p>
+        <strong>By the end of this lesson</strong> you will have turned the
+        Teamspace permissions requirement into two coverage models: five
+        combination rules and four valid role transitions. Lesson 7 can then
+        turn those nine justified targets into instructions another person can
+        run. No guessing a round number of cases first.
+      </p>
+    </div>
+
+    <div class="callout">
+      <span class="callout-label">The Teamspace rule sheet</span>
+      <p>
+        Owners may change any role. Admins may change roles only when both the
+        current and requested roles remain below Admin. Members and Viewers may
+        not change roles. A change that would leave the workspace with no Owner
+        is blocked until ownership is transferred.
+      </p>
+      <p>
+        An Owner may promote a Member to Admin, demote an Admin to Member, or
+        remove either one. The new role must apply immediately to an already
+        open session. Removed membership is terminal for this model;
+        re-invitation belongs to a different flow.
+      </p>
+    </div>
+
+    <h2>1. Ask what makes the outcome change</h2>
+
+    <p>
+      <a href="05-equivalence-and-boundaries.html">Lesson 5</a> split one
+      input into equivalence partitions and tested their edges. That works when
+      one value can be judged largely on its own. It does not answer either of
+      these questions:
+    </p>
+
+    <ul>
+      <li>
+        May an <em>Admin</em> change a <em>Member</em> to <em>Viewer</em>, and
+        what if the same actor targets an <em>Owner</em>?
+      </li>
+      <li>
+        May a person who was an Admin a moment ago still invite people through
+        a tab that was already open after they are demoted?
+      </li>
+    </ul>
+
+    <p>
+      The first outcome changes because several facts combine. The second
+      changes because something happened before. Carry this sentence:
+    </p>
+
+    <p class="template">
+      If the outcome depends on <span class="blank"></span>, table the rules.
+      If it depends on <span class="blank"></span>, model the states.
+    </p>
+
+    <h2>2. Decision tables: combinations become columns</h2>
+
+    <p>
+      A <dfn>decision table</dfn> records conditions and resulting actions as
+      rows. Each column is a <dfn>decision rule</dfn>: one unique combination of
+      conditions together with the actions that combination should produce.
+      The technique is designed for business logic where conditions interact.
+      It can expose combinations that prose quietly omitted or contradicted.
+      <span class="sidenote"
+        >ISTQB CTFL v4.0.1 §4.2.3. FL-4.2.3 is a K3 objective: use a decision
+        table to derive coverage, rather than merely define one.</span
+      >
+    </p>
+
+    <p>
+      A dash means that condition cannot change the outcome for this rule. It
+      is how columns with the same action are safely merged. Here is the
+      Teamspace rule sheet made testable:
+    </p>
+
+    <div class="table-scroll wide">
+      <table>
+        <tr>
+          <th>Conditions and actions</th>
+          <th>R1</th>
+          <th>R2</th>
+          <th>R3</th>
+          <th>R4</th>
+          <th>R5</th>
+        </tr>
+        <tr>
+          <td>Actor is Owner</td>
+          <td>T</td>
+          <td>T</td>
+          <td>F</td>
+          <td>F</td>
+          <td>F</td>
+        </tr>
+        <tr>
+          <td>Owner change would leave no Owner</td>
+          <td>T</td>
+          <td>F</td>
+          <td>&ndash;</td>
+          <td>&ndash;</td>
+          <td>&ndash;</td>
+        </tr>
+        <tr>
+          <td>Actor is Admin</td>
+          <td>&ndash;</td>
+          <td>&ndash;</td>
+          <td>T</td>
+          <td>T</td>
+          <td>F</td>
+        </tr>
+        <tr>
+          <td>Admin change stays below Admin</td>
+          <td>&ndash;</td>
+          <td>&ndash;</td>
+          <td>T</td>
+          <td>F</td>
+          <td>&ndash;</td>
+        </tr>
+        <tr>
+          <td><strong>Require ownership transfer first</strong></td>
+          <td>X</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td><strong>Apply role change</strong></td>
+          <td></td>
+          <td>X</td>
+          <td>X</td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td><strong>Deny role change</strong></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td>X</td>
+          <td>X</td>
+        </tr>
+      </table>
+    </div>
+
+    <p>
+      The table gives five coverage targets: one feasible scenario per column.
+      R1 is deliberately separated from the ordinary Owner path. Without that
+      column, a perfectly tested Owner path can still delete the final owner;
+      without R5, the same attempted change by a Member could receive the wrong
+      explanation. The risk ranking from
+      <a href="01-quality-risk-triage.html">lesson 1</a> tells you which column
+      to execute first; the table tells you which columns exist.
+    </p>
+
+    <div class="callout">
+      <span class="callout-label">Where the table earns its keep</span>
+      <p>
+        Four Boolean conditions produce sixteen raw combinations. Six produce
+        sixty-four. §4.2.3 allows infeasible columns to be deleted and
+        columns whose conditions do not affect the outcome to be merged. Do
+        that openly: a dash must mean &ldquo;irrelevant to this outcome,&rdquo; not
+        &ldquo;I forgot to decide.&rdquo;
+      </p>
+    </div>
+
+    <h2>3. State transitions: the same event, a different past</h2>
+
+    <p>
+      A <dfn>state</dfn> is the situation the system is in that matters to what
+      it may do next. A <dfn>state transition</dfn> is the move from one state
+      to another after an event. State transition testing is useful when the
+      same event can produce a different result because the starting state is
+      different. A <dfn>state table</dfn> makes both valid and invalid moves
+      visible; blank cells are questions the prose requirement often hides.
+      <span class="sidenote"
+        >ISTQB CTFL v4.0.1 §4.2.4. The syllabus treats a state table as
+        equivalent to a state diagram, with the advantage that invalid
+        transitions are shown explicitly.</span
+      >
+    </p>
+
+    <div class="table-scroll wide">
+      <table>
+        <tr>
+          <th>Starting state</th>
+          <th>Owner demotes to Member</th>
+          <th>Owner promotes to Admin</th>
+          <th>Owner removes membership</th>
+        </tr>
+        <tr>
+          <td><strong>Admin</strong></td>
+          <td>Member; open session loses Admin actions</td>
+          <td>Invalid: already Admin</td>
+          <td>Removed; open session loses workspace access</td>
+        </tr>
+        <tr>
+          <td><strong>Member</strong></td>
+          <td>Invalid: already Member</td>
+          <td>Admin; open session gains Admin actions</td>
+          <td>Removed; open session loses workspace access</td>
+        </tr>
+        <tr>
+          <td><strong>Removed</strong></td>
+          <td>Invalid: no membership to demote</td>
+          <td>Invalid: invitation is required first</td>
+          <td>Invalid: no membership to remove</td>
+        </tr>
+      </table>
+    </div>
+
+    <p>
+      <dfn>Valid transitions coverage</dfn> means exercising every valid arrow
+      at least once. One sequence may cover several arrows, so four transitions
+      do not automatically require four separate runs. Visiting every state is
+      weaker: you can reach Admin, Member and Removed while still skipping one
+      of the ways between them. All-transitions coverage goes further and also
+      attempts invalid moves; §4.2.4 recommends isolating invalid moves so one
+      failure cannot mask another.
+    </p>
+
+    <h2>4. Practice: pick the model before making cases</h2>
+
+    <p>
+      Interleave the three techniques you now know. Ask what changes the
+      outcome: one value, a combination, or prior history.
+    </p>
+
+    <div class="classify" data-classify>
+      <script type="application/json">
+        {
+          "prompt": "Choose the first model you would build for each requirement.",
+          "categories": [
+            { "id": "partition", "label": "Partitions / boundaries" },
+            { "id": "decision", "label": "Decision table" },
+            { "id": "state", "label": "State transitions" }
+          ],
+          "items": [
+            {
+              "id": "1",
+              "text": "An invoice amount must be from $0.01 through $10,000.00",
+              "answer": "partition",
+              "why": "One ordered value drives the result, so split it into below, inside and above partitions, then test the edges. No combination or history is needed yet."
+            },
+            {
+              "id": "2",
+              "text": "A role change depends on actor role, target role and last-Owner status",
+              "answer": "decision",
+              "why": "Several conditions combine to select one outcome. A column per feasible rule makes the missing and contradictory combinations visible."
+            },
+            {
+              "id": "3",
+              "text": "A demoted Admin keeps an already-open tab and tries to invite someone",
+              "answer": "state",
+              "why": "The trap: roles appear to make this a decision table, but the defect depends on history. The same session was allowed before the demotion and must be denied after the transition."
+            },
+            {
+              "id": "4",
+              "text": "A discount depends on membership, coupon validity and whether it expired",
+              "answer": "decision",
+              "why": "The outcome comes from interacting facts. Testing each fact separately can miss the combination where a valid member presents an expired coupon."
+            },
+            {
+              "id": "5",
+              "text": "An account locks after three failures and unlocks only after reset",
+              "answer": "state",
+              "why": "The third identical event behaves differently from the first because the account reached a new state. A value list cannot express that sequence."
+            },
+            {
+              "id": "6",
+              "text": "An upload accepts PDF, PNG and JPEG files but rejects every other type",
+              "answer": "partition",
+              "why": "File type values fall into accepted and rejected groups expected to behave alike. Start with partitions; add combinations only if size or user role also changes the result."
+            }
+          ]
+        }
+      </script>
+    </div>
+
+    <h2>5. Practice: cover every valid transition with less work</h2>
+
+    <p>
+      The state model has four valid transitions: Admin to Member, Member to
+      Admin, Admin to Removed, and Member to Removed. Choose as few sequences as
+      possible while covering all four. There is more than one correct minimal
+      answer; the checker grades coverage rather than matching one preferred
+      set.
+    </p>
+
+    <div class="coverage-set" data-coverage-set>
+      <script type="application/json">
+        {
+          "prompt": "Include sequences until every valid transition is covered, then remove any sequence that adds nothing.",
+          "itemNoun": "sequence",
+          "coverageNoun": "transition",
+          "coverageItems": [
+            { "id": "am", "label": "Admin → Member" },
+            { "id": "ma", "label": "Member → Admin" },
+            { "id": "ar", "label": "Admin → Removed" },
+            { "id": "mr", "label": "Member → Removed" }
+          ],
+          "items": [
+            {
+              "id": "a",
+              "label": "Start Admin → demote → Member → promote → Admin → remove → Removed",
+              "covers": ["am", "ma", "ar"],
+              "why": "A high-yield path: it checks both directions of role change on one live session, then verifies that removal ends access. It cannot also cover Member → Removed because Removed is terminal."
+            },
+            {
+              "id": "b",
+              "label": "Start Member → remove → Removed",
+              "covers": ["mr"],
+              "why": "Only one arrow, but it is the branch the long Admin path cannot take after choosing Admin → Removed. Short does not mean redundant."
+            },
+            {
+              "id": "c",
+              "label": "Start Admin → remove → Removed",
+              "covers": ["ar"],
+              "why": "Useful only if another selected path does not already end with Admin → Removed. Coverage decides whether it earns a place, not the path's realism."
+            },
+            {
+              "id": "d",
+              "label": "Start Admin → demote → Member → remove → Removed",
+              "covers": ["am", "mr"],
+              "why": "This takes the Member-removal branch after demotion. Pair it with a path that covers Member → Admin and Admin → Removed for an alternative minimal answer."
+            },
+            {
+              "id": "e",
+              "label": "Start Member → promote → Admin → remove → Removed",
+              "covers": ["ma", "ar"],
+              "why": "This covers promotion and Admin removal together. Pair it with the demotion-to-removal path and all four transitions are covered in two sequences."
+            }
+          ]
+        }
+      </script>
+    </div>
+
+    <h2>6. Your handoff to Lesson 7</h2>
+
+    <p>
+      You now have nine coverage targets before writing a single procedural
+      step: decision rules R1&ndash;R5 and the four valid role transitions. Copy
+      the two tables into your Teamspace artifact and add one line beneath each:
+    </p>
+
+    <p class="template">
+      Table coverage is <span class="blank"></span> feasible rules exercised
+      out of <span class="blank"></span>. Valid-transition coverage is
+      <span class="blank"></span> arrows exercised out of
+      <span class="blank"></span>.
+    </p>
+
+    <p>
+      That is a defensible basis for the plan&rsquo;s role-and-action grid. It is
+      not proof that permissions are defect-free. It says exactly what this
+      model covered, leaving room for risk-driven exploration of the UI/API
+      mismatch and stale sessions.
+    </p>
+
+    <h2>Recall</h2>
+
+    <p class="quiz-score" data-quiz-score></p>
+
+    <div class="quiz" data-quiz>
+      <p class="quiz-q">
+        <span class="quiz-num">Recall 1</span>What does one column in a decision
+        table represent?
+      </p>
+      <ol class="quiz-options">
+        <li>
+          <button
+            data-correct
+            data-feedback="A column is one rule: a unique combination of condition values plus the actions expected from that combination. Exercising each feasible column is the technique's coverage measure."
+          >
+            One unique combination of conditions together with the actions it should produce.
+          </button>
+        </li>
+        <li>
+          <button
+            data-feedback="Conditions are rows, not columns. One condition alone cannot expose the interaction the decision table exists to model."
+          >
+            One individual condition together with every value the system could possibly receive.
+          </button>
+        </li>
+        <li>
+          <button
+            data-feedback="That describes part of a state model. A decision rule does not require an ordered before-and-after sequence."
+          >
+            One ordered transition together with the state where the system should finish.
+          </button>
+        </li>
+        <li>
+          <button
+            data-feedback="Partitions and their neighbours belong to equivalence partitioning and boundary analysis. Decision columns combine conditions and actions instead."
+          >
+            One boundary partition together with the neighbours immediately outside its accepted range.
+          </button>
+        </li>
+      </ol>
+    </div>
+
+    <div class="quiz" data-quiz>
+      <p class="quiz-q">
+        <span class="quiz-num">Recall 2</span>A removed user replays an API
+        request that worked before removal. Which model should you reach for
+        first?
+      </p>
+      <ol class="quiz-options">
+        <li>
+          <button
+            data-correct
+            data-feedback="The request and account can look otherwise identical; prior removal is what changes the permitted result. Model Active → Removed, then attempt the request after the transition."
+          >
+            Use a state model, because the earlier removal changes today's permitted behavior.
+          </button>
+        </li>
+        <li>
+          <button
+            data-feedback="A table may later describe role permissions, but the high-yield fact here is temporal: this exact request worked before an event and must fail after it."
+          >
+            Use a decision table, because removed and active are two different roles.
+          </button>
+        </li>
+        <li>
+          <button
+            data-feedback="Removal is not a numeric or ordered input edge. The boundary that matters is a before-and-after event, which is a transition."
+          >
+            Use boundary analysis, because removal creates an edge between two permission states.
+          </button>
+        </li>
+        <li>
+          <button
+            data-feedback="Removed accounts may form a partition, but that loses the bug story: a stale session crossed from allowed to denied without changing its request."
+          >
+            Use equivalence partitions, because every removed account should behave identically afterward there.
+          </button>
+        </li>
+      </ol>
+    </div>
+
+    <div class="quiz" data-quiz>
+      <p class="quiz-q">
+        <span class="quiz-num">Recall 3</span>What must a set do to achieve 100%
+        valid transitions coverage?
+      </p>
+      <ol class="quiz-options">
+        <li>
+          <button
+            data-correct
+            data-feedback="Correct. The coverage items are individual valid transitions. A sequence may cover several, which is why four arrows can require fewer than four separate runs."
+          >
+            Exercise every valid arrow at least once, even across several sequences.
+          </button>
+        </li>
+        <li>
+          <button
+            data-feedback="That is all-states coverage, which is weaker. You can visit every state while skipping one of two different arrows that reaches it."
+          >
+            Visit every state at least once, regardless of the arrows followed.
+          </button>
+        </li>
+        <li>
+          <button
+            data-feedback="Invalid arrows belong to all-transitions coverage. Valid transitions coverage asks for every permitted arrow, not every forbidden attempt."
+          >
+            Attempt every invalid arrow once, regardless of the valid arrows covered.
+          </button>
+        </li>
+        <li>
+          <button
+            data-feedback="Risk can set execution order and depth, but repeating one transition cannot compensate for leaving another coverage item untouched."
+          >
+            Repeat the riskiest transition several times, regardless of untouched arrows elsewhere.
+          </button>
+        </li>
+      </ol>
+    </div>
+
+    <h2>The interview move</h2>
+
+    <p>
+      When asked how you derived your cases, do not answer with a count. Name
+      the dependency, the model, and its coverage:
+    </p>
+
+    <p class="template">
+      The outcome depends on <span class="blank"></span>, so I built a
+      <span class="blank"></span>. That exposed
+      <span class="blank"></span> feasible coverage targets. I would execute
+      <span class="blank"></span> first because
+      <span class="blank"></span>.
+    </p>
+
+    <h2>Read this next</h2>
+
+    <p>
+      <strong>Primary source &mdash;</strong>
+      <a href="https://istqb.org/wp-content/uploads/2024/11/ISTQB_CTFL_Syllabus_v4.0.1.pdf"
+        >ISTQB CTFL Syllabus v4.0.1</a
+      >, §4.2.3 and §4.2.4 (pages 41&ndash;42). About ten minutes. These sections
+      define the models, their notation, and their coverage measures.
+    </p>
+
+    <p>
+      <strong>Worked practice &mdash;</strong>
+      <a href="https://astqb.org/assets/documents/ISTQB_CTFL_Sample-Exam-Questions_v4.0.pdf"
+        >official CTFL Sample Exam A questions</a
+      > and the
+      <a href="https://astqb.org/assets/documents/ISTQB_CTFL_Sample-Exam-Answers_v4.0.pdf"
+        >published rationales</a
+      >, Q22&ndash;Q23. The syllabus itself supplies no worked permissions
+      example and no case template; the examples and Teamspace modelling in
+      this lesson fill those gaps openly rather than attributing them to §4.2.
+    </p>
+
+    <div class="ask-teacher">
+      <strong>Want your model challenged?</strong> Send me a short rule set and
+      your table or state model. I will look for one missing combination, one
+      infeasible rule, and one transition whose expected result is still
+      ambiguous. Those are the three places the conversation with a developer
+      usually becomes valuable.
+    </div>
+
+    <nav class="footer-nav">
+      <strong>Where this connects</strong>
+      <ul>
+        <li>
+          Previous &mdash;
+          <a href="05-equivalence-and-boundaries.html"
+            >Lesson 5: Fewer tests, same coverage</a
+          >
+          &mdash; where one input value, rather than combinations or history,
+          selected the outcome
+        </li>
+        <li>
+          Builds on &mdash;
+          <a href="08-one-page-test-plan.html">Lesson 8: The one-page test plan</a>
+          &mdash; these models are the role grid and stale-session approach that
+          plan promised
+        </li>
+        <li>
+          Next &mdash; Lesson 7: test cases someone else can run
+          <em>(not yet written &mdash;
+          <a href="../curriculum.html">see the curriculum</a>)</em>
+        </li>
+        <li>
+          Reference &mdash; <a href="../reference/glossary.html">Glossary</a>
+        </li>
+        <li><a href="../index.html">All lessons</a></li>
+      </ul>
+    </nav>
+
+    <script src="../assets/classify.js"></script>
+    <script src="../assets/coverage-set.js"></script>
+    <script src="../assets/quiz.js"></script>
+  </body>
+</html>

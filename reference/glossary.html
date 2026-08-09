@@ -149,6 +149,53 @@
       </dd>
     </dl>
 
+    <h2>Test design models</h2>
+
+    <dl class="term">
+      <dt>Decision table</dt>
+      <dd>
+        A table for requirements where combinations of conditions produce
+        different outcomes. Conditions and actions are rows; each feasible
+        combination is a decision-rule column.
+        <span class="src">[ISTQB §4.2.3]</span>
+      </dd>
+    </dl>
+
+    <dl class="term">
+      <dt>Decision rule</dt>
+      <dd>
+        One decision-table column: a unique combination of condition values
+        together with the actions that combination should produce.
+        <span class="src">[ISTQB §4.2.3]</span>
+      </dd>
+    </dl>
+
+    <dl class="term">
+      <dt>State</dt>
+      <dd>
+        The current situation of the system that matters to what it may do
+        next. The same event can produce a different result from a different
+        state. <span class="src">[ISTQB §4.2.4]</span>
+      </dd>
+    </dl>
+
+    <dl class="term">
+      <dt>State transition</dt>
+      <dd>
+        A move from one state to another, initiated by an event and sometimes
+        restricted by a condition. <span class="src">[ISTQB §4.2.4]</span>
+      </dd>
+    </dl>
+
+    <dl class="term">
+      <dt>Valid transitions coverage</dt>
+      <dd>
+        Valid transitions exercised divided by valid transitions identified.
+        One sequence may cover several transitions; visiting every state alone
+        is weaker. <span class="src">[ISTQB §4.2.4]</span>
+      </dd>
+    </dl>
+
     <h2>The seven testing principles</h2>
 
     <p>
@@ -241,6 +288,8 @@
           See also:
           <a href="risk-triage.html">Risk triage card</a> &middot;
           <a href="../lessons/01-quality-risk-triage.html">Lesson 01</a>
+          &middot;
+          <a href="../lessons/06-rules-and-state.html">Lesson 06</a>
         </li>
       </ul>
     </nav>

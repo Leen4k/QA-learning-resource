@@ -141,7 +141,10 @@ function checkLesson(file, indexHtml, curriculumHtml) {
       isAnswer ? err(msg) : warn(msg);
     }
   });
-  if (!quizzes.length && !/data-(risk-grid|classify|select-set)/.test(html)) {
+  if (
+    !quizzes.length &&
+    !/data-(risk-grid|classify|select-set|coverage-set)/.test(html)
+  ) {
     warn("no interactive exercise found");
   }
 

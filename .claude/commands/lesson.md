@@ -102,10 +102,10 @@ cannot make.
 ## 5. Build from `assets/`
 
 Read the folder first, every time. Reuse `quiz.js`, `risk-grid.js`,
-`classify.js`, `select-set.js` and the `.rg-*` primitives in `lesson.css`. Only
-write a new widget if none fits — and then make it reusable and document its
-markup contract at the top of the file. Classic scripts only; lessons open over
-`file://`.
+`classify.js`, `select-set.js`, `coverage-set.js` and the `.rg-*` primitives in
+`lesson.css`. Only write a new widget if none fits — and then make it reusable
+and document its markup contract at the top of the file. Classic scripts only;
+lessons open over `file://`.
 
 ## 6. Hit the quality bar in LESSON-RECIPE.md
 

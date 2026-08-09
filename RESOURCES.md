@@ -16,6 +16,11 @@ from here — not from the agent's parametric guesses.
   so do not use it as the source for QA-002. This is the actual syllabus —
   prefer it over any summary or course page.
 
+  **Plan correction:** the certification landing page named by QA-006 and
+  QA-007 is the wrong document. It advertises the certification and links to
+  materials, but it does not define test planning, test cases, decision tables,
+  or state transitions. Use this PDF and the official sample exams instead.
+
   **It is fetchable, contrary to the earlier note here (corrected 2026-07-26).**
   `curl -L` with a browser user-agent returns the full 78-page PDF; `pdftotext
   -layout` then gives clean, greppable text with section numbers intact. This is
@@ -25,6 +30,12 @@ from here — not from the agent's parametric guesses.
   Official listing for the syllabus, sample exams, and glossary. Use for:
   checking for a newer errata release, and pulling sample exam questions for
   retrieval practice.
+- [ISTQB CTFL v4.0 Sample Exam A — questions](https://astqb.org/assets/documents/ISTQB_CTFL_Sample-Exam-Questions_v4.0.pdf)
+  and [published answers](https://astqb.org/assets/documents/ISTQB_CTFL_Sample-Exam-Answers_v4.0.pdf).
+  Official worked practice for the syllabus techniques. Q22 supplies a decision
+  table with an impossible rule; Q23 asks for a minimal set of sequences that
+  covers every valid transition. Use with §4.2.3–4.2.4 for lesson 6. The
+  syllabus defines the techniques but provides no worked permissions example.
 - [ASTQB — syllabus section pages](https://astqb.org/5-2-risk-management/)
   The American board republishes the CTFL v4.0 syllabus section by section as
   web pages (e.g. `/5-2-risk-management/`, `/1-3-testing-principles/`). Use for:
