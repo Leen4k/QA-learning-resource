@@ -143,7 +143,7 @@ function checkLesson(file, indexHtml, curriculumHtml) {
   });
   if (
     !quizzes.length &&
-    !/data-(risk-grid|classify|select-set|coverage-set)/.test(html)
+    !/data-(risk-grid|classify|select-set|coverage-set|defect-triage)/.test(html)
   ) {
     warn("no interactive exercise found");
   }

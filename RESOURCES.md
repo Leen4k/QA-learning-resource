@@ -16,10 +16,13 @@ from here — not from the agent's parametric guesses.
   so do not use it as the source for QA-002. This is the actual syllabus —
   prefer it over any summary or course page.
 
-  **Plan correction:** the certification landing page named by QA-006 and
-  QA-007 is the wrong document. It advertises the certification and links to
-  materials, but it does not define test planning, test cases, decision tables,
-  or state transitions. Use this PDF and the official sample exams instead.
+  **Plan correction:** the certification landing page named by QA-006, QA-007
+  and QA-009 is the wrong document. It advertises the certification and links
+  to materials, but it does not define test planning, test cases, decision
+  tables, state transitions, or defect reporting. Use this PDF and the official
+  sample exams instead. Rechecked 2026-08-15: the exact plan URL currently
+  renders the separate CTFL Agile Tester (CTFL-AT) storefront, so an HTTP 200
+  from that link is not evidence that it covers the task.
 
   **It is fetchable, contrary to the earlier note here (corrected 2026-07-26).**
   `curl -L` with a browser user-agent returns the full 78-page PDF; `pdftotext
@@ -45,6 +48,19 @@ from here — not from the agent's parametric guesses.
   returns a *summary* of the section rather than its text — during lesson 8 it
   silently dropped four of the seven items in the §5.1.1 content list. Quote
   from the PDF; link to ASTQB.
+- [Mozilla — Bug Writing Guidelines](https://bugzilla.mozilla.org/page.cgi?id=bug-writing.html)
+  The practical source for QA-009, verified from the live Bugzilla page on
+  2026-08-15. Use with ISTQB §5.5: the syllabus supplies the report field list;
+  Mozilla teaches clear summaries, precise and minimal reproduction steps,
+  frequency, actual versus expected results, and the separation of observations
+  from speculation. It is Mozilla-specific in its product and component fields,
+  so adapt the method rather than copying the tracker vocabulary. ~12 minutes.
+- [Mozilla BMO User Guide — BugFields](https://wiki.mozilla.org/BMO/UserGuide/BugFields)
+  A live, concrete severity-versus-priority model for QA-009. Severity describes
+  impact; priority describes importance and repair order. The S1–S4 and
+  P1–P5 scales and ownership rules belong to Mozilla, not to every team;
+  use them as an example of a defined local policy rather than a universal
+  standard.
 - [Michael Bolton — *Oracles* (PDF)](https://www.developsense.com/resource/Oracles.pdf)
   The primary practical source for QA-002, verified from the original three-page
   PDF on 2026-08-08. Defines an oracle as a fallible, context-dependent aid to
@@ -74,6 +90,11 @@ from here — not from the agent's parametric guesses.
   as discovering threats to value. Use for: the *why* behind a practice, and for
   interview answers that need to sound like a thinker rather than a syllabus.
   Read alongside ISTQB, not instead of it — the two disagree deliberately.
+- [Michael Bolton — *You've Got Issues*](https://developsense.com/blog/2011/01/youve-got-issues)
+  The practitioner counterweight for QA-009, re-read from the original post on
+  2026-08-15. Locates a bug in a threat to product value for people who matter,
+  and broadens a tester’s reporting mission to project issues that can hide
+  risk. Use beside ISTQB §5.5 rather than blending the definitions. ~8 minutes.
 - [James Bach & Aaron Hodder — *Test Cases Are Not Testing*](https://www.satisfice.com/download/test-cases-are-not-testing)
   The practitioner counterweight used in lesson 7. It argues that creating and
   executing scripted cases is not equivalent to testing, and that case counts

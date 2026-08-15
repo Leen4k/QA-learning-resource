@@ -77,6 +77,7 @@ figure,
 .card,
 .quiz,
 .risk-grid,
+.defect-triage,
 .steps {
   max-width: var(--measure);
 }
@@ -501,7 +502,8 @@ code {
    uses them too. Add new widgets on top of these rather than
    inventing a parallel set of styles. */
 
-.risk-grid {
+.risk-grid,
+.defect-triage {
   margin: 1.75rem 0;
   max-width: var(--measure);
 }
@@ -646,6 +648,10 @@ code {
   font-weight: 700;
   display: block;
   margin-bottom: 0.2rem;
+}
+
+.defect-triage .rg-verdict-label + .rg-verdict-label {
+  margin-top: 0.65rem;
 }
 
 .rg-actions {

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Reference — Bug-report handoff sheet</title>
+    <link rel="stylesheet" href="../assets/lesson.css" />
+  </head>
+  <body>
+    <p class="eyebrow">Reference card &middot; fill, copy, print</p>
+    <h1>The bug-report handoff sheet</h1>
+    <p class="subtitle">
+      The smallest report that preserves the observed failure, makes it
+      reproducible and gives triage two separate reasons to judge.
+    </p>
+
+    <p class="template">
+      In <span class="blank"></span>, starting from
+      <span class="blank"></span>, when <span class="blank"></span>, I
+      observed <span class="blank"></span>; I expected
+      <span class="blank"></span> because <span class="blank"></span>.
+    </p>
+
+    <h2>Write one report</h2>
+
+    <p>
+      Fill the right column, then copy it into your tracker. Tracker-generated
+      fields such as ID, date, author and initial status can stay automatic.
+    </p>
+
+    <div class="table-scroll wide">
+      <table class="worksheet">
+        <tr>
+          <th>#</th>
+          <th>Field</th>
+          <th>Your report</th>
+        </tr>
+        <tr>
+          <td>1</td>
+          <td><strong>Title</strong></td>
+          <td contenteditable="true" spellcheck="true" data-placeholder="[Condition] + [action] + [visible failure]"></td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td><strong>Test object</strong></td>
+          <td contenteditable="true" spellcheck="true" data-placeholder="Product, component, exact version or build"></td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td><strong>Environment</strong></td>
+          <td contenteditable="true" spellcheck="true" data-placeholder="URL, OS, browser/client, API, configuration"></td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td><strong>Precondition</strong></td>
+          <td contenteditable="true" spellcheck="true" data-placeholder="Actor, role, session state, data and setup"></td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td><strong>Steps</strong></td>
+          <td contenteditable="true" spellcheck="true" data-placeholder="1. Exact interaction and data  2. Next action  3. Stop at failure"></td>
+        </tr>
+        <tr>
+          <td>6</td>
+          <td><strong>Actual</strong></td>
+          <td contenteditable="true" spellcheck="true" data-placeholder="Observable response and resulting state; no diagnosis"></td>
+        </tr>
+        <tr>
+          <td>7</td>
+          <td><strong>Expected + oracle</strong></td>
+          <td contenteditable="true" spellcheck="true" data-placeholder="Observable result and the rule, requirement or comparison behind it"></td>
+        </tr>
+        <tr>
+          <td>8</td>
+          <td><strong>Evidence</strong></td>
+          <td contenteditable="true" spellcheck="true" data-placeholder="Frequency; response, log, screenshot or recording IDs"></td>
+        </tr>
+        <tr>
+          <td>9</td>
+          <td><strong>Severity</strong></td>
+          <td contenteditable="true" spellcheck="true" data-placeholder="Label + who loses what; workaround and affected scope"></td>
+        </tr>
+        <tr>
+          <td>10</td>
+          <td><strong>Priority</strong></td>
+          <td contenteditable="true" spellcheck="true" data-placeholder="Label + deadline, exposure, dependency or fix opportunity"></td>
+        </tr>
+        <tr>
+          <td>11</td>
+          <td><strong>References</strong></td>
+          <td contenteditable="true" spellcheck="true" data-placeholder="Test case, rule, requirement, risk or related report"></td>
+        </tr>
+      </table>
+    </div>
+
+    <h2>Keep the two triage arguments separate</h2>
+
+    <div class="table-scroll">
+      <table>
+        <tr>
+          <th>Severity</th>
+          <th>Priority</th>
+        </tr>
+        <tr>
+          <td>How badly does this hurt stakeholders or requirements?</td>
+          <td>When should this fix compete against other work?</td>
+        </tr>
+        <tr>
+          <td>Data loss, blocked work, affected users, workaround</td>
+          <td>Release timing, exposure, dependencies, opportunity</td>
+        </tr>
+        <tr>
+          <td>
+            <strong>Say:</strong> Severity is ___ because ___ loses / cannot ___.
+          </td>
+          <td>
+            <strong>Say:</strong> Priority is ___ because it must land before ___;
+            meanwhile ___.
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <p>
+      Labels are team policy, not universal constants. Recommend both with
+      evidence; let the project&rsquo;s triage owner make the queue decision.
+    </p>
+
+    <h2>First-try gate</h2>
+
+    <ul>
+      <li>The title identifies one failure and proposes no unproved solution.</li>
+      <li>The exact build and relevant environment are named.</li>
+      <li>The starting state, actor, role and concrete data can be recreated.</li>
+      <li>The numbered steps are minimal and name the actual interface.</li>
+      <li>Actual and expected results are independently observable.</li>
+      <li>The expected result names its oracle or reference.</li>
+      <li>Evidence supports the path instead of replacing it.</li>
+      <li>Observed facts are visibly separate from hypotheses.</li>
+      <li>Severity has an impact reason; priority has a scheduling reason.</li>
+      <li>One issue gets one report.</li>
+    </ul>
+
+    <h2>Source boundary</h2>
+
+    <p>
+      ISTQB CTFL v4.0.1 §5.5 supplies the report objectives, workflow and field
+      checklist. Mozilla&rsquo;s
+      <a href="https://bugzilla.mozilla.org/page.cgi?id=bug-writing.html"
+        >Bug Writing Guidelines</a
+      > supply the practical rules for precise summaries, steps, actual and
+      expected results, and separating observations from speculation. Neither
+      source provides a universal severity or priority scale.
+    </p>
+
+    <nav class="footer-nav">
+      <strong>Learn the reasoning</strong>
+      <ul>
+        <li>
+          <a href="../lessons/09-bug-reports-first-try.html"
+            >Lesson 9: Bug reports that get reproduced first try</a
+          >
+        </li>
+        <li>
+          Before the report &mdash;
+          <a href="../lessons/07-test-cases-someone-else-can-run.html"
+            >Lesson 7: Test cases someone else can run</a
+          >
+        </li>
+        <li><a href="glossary.html">Glossary</a></li>
+        <li><a href="../index.html">All lessons</a></li>
+      </ul>
+    </nav>
+  </body>
+</html>

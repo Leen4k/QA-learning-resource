@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Lesson 9 — Bug reports that get reproduced first try</title>
+    <link rel="stylesheet" href="../assets/lesson.css" />
+  </head>
+  <body>
+    <p class="eyebrow">Lesson 9 &middot; Test management</p>
+    <h1>Bug reports that get reproduced first try</h1>
+    <p class="subtitle">
+      Turn an observed failure into a report another person can reproduce,
+      judge and act on without a meeting first.
+    </p>
+
+    <p class="plan-tag">
+      <strong>Plan:</strong> QA-009 <em>Defect reporting and triage</em> &middot;
+      week 5 &middot; deliverable: five sample bug reports with severity and
+      priority reviewed separately &middot;
+      <a href="../curriculum.html">coverage map</a>
+    </p>
+
+    <div class="win">
+      <p>
+        <strong>By the end of this lesson</strong> you will be able to write five
+        Teamspace bug reports a developer can reproduce on the first try, then
+        defend two different judgements: how badly each failure hurts, and when
+        each fix should compete for attention.
+      </p>
+    </div>
+
+    <div class="callout">
+      <span class="callout-label">The feature under test</span>
+      <p>
+        Continue with <strong>Teamspace</strong>, the permissions feature from
+        lessons 6&ndash;8. Owner, Admin, Member and Viewer roles must be enforced
+        in both the web UI and REST API. Role changes should affect an already
+        signed-in user immediately. This lesson begins where Lesson 7 ended:
+        a case failed, and somebody who was not in the room now needs the
+        evidence.
+      </p>
+    </div>
+
+    <h2>1. Report the failure, not the code you imagine</h2>
+
+    <p>
+      ISTQB separates the causal chain: people make errors, errors create
+      defects in work products, and executing some defects causes observable
+      failures. A <dfn>defect report</dfn> records an anomaly for investigation;
+      the process may later decide it is a real defect, a false positive, or a
+      change request.<span class="sidenote"
+        >ISTQB CTFL v4.0.1 §1.2.3 and §5.5. The cautious word is
+        <em>anomaly</em>: when filing, you know what you observed, not necessarily
+        its root cause.</span
+      >
+    </p>
+
+    <p>
+      That distinction decides how to write. &ldquo;The permission cache is
+      broken&rdquo; is a diagnosis you may not be able to prove. &ldquo;A demoted
+      Admin sent an invitation and the API returned 201&rdquo; is an observation
+      another person can reproduce. Mozilla&rsquo;s reporting guidance makes the
+      same practical demand: separate observed facts from speculation, and give
+      each issue its own report.
+    </p>
+
+    <p class="template">
+      In <span class="blank"></span>, starting from
+      <span class="blank"></span>, when <span class="blank"></span>, I
+      observed <span class="blank"></span>; I expected
+      <span class="blank"></span> because <span class="blank"></span>.
+    </p>
+
+    <p>
+      Rapid Software Testing shifts the centre of gravity. Michael Bolton calls
+      a bug anything about a product that threatens its value to people who
+      matter. ISTQB&rsquo;s field list asks you to record impact; Bolton asks you
+      to name <em>whose value is threatened</em>. Keep both voices visible: the
+      fields make the report operable, while the value argument makes it worth
+      acting on.<span class="sidenote"
+        ><a href="https://developsense.com/blog/2011/01/youve-got-issues"
+          >Michael Bolton, <em>You&rsquo;ve Got Issues</em></a
+        >, lightly edited 2025. ISTQB CTFL v4.0.1 §5.5 gives three informational
+        objectives for a report; Bolton frames reporting as raising awareness
+        of threats to value.</span
+      >
+    </p>
+
+    <h2>2. The first-try reproduction contract</h2>
+
+    <p>
+      ISTQB §5.5 lists eleven kinds of report content. A tracker may supply the
+      ID, date, author and initial status automatically; you still own the facts
+      that make reproduction possible. Compress the list into these seven
+      questions:
+    </p>
+
+    <div class="table-scroll wide">
+      <table>
+        <tr>
+          <th>Question</th>
+          <th>Write this</th>
+          <th>Failure it prevents</th>
+        </tr>
+        <tr>
+          <td><strong>What failed?</strong></td>
+          <td>A short title naming condition, action and visible failure</td>
+          <td>&ldquo;Permissions broken&rdquo; cannot be searched or routed</td>
+        </tr>
+        <tr>
+          <td><strong>Which thing?</strong></td>
+          <td>
+            The <dfn>test object</dfn>: product, component and exact version or
+            build
+          </td>
+          <td>The developer tests a build where the failure never existed</td>
+        </tr>
+        <tr>
+          <td><strong>Where?</strong></td>
+          <td>
+            The <dfn>test environment</dfn>: URL, OS, browser or client, account
+            role and relevant configuration
+          </td>
+          <td>&ldquo;Works on my machine&rdquo; ends the investigation</td>
+        </tr>
+        <tr>
+          <td><strong>Starting from?</strong></td>
+          <td>Preconditions, account state and concrete test data</td>
+          <td>The same actions begin from a different state</td>
+        </tr>
+        <tr>
+          <td><strong>What actions?</strong></td>
+          <td>Numbered, minimal steps naming controls, endpoints and values</td>
+          <td>The developer follows your intention, not your actual path</td>
+        </tr>
+        <tr>
+          <td><strong>What mismatch?</strong></td>
+          <td>Actual result, expected result and the oracle behind the expectation</td>
+          <td>A symptom is visible, but nobody can agree it is wrong</td>
+        </tr>
+        <tr>
+          <td><strong>What proves it?</strong></td>
+          <td>Frequency, response, log, screenshot or recording, plus references</td>
+          <td>One image replaces the steps instead of supporting them</td>
+        </tr>
+      </table>
+    </div>
+
+    <p>
+      Mozilla calls the steps the most important part because they let a
+      developer trigger the failure and later tell whether it was fixed. Its
+      guidance adds details §5.5 does not teach: state whether reproduction is
+      reliable or intermittent, describe the interaction rather than only its
+      intent, minimise the path, and separate the actual result from the
+      expected result.
+    </p>
+
+    <p class="template">
+      <strong>Title:</strong> [condition] + [action] + [failure].<br />
+      <strong>Steps:</strong> begin at the first state that matters; stop at the
+      first visible failure.<br />
+      <strong>Evidence:</strong> supports the steps; it never replaces them.
+    </p>
+
+    <h2>3. Exercise: unblock reproduction</h2>
+
+    <div class="callout">
+      <span class="callout-label">Rejected report</span>
+      <p>
+        <strong>Permissions broken.</strong> I demoted Ada, but she could still
+        invite <code>lee@example.com</code>. The UI should have blocked her.
+        Screenshot attached. This looks like a cache bug. High priority.
+      </p>
+    </div>
+
+    <p>
+      Select the smallest set of additions that would let a developer reproduce
+      the failure rather than guess. One tempting addition is useful in another
+      conversation but does not belong in this contract.
+    </p>
+
+    <div class="select-set" data-select-set>
+      <script type="application/json">
+        {
+          "prompt": "Which additions are required before this report is reproduction-ready?",
+          "itemNoun": "addition",
+          "items": [
+            {
+              "id": "1",
+              "label": "The Teamspace build, staging URL, browser and API version",
+              "include": true,
+              "why": "ISTQB §5.5 requires the test object and test environment. Without the build and where it ran, a developer may test a different artifact under different configuration."
+            },
+            {
+              "id": "2",
+              "label": "Ada's starting Admin role and already-open signed-in session",
+              "include": true,
+              "why": "The history is load-bearing: the failure appears after Admin → Member while the old session stays open. A fresh Member login is a different test."
+            },
+            {
+              "id": "3",
+              "label": "Numbered demotion and invitation steps with the exact interface",
+              "include": true,
+              "why": "Mozilla asks for precise interactions, not only intent. The report currently says the UI should block Ada but never says whether the successful invitation came through UI or API."
+            },
+            {
+              "id": "4",
+              "label": "The actual response, expected denial and whether data persisted",
+              "include": true,
+              "why": "A 201 response, a delivered invitation and a stored invitation are different observations. Actual and expected results make the mismatch checkable."
+            },
+            {
+              "id": "5",
+              "label": "The suspected cache key and a proposed invalidation patch",
+              "include": false,
+              "why": "Diagnosis may help later, but it is speculation unless investigated. It cannot replace the observed state, actions and response; suggesting a patch can also send the developer down the wrong path."
+            },
+            {
+              "id": "6",
+              "label": "A second screenshot with a red box around the invite button",
+              "include": false,
+              "why": "The trap. Another image makes the report look richer but still cannot recreate the session history or identify the successful request. Evidence supports a reproducible path; decoration does not create one."
+            }
+          ]
+        }
+      </script>
+    </div>
+
+    <h2>4. One report, worked</h2>
+
+    <p>
+      This example comes from Teamspace&rsquo;s highest-ranked permissions risk:
+      the UI hides an action but the API fails to enforce the same rule. Notice
+      that the report says nothing about which source-code module is wrong.
+    </p>
+
+    <div class="callout">
+      <span class="callout-label">BUG-TS-014 &middot; Open</span>
+      <p>
+        <strong>Title.</strong> Viewer DELETE request removes a page despite
+        read-only role.
+      </p>
+      <p>
+        <strong>Observed.</strong> 15 Aug 2026 by Wathna, QA. Reproduced 3/3.
+      </p>
+      <p>
+        <strong>Test object.</strong> Teamspace staging 1.8.0; API build
+        <code>7ac91d</code>.
+      </p>
+      <p>
+        <strong>Environment.</strong> <code>staging.teamspace.example</code>;
+        Chrome 126 on macOS 14.5; REST API v1; workspace
+        <code>redwood</code>.
+      </p>
+      <p>
+        <strong>Precondition.</strong> Vic <code>u-401</code> is a Viewer with a
+        newly issued token. Page <code>p-184</code> exists. Olivia
+        <code>u-101</code> is Owner.
+      </p>
+      <ol>
+        <li>Sign in as Vic and open page <code>p-184</code>.</li>
+        <li>
+          Confirm the UI offers no Delete action, then send
+          <code>DELETE /api/pages/p-184</code> with Vic&rsquo;s token.
+        </li>
+        <li>As Olivia, request page <code>p-184</code>.</li>
+      </ol>
+      <p>
+        <strong>Actual.</strong> DELETE returns <code>204</code>; Olivia&rsquo;s
+        GET returns <code>404</code>; the audit entry names Vic as the actor.
+      </p>
+      <p>
+        <strong>Expected.</strong> The DELETE is denied with the product&rsquo;s
+        standard authorization response and page <code>p-184</code> remains
+        available. Teamspace rule R5 makes Viewer read-only.
+      </p>
+      <p>
+        <strong>Evidence.</strong> Attached request/response pair, audit entry
+        <code>ae-771</code>, and 18-second recording. No customer data used.
+      </p>
+      <p>
+        <strong>Severity recommendation: High.</strong> A read-only user can
+        permanently remove shared content belonging to the workspace.
+      </p>
+      <p>
+        <strong>Priority recommendation: P1.</strong> The vulnerable endpoint is
+        enabled in tomorrow&rsquo;s release candidate and users have no way to
+        protect a page from a known Viewer token.
+      </p>
+      <p>
+        <strong>References.</strong> Risk R1; Teamspace permission rule R5;
+        test case TC-API-11.
+      </p>
+    </div>
+
+    <p>
+      The title can identify the report in a search result. The precondition
+      makes Vic&rsquo;s role and token freshness explicit. Each step names an
+      actor, interface and object. Actual and expected results are independently
+      observable. The impact and scheduling arguments use different evidence.
+      That is the whole contract.
+    </p>
+
+    <h2>5. Severity is not priority</h2>
+
+    <p>
+      <dfn>Severity</dfn> is the degree of impact a defect has on stakeholder
+      interests or requirements. <dfn>Priority</dfn> is the order and importance
+      of fixing it relative to other work. ISTQB defines the first and merely
+      lists the second; Mozilla&rsquo;s live Bugzilla field guide makes the split
+      concrete.<span class="sidenote"
+        >ISTQB CTFL v4.0.1 §5.5; Mozilla BMO User Guide,
+        <a href="https://wiki.mozilla.org/BMO/UserGuide/BugFields"
+          >Severity and Priority fields</a
+        >. Mozilla uses S1&ndash;S4 and P1&ndash;P5, but those scales belong to
+        Mozilla, not to every team.</span
+      >
+    </p>
+
+    <div class="table-scroll">
+      <table>
+        <tr>
+          <th></th>
+          <th>Severity</th>
+          <th>Priority</th>
+        </tr>
+        <tr>
+          <td><strong>Question</strong></td>
+          <td>How badly does this hurt people or requirements?</td>
+          <td>When should this fix compete against other work?</td>
+        </tr>
+        <tr>
+          <td><strong>Evidence</strong></td>
+          <td>Data loss, blocked work, affected users, workaround</td>
+          <td>Release timing, exposure, dependencies, fix opportunity</td>
+        </tr>
+        <tr>
+          <td><strong>Stable?</strong></td>
+          <td>Usually stable while the impact remains the same</td>
+          <td>Changes when schedules and business context change</td>
+        </tr>
+        <tr>
+          <td><strong>Owner</strong></td>
+          <td>Reporter recommends; triage confirms by team policy</td>
+          <td>Product and engineering decide against the work queue</td>
+        </tr>
+      </table>
+    </div>
+
+    <p>
+      This is a spacing callback to Lesson 1. Severity resembles the
+      <em>impact</em> dial after a failure has occurred; it is not likelihood and
+      it is not the old risk score. Priority is a scheduling decision informed
+      by that impact plus release context. A low-severity typo on tomorrow&rsquo;s
+      launch screen can be P1. A high-severity failure in a disabled migration
+      tool can wait until before that tool is enabled.
+    </p>
+
+    <p class="template">
+      <strong>Severity is</strong> <span class="blank"></span> because
+      <span class="blank"></span> is unable to / loses
+      <span class="blank"></span>.<br />
+      <strong>Priority is</strong> <span class="blank"></span> because it must
+      be fixed before <span class="blank"></span>; meanwhile
+      <span class="blank"></span>.
+    </p>
+
+    <p>
+      <dfn>Defect triage</dfn> is the team&rsquo;s step of analysing and
+      classifying a report, then deciding the response: fix, defer, reject,
+      mark duplicate, request information, or close. Your labels are a reasoned
+      recommendation, not unilateral truth. Mozilla goes further and asks
+      reporters to leave its severity default for component triagers; that is a
+      project rule, and a useful reminder to learn the ownership model of the
+      tracker you are using.<span class="sidenote"
+        >ISTQB CTFL v4.0.1 §5.5 describes the workflow from logging through
+        analysis, classification, response and closure. Mozilla BMO User Guide,
+        Severity, says reporters should not set that field.</span
+      >
+    </p>
+
+    <h2>6. Exercise: turn both dials</h2>
+
+    <p>
+      Use Teamspace&rsquo;s local scale: Low / Medium / High severity and P3 / P2 /
+      P1 priority. The reference calls are not universal facts. A one-level
+      difference is marked <em>defensible</em>; read the reasoning and decide
+      whether yours is stronger.
+    </p>
+
+    <div class="defect-triage" data-defect-triage>
+      <script type="application/json">
+        {
+          "severityLevels": [
+            { "id": "low", "label": "Low" },
+            { "id": "medium", "label": "Medium" },
+            { "id": "high", "label": "High" }
+          ],
+          "priorityLevels": [
+            { "id": "p3", "label": "P3" },
+            { "id": "p2", "label": "P2" },
+            { "id": "p1", "label": "P1" }
+          ],
+          "items": [
+            {
+              "id": "A",
+              "title": "A Viewer deletes a shared page through the API",
+              "note": "Reproduces 3/3 in the enabled release candidate; the page cannot be restored by a workspace user.",
+              "severity": "high",
+              "priority": "p1",
+              "whySeverity": "Permanent unauthorized deletion harms both access control and customer content. The absence of a user-accessible restore path strengthens the impact argument.",
+              "whyPriority": "The endpoint is enabled in the release candidate and exposure is immediate, so this competes before release. Both dials happen to be high, but for different reasons."
+            },
+            {
+              "id": "B",
+              "title": "The role badge says Mamber on tomorrow's sales demo",
+              "note": "Role enforcement is correct; only the visible label is wrong on the prepared demo workspace.",
+              "severity": "low",
+              "priority": "p1",
+              "whySeverity": "The typo does not change permissions, lose data or block a user task. Its product impact is small even though it will be conspicuous.",
+              "whyPriority": "Tomorrow's fixed demo date creates urgency. This is the deliberate trap: visible and urgent does not become high severity merely because executives will see it."
+            },
+            {
+              "id": "C",
+              "title": "Last-Owner migration can leave a workspace inaccessible",
+              "note": "Impact is data inaccessibility; the migration tool is disabled and scheduled to enter staging next cycle.",
+              "severity": "high",
+              "priority": "p2",
+              "whySeverity": "If triggered, the failure removes the only controlling account and makes the workspace inaccessible. Disabled exposure does not reduce what the failure does.",
+              "whyPriority": "The path cannot currently be used, so it need not displace the live authorization fix. It must be resolved before the migration tool is enabled next cycle."
+            }
+          ]
+        }
+      </script>
+    </div>
+
+    <h2>7. The deliverable: five reports</h2>
+
+    <p>
+      Use these five failed cases from the suite you built in Lesson 7. Shared
+      object and environment for all five: Teamspace staging 1.8.0, API build
+      <code>7ac91d</code>, Chrome 126 on macOS 14.5, workspace
+      <code>redwood</code>. The role-management release candidate ships
+      tomorrow. Each packet gives observations, not a finished report.
+    </p>
+
+    <div class="card">
+      <h3>1 &mdash; Stale demotion</h3>
+      <p>
+        Base A. Ada begins as Admin with Members open; Olivia demotes her to
+        Member. Without reloading, Ada invites <code>lee@example.com</code>.
+        Observed 4/4: POST returns <code>201</code>, the invitation persists and
+        email is sent. Expected: <code>403 INSUFFICIENT_ROLE</code>, nothing
+        stored. Network capture <code>net-08.har</code>; TC-08; risk R2.
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>2 &mdash; Zero Owners</h3>
+      <p>
+        Base A. Olivia is the sole Owner. In Members she changes herself to
+        Admin and confirms. Observed 3/3: success banner, stored role Admin,
+        Owner count zero; workspace settings are then inaccessible. Expected:
+        <code>409 LAST_OWNER</code> and no role change. Recording
+        <code>last-owner.mp4</code>; TC-01; rule R1.
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>3 &mdash; Admin grants Admin</h3>
+      <p>
+        Base A. With Ada&rsquo;s Admin token, PATCH Mina <code>u-301</code> from
+        Member to Admin. Observed 3/3: <code>200</code>; response and stored
+        membership say Admin. Expected: <code>403 FORBIDDEN_ROLE_CHANGE</code>
+        and Mina remains Member. Response <code>resp-06.json</code>; TC-06; rule
+        R4.
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>4 &mdash; Removed session still reads members</h3>
+      <p>
+        Base A. Ada has Members open; Olivia removes her. Ada refreshes the
+        Members page without signing in again. Observed 4/4: GET returns
+        <code>200</code> with names, emails and roles. Expected:
+        <code>403 MEMBERSHIP_REQUIRED</code> and no member data. HAR
+        <code>removed-admin.har</code>; TC-10; privacy impact affects all four
+        seeded accounts.
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>5 &mdash; Promotion needs a new login</h3>
+      <p>
+        Base A. Mina has an open Member session; Olivia promotes her to Admin.
+        Mina refreshes Members and invites <code>sam@example.com</code>.
+        Observed 4/4: the UI badge says Admin, but POST returns
+        <code>403 INSUFFICIENT_ROLE</code> until Mina signs out and back in.
+        Expected immediate access and <code>201</code>. Video
+        <code>promotion-delay.mp4</code>; TC-09; logout is a workaround.
+      </p>
+    </div>
+
+    <p>
+      Write all five in the editable sheet below or in your own tracker. The
+      first column is the packet number, not the final defect ID. Copy your work
+      before closing the page; this standalone file deliberately stores nothing.
+    </p>
+
+    <div class="table-scroll wide">
+      <table class="worksheet">
+        <tr>
+          <th>#</th>
+          <th>Unique title + object/environment</th>
+          <th>Precondition + minimal numbered steps</th>
+          <th>Actual / expected / evidence</th>
+          <th>Severity and priority, each with a reason</th>
+        </tr>
+        <tr>
+          <td>1</td>
+          <td contenteditable="true" spellcheck="true" data-placeholder="Condition + action + failure; build and environment"></td>
+          <td contenteditable="true" spellcheck="true" data-placeholder="Starting role/session; shortest repeatable path"></td>
+          <td contenteditable="true" spellcheck="true" data-placeholder="Observed mismatch; oracle; HAR and frequency"></td>
+          <td contenteditable="true" spellcheck="true" data-placeholder="Severity because impact… Priority because timing…"></td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td contenteditable="true" spellcheck="true" data-placeholder="Condition + action + failure; build and environment"></td>
+          <td contenteditable="true" spellcheck="true" data-placeholder="Starting role/session; shortest repeatable path"></td>
+          <td contenteditable="true" spellcheck="true" data-placeholder="Observed mismatch; oracle; recording and frequency"></td>
+          <td contenteditable="true" spellcheck="true" data-placeholder="Severity because impact… Priority because timing…"></td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td contenteditable="true" spellcheck="true" data-placeholder="Condition + action + failure; build and environment"></td>
+          <td contenteditable="true" spellcheck="true" data-placeholder="Starting role/session; shortest repeatable path"></td>
+          <td contenteditable="true" spellcheck="true" data-placeholder="Observed mismatch; oracle; response and frequency"></td>
+          <td contenteditable="true" spellcheck="true" data-placeholder="Severity because impact… Priority because timing…"></td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td contenteditable="true" spellcheck="true" data-placeholder="Condition + action + failure; build and environment"></td>
+          <td contenteditable="true" spellcheck="true" data-placeholder="Starting role/session; shortest repeatable path"></td>
+          <td contenteditable="true" spellcheck="true" data-placeholder="Observed mismatch; oracle; HAR and frequency"></td>
+          <td contenteditable="true" spellcheck="true" data-placeholder="Severity because impact… Priority because timing…"></td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td contenteditable="true" spellcheck="true" data-placeholder="Condition + action + failure; build and environment"></td>
+          <td contenteditable="true" spellcheck="true" data-placeholder="Starting role/session; shortest repeatable path"></td>
+          <td contenteditable="true" spellcheck="true" data-placeholder="Observed mismatch; oracle; video and frequency"></td>
+          <td contenteditable="true" spellcheck="true" data-placeholder="Severity because impact… Priority because timing…"></td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="ask-teacher">
+      <strong>Now review the five, not just the first.</strong> Paste the reports
+      back and ask me to play a developer with only the ticket in front of me.
+      I will stop at the first detail I have to invent, then argue the opposite
+      severity and priority calls. That second pass is the interview rehearsal.
+    </div>
+
+    <h2>8. The handoff gate</h2>
+
+    <p>
+      A report is ready when another person can answer all of these without
+      contacting its author:
+    </p>
+
+    <ul>
+      <li>Which exact build and environment should I use?</li>
+      <li>Which starting state, account, role and data must exist?</li>
+      <li>What is the shortest numbered path to the failure?</li>
+      <li>What did the product do, and what observable result was expected?</li>
+      <li>Which evidence supports the path, and how often did it reproduce?</li>
+      <li>Who is harmed enough to justify severity?</li>
+      <li>Which deadline, exposure or dependency justifies priority?</li>
+      <li>Did the report keep observation separate from diagnosis?</li>
+    </ul>
+
+    <p>
+      You can carry the same gate into any tracker. The field names will change;
+      the information contract does not. The printable
+      <a href="../reference/bug-report-template.html">bug-report handoff sheet</a>
+      holds the template without the teaching around it.
+    </p>
+
+    <h2>9. Retrieval</h2>
+
+    <p><span data-quiz-score></span></p>
+
+    <div class="quiz" data-quiz>
+      <p class="quiz-q">
+        <span class="quiz-num">Recall 1</span>A hang report names the input,
+        expected and actual results, its test case and urgency. The developer
+        cannot reproduce it. Which addition removes the biggest ambiguity?
+      </p>
+      <ol class="quiz-options">
+        <li>
+          <button
+            data-correct
+            data-feedback="Correct. This is the trap in ISTQB Sample Exam A, Q38: test item/version and environment are missing. Without them, the developer can follow every action perfectly against the wrong build or configuration."
+          >
+            The exact application build and environment where the hang occurred.
+          </button>
+        </li>
+        <li>
+          <button
+            data-feedback="A diagnosis can be useful after investigation, but it does not identify where the observed failure occurred. The report already has a reproducible-looking action; it lacks the artifact and conditions in which that action failed."
+          >
+            The suspected source module and proposed patch causing the hang.
+          </button>
+        </li>
+        <li>
+          <button
+            data-feedback="Another image proves the symptom existed but cannot select the build or recreate its environment. Evidence supports a path; it does not supply the missing setup."
+          >
+            Another screenshot showing the frozen form after entering that input.
+          </button>
+        </li>
+        <li>
+          <button
+            data-feedback="Urgency answers when the fix should compete, not where the failure occurred. A stronger label cannot turn an unidentified build and environment into a reproducible report."
+          >
+            A stronger priority reason explaining why the release remains blocked.
+          </button>
+        </li>
+      </ol>
+    </div>
+
+    <div class="quiz" data-quiz>
+      <p class="quiz-q">
+        <span class="quiz-num">Recall 2</span>The role badge has a typo on the
+        workspace prepared for tomorrow&rsquo;s sales demo. Permissions still work.
+        Which pair has the strongest reasoning?
+      </p>
+      <ol class="quiz-options">
+        <li>
+          <button
+            data-correct
+            data-feedback="Correct. Product harm is small, so severity stays low. Tomorrow's fixed external event creates urgency, so priority can be high. Two labels, two bodies of evidence."
+          >
+            Low severity, high priority: little harm, but a fixed deadline.
+          </button>
+        </li>
+        <li>
+          <button
+            data-feedback="Executives seeing it changes urgency and reputation context, not the underlying product effect. The typo still does not alter a role, block a task or lose data."
+          >
+            High severity, high priority: executives will notice the visible mistake.
+          </button>
+        </li>
+        <li>
+          <button
+            data-feedback="The severity half is plausible; the priority rule is not. Cosmetic defects do not automatically wait when a fixed public deadline makes a cheap repair valuable now."
+          >
+            Low severity, low priority: cosmetic defects never justify urgent repair.
+          </button>
+        </li>
+        <li>
+          <button
+            data-feedback="This reverses both concepts. A visual typo has low functional impact, and tomorrow's demo makes the scheduling pressure high rather than low."
+          >
+            High severity, low priority: visual defects cannot affect core permissions.
+          </button>
+        </li>
+      </ol>
+    </div>
+
+    <div class="quiz" data-quiz>
+      <p class="quiz-q">
+        <span class="quiz-num">Recall 3</span>Which sentence belongs in the
+        actual-result field before anyone has diagnosed the code?
+      </p>
+      <ol class="quiz-options">
+        <li>
+          <button
+            data-correct
+            data-feedback="Correct. Both statements are observable responses tied to a named object. They let a developer compare what happened with the expected denial and retained page."
+          >
+            DELETE returned 204; Owner GET then returned 404 for page p-184.
+          </button>
+        </li>
+        <li>
+          <button
+            data-feedback="This might become a hypothesis after investigation, but cached role state and Redis are not observations in the evidence packet. Put facts in Actual; label hypotheses separately."
+          >
+            Redis probably cached the Viewer role and skipped fresh authorization checks.
+          </button>
+        </li>
+        <li>
+          <button
+            data-feedback="The wrong middleware branch is an inferred implementation cause. The report must first say which request succeeded and what persisted, so the developer can reproduce before diagnosing."
+          >
+            The API ignored permissions and ran the incorrect middleware branch instead.
+          </button>
+        </li>
+        <li>
+          <button
+            data-feedback="This combines a broad severity claim with an instruction, but contains no visible result. Urgency cannot substitute for the response and resulting page state."
+          >
+            Engineering must fix this serious security issue before tomorrow's planned release.
+          </button>
+        </li>
+      </ol>
+    </div>
+
+    <h2>The interview move</h2>
+
+    <p>
+      &ldquo;Tell me about a good bug report you wrote&rdquo; is asking whether
+      you can move evidence across a team boundary. Answer in the same order a
+      developer consumes the report:
+    </p>
+
+    <p class="template">
+      I observed <span class="blank"></span> in build
+      <span class="blank"></span> under <span class="blank"></span>. The
+      minimum reproduction was <span class="blank"></span>; actual was
+      <span class="blank"></span>, expected was
+      <span class="blank"></span> based on <span class="blank"></span>.
+      Severity was <span class="blank"></span> because
+      <span class="blank"></span>; priority was
+      <span class="blank"></span> because <span class="blank"></span>.
+    </p>
+
+    <p>
+      Finish with one detail you removed. &ldquo;I left the suspected cache cause
+      out because I had not proved it&rdquo; demonstrates more judgement than a
+      screenshot count ever will.
+    </p>
+
+    <div class="callout">
+      <span class="callout-label">The plan names the wrong document</span>
+      <p>
+        The QA-009 resource URL currently opens the separate
+        <a href="https://www.istqb.org/certifications/certified-tester-foundation-level"
+          >CTFL Agile Tester certification storefront</a
+        >. It contains no defect-reporting lesson, template or field list. A
+        successful page load is not source coverage; use the full CTFL v4.0.1
+        syllabus below.
+      </p>
+    </div>
+
+    <h2>Read this next</h2>
+
+    <p>
+      <strong>Primary source &mdash;</strong>
+      <a href="https://istqb.org/wp-content/uploads/2024/11/ISTQB_CTFL_Syllabus_v4.0.1.pdf"
+        >ISTQB CTFL Syllabus v4.0.1</a
+      >, §1.2.3 and §5.5 (pages 17 and 56&ndash;57). About ten minutes. It gives
+      the causal vocabulary, process and full content checklist, but no usable
+      template and almost no guidance on writing precise steps.
+    </p>
+
+    <p>
+      <strong>Then the practical method &mdash;</strong>
+      <a href="https://bugzilla.mozilla.org/page.cgi?id=bug-writing.html"
+        >Mozilla Bug Writing Guidelines</a
+      >, especially <em>Writing a clear summary</em>, <em>Writing precise steps
+      to reproduce</em> and <em>General Outline of a Bug Report</em>. Around
+      twelve minutes. It supplies the reproducibility craft that §5.5 leaves
+      out.
+    </p>
+
+    <p>
+      <strong>Official trap &mdash;</strong>
+      <a href="https://astqb.org/assets/documents/ISTQB_CTFL_Sample-Exam-Questions_v4.0.pdf"
+        >ISTQB Sample Exam A</a
+      >, question 38, with the
+      <a href="https://astqb.org/assets/documents/ISTQB_CTFL_Sample-Exam-Answers_v4.0.pdf"
+        >published rationale</a
+      >. Five minutes. The report looks detailed but omits the application
+      version and environment.
+    </p>
+
+    <div class="ask-teacher">
+      <strong>Stuck on a label?</strong> Send the observation and your two
+      reasons, not only &ldquo;High / P1.&rdquo; I will challenge the impact reason
+      separately from the scheduling reason. If one survives and the other
+      changes, the exercise worked.
+    </div>
+
+    <nav class="footer-nav">
+      <strong>Where this connects</strong>
+      <ul>
+        <li>
+          Previous &mdash;
+          <a href="08-one-page-test-plan.html"
+            >Lesson 8: The one-page test plan</a
+          >. Its risk order tells you which failures matter; this lesson turns a
+          failed check into evidence the team can act on.
+        </li>
+        <li>
+          Builds on &mdash;
+          <a href="07-test-cases-someone-else-can-run.html"
+            >Lesson 7: Test cases someone else can run</a
+          >. The five evidence packets are failures of cases from that suite, so
+          every report can trace back to a rule or transition.
+        </li>
+        <li>
+          Also relevant &mdash;
+          <a href="04-test-oracles.html">Lesson 4: Knowing what correct means</a>
+          &mdash; the expected result still needs an oracle, even inside a defect
+          report.
+        </li>
+        <li>
+          Next &mdash; Lesson 10: Where test cases live
+          <em>(not yet written; source comparison still under review)</em>
+        </li>
+        <li>
+          Reference &mdash;
+          <a href="../reference/bug-report-template.html"
+            >Bug-report handoff sheet</a
+          >
+          &middot;
+          <a href="../reference/test-case-template.html"
+            >Test-case handoff sheet</a
+          >
+          &middot; <a href="../reference/glossary.html">Glossary</a>
+        </li>
+        <li><a href="../index.html">All lessons</a></li>
+      </ul>
+    </nav>
+
+    <script src="../assets/quiz.js"></script>
+    <script src="../assets/select-set.js"></script>
+    <script src="../assets/defect-triage.js"></script>
+  </body>
+</html>

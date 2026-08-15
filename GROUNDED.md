@@ -117,11 +117,23 @@ is for — someone moving into QA, not someone already in it.
 - **Teamspace** — the running worked example (B2B workspace app; Owner /
   Admin / Member / Viewer roles across a web UI and a REST API)
 
+### Lesson 9 — Bug reports that get reproduced first try `QA-009`
+- **Defect report** `[ISTQB §5.5]` — a record of an observed anomaly with the
+  information needed to reproduce, resolve, track and learn from it
+- **Test object** `[ISTQB §5.5]` — the product, component and exact version or
+  build being tested
+- **Test environment** `[ISTQB §5.5]` — the hardware, software, configuration,
+  accounts and interfaces under which the observation was made
+- **Severity** `[ISTQB §5.5]` — the degree of impact on stakeholder interests or
+  requirements
+- **Priority** `[Mozilla BMO User Guide, BugFields]` — the importance and order
+  in which a fix competes with other work
+- **Defect triage** `[ISTQB §5.5]` — analysing and classifying a report, then
+  deciding its response and status
+
 ## Not yet grounded — needed soon
 
 Terms later lessons will reach for. Whichever lesson gets there first grounds
 them; note it here when it does.
 
-- **Defect report** fields — lesson 9 `QA-009`
-- **Severity vs priority** — lesson 9; commonly confused, worth an explicit beat
 - **Test pyramid** — lesson 23 `QA-023`; ISTQB §5.1.6

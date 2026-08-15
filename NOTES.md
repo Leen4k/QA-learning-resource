@@ -48,7 +48,7 @@ not a copy of it.
 
 ## Two courses now live here
 
-- **QA** — 53 lessons, 27 weeks, sheet tab `gid=1651117697`. Eight lesson files available.
+- **QA** — 53 lessons, 27 weeks, sheet tab `gid=1651117697`. Nine lesson files available.
   `index.html` + `curriculum.html` + `lessons/`.
 - **Project management** — 63 lessons, 32 weeks, sheet tab `gid=487507119`,
   tasks PM-001 → PM-063, starting 2026-07-27. Only `curriculum-project-management.html`
@@ -109,9 +109,9 @@ skills, AI testing, Capstone. Weeks 1–27, start 2026-07-27.
 
 - Written: lessons 1 (risk triage), 2 (test levels & types), 3 (static testing),
   4 (test oracles), 5 (equivalence partitioning & boundary values), 6 (decision
-  tables & state transitions), 7 (handoff-ready test cases), and 8 (one-page
-  test plan). Plus `index.html` and `curriculum.html`.
-- Next up in curriculum order: 9 (bug reports), then 10 (test management tools).
+  tables & state transitions), 7 (handoff-ready test cases), 8 (one-page test
+  plan), and 9 (first-try bug reports). Plus `index.html` and `curriculum.html`.
+- Next up in curriculum order: 10 (test management tools).
 - Lesson 6 turns Teamspace permissions into five decision rules and four valid
   state transitions. Lesson 7 uses those nine targets to derive a 12-case suite,
   adding only three cases for UI/API parity and stale-authorization risk.
@@ -121,7 +121,9 @@ skills, AI testing, Capstone. Weeks 1–27, start 2026-07-27.
   check; demoted admin keeps a live session; last owner leaves). Reuse it for
   lessons 6, 7 and 9 rather than inventing a new domain each time — the learner
   then plans, specifies, executes and reports against one feature, which is
-  also how the portfolio artifact should read.
+  also how the portfolio artifact should read. Lesson 9 turns five failures from
+  that case suite into reproducible-report evidence packets and separates
+  severity reasoning from priority reasoning.
 - **One source gap left:** lesson 10 (tool comparison) has no trustworthy
   neutral source yet. Do not write it from memory.
 - **Lesson 4 is unblocked and written (2026-08-08).** Bolton's
@@ -129,10 +131,11 @@ skills, AI testing, Capstone. Weeks 1–27, start 2026-07-27.
   model; Barr et al. supplies the formal oracle problem and explains why prose
   specifications are partial. The CTFL syllabus only presupposes expected
   results in §1.4.1, so it remains explicitly the wrong source for QA-002.
-- **Lesson 9 is unblocked (2026-07-26).** The ISTQB PDF *is* fetchable — `curl -L`
-  with a browser user-agent, then `pdftotext -layout`. §5.5 Defect Management is
-  on pages 56–57 and carries the full defect-report contents list the ASTQB page
-  dropped. See RESOURCES.md.
+- **Lesson 9 is written (2026-08-15).** The source was re-read from the official
+  ISTQB CTFL v4.0.1 PDF: §1.2.3 supplies error → defect → failure, and §5.5
+  supplies the workflow and report contents. Mozilla’s live Bug Writing
+  Guidelines supplies the practical method for precise reproduction; its BMO
+  field guide supplies a concrete, explicitly local severity/priority model.
 - **Quote from the PDF, link to ASTQB.** Fetching an ASTQB section page returns a
   *summary*, not the text: for §5.1.1 it silently dropped four of the seven items
   in the test-plan content list. Sub-section URLs (`/5-1-1-.../`) do not exist at
@@ -151,6 +154,9 @@ skills, AI testing, Capstone. Weeks 1–27, start 2026-07-27.
 - `coverage-set.js` — choose paths or scenarios whose union covers named
   targets; accepts alternate minimal sets and distinguishes gaps from complete
   but redundant answers.
+- `defect-triage.js` — score severity and priority independently; exact reference
+  matches pass, one-level differences are marked defensible with separate impact
+  and scheduling explanations.
 - All share the `.rg-*` style primitives in `lesson.css`. Build new widgets on
   those rather than inventing parallel styles.
 
