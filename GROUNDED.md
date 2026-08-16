@@ -131,6 +131,17 @@ is for — someone moving into QA, not someone already in it.
 - **Defect triage** `[ISTQB §5.5]` — analysing and classifying a report, then
   deciding its response and status
 
+### Lesson 10 — Where test cases live `QA-008`
+- **Test management tool** `[ISTQB §6.1]` — software that supports organising
+  testing work and its evidence across tests, requirements, defects and
+  configuration
+- **Test repository** `[TestRail, Projects and their types; Zephyr, Test Plans
+  overview]` — the persistent library where reusable test-case definitions are
+  organised before a particular execution
+- **Object-model comparison** — compare repository, execution scope and saved
+  evidence by relationship rather than assuming shared product nouns mean the
+  same thing
+
 ## Not yet grounded — needed soon
 
 Terms later lessons will reach for. Whichever lesson gets there first grounds

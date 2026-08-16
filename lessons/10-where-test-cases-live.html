@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Lesson 10 — Where test cases live</title>
+    <link rel="stylesheet" href="../assets/lesson.css" />
+  </head>
+  <body>
+    <p class="eyebrow">Lesson 10 &middot; Test management</p>
+    <h1>Where test cases live</h1>
+    <p class="subtitle">
+      Compare how TestRail, qTest and Zephyr turn reusable cases into executions
+      and evidence, then choose one for a real workflow.
+    </p>
+
+    <p class="plan-tag">
+      <strong>Plan:</strong> QA-008 <em>Test management tools</em> &middot;
+      week 4 &middot; deliverable: compare TestRail, qTest and Zephyr, then say
+      which one you would try first and why &middot;
+      <a href="../curriculum.html">coverage map</a>
+    </p>
+
+    <div class="win">
+      <p>
+        <strong>By the end of this lesson</strong> you will be able to map the
+        same Teamspace cases, execution scope and results into all three tools,
+        then write a short choice note whose reason is about your team&rsquo;s work
+        rather than a vendor&rsquo;s feature count.
+      </p>
+    </div>
+
+    <div class="callout">
+      <span class="callout-label">Source boundary</span>
+      <p>
+        There is no neutral primary source for comparing three commercial
+        products. This lesson uses each vendor&rsquo;s documentation only to describe
+        its own object model, then uses the same Teamspace workflow as the
+        comparison test. Product claims, pricing and popularity are deliberately
+        excluded. The plan&rsquo;s roadmap.sh link names the topic but does not teach
+        this comparison.
+      </p>
+      <p>
+        SmartBear renamed Zephyr Scale to <strong>Zephyr</strong> and Zephyr
+        Squad to <strong>Zephyr Essential</strong>. Here, &ldquo;Zephyr&rdquo; means the
+        current Jira product whose documentation models a test library, test
+        cycles and test plans&mdash;the successor to Zephyr Scale.
+      </p>
+    </div>
+
+    <h2>1. Compare the job, not the screenshots</h2>
+
+    <p>
+      A <dfn>test management tool</dfn> is software that helps a team organise
+      testing work and its evidence. ISTQB&rsquo;s entire product-independent
+      description is one bullet: management tools can make the test process
+      more efficient by supporting the lifecycle, requirements, tests, defects
+      and configuration.<span class="sidenote"
+        >ISTQB CTFL v4.0.1 §6.1, <em>Tool Support for Testing</em>. The syllabus
+        defines the category; it does not compare TestRail, qTest or Zephyr.</span
+      >
+    </p>
+
+    <p>
+      That broad definition becomes useful when you ask three concrete
+      questions. A <dfn>test repository</dfn> answers where reusable test-case
+      definitions live. An execution scope answers which of those cases are
+      being run, against what build and environment. A result answers what
+      happened this time, who observed it, and what evidence was saved.
+    </p>
+
+    <div class="table-scroll wide">
+      <table>
+        <tr>
+          <th>Layer</th>
+          <th>Question it must answer</th>
+          <th>Teamspace example</th>
+        </tr>
+        <tr>
+          <td><strong>Repository</strong></td>
+          <td>Where is the reusable case definition?</td>
+          <td><code>TC-API-11</code>: Viewer cannot delete a page</td>
+        </tr>
+        <tr>
+          <td><strong>Execution</strong></td>
+          <td>Which cases, build, environment and assignee are in scope?</td>
+          <td>Permissions RC 1.8.0 on Chrome and REST API v1</td>
+        </tr>
+        <tr>
+          <td><strong>Evidence</strong></td>
+          <td>What happened in this attempt, and what supports the outcome?</td>
+          <td>Failed; DELETE returned 204; linked to <code>BUG-TS-014</code></td>
+        </tr>
+      </table>
+    </div>
+
+    <p class="template">
+      Cases live in <span class="blank"></span>. For
+      <span class="blank"></span>, we select them into
+      <span class="blank"></span>. Each attempt records
+      <span class="blank"></span> plus <span class="blank"></span>.
+    </p>
+
+    <p>
+      Carry that sentence into every tool trial. If you cannot complete all
+      five blanks after thirty minutes, the workflow is still hiding from you.
+    </p>
+
+    <h2>2. The same work, three object models</h2>
+
+    <p>
+      The products share a broad flow&mdash;define reusable cases, select work
+      for an execution, record outcomes&mdash;but their nouns are not
+      interchangeable. Read each arrow as containment or derivation, not as a
+      claim that the labels mean the same thing.
+    </p>
+
+    <div class="table-scroll wide">
+      <table>
+        <tr>
+          <th>Tool</th>
+          <th>Where cases live</th>
+          <th>How execution is organised</th>
+          <th>Where outcomes appear</th>
+        </tr>
+        <tr>
+          <td><strong>TestRail</strong></td>
+          <td>
+            Project &rarr; repository or suite &rarr; sections &rarr; test cases
+          </td>
+          <td>
+            A run selects cases from a suite. A plan can create related runs for
+            configurations such as browsers.
+          </td>
+          <td>
+            The run contains one test per selected case; each test receives a
+            result such as Passed, Failed, Retest or Blocked.
+          </td>
+        </tr>
+        <tr>
+          <td><strong>qTest</strong></td>
+          <td>Test Design &rarr; Modules &rarr; Test Cases</td>
+          <td>
+            Release &rarr; Test Cycle &rarr; Test Suite &rarr; Test Runs. One qTest
+            Test Run is one executed instance of a Test Case.
+          </td>
+          <td>
+            <a href="https://docs.tricentis.com/qtest-saas/content/manager/test_execution/execute_test_runs/testpad.htm"
+              >TestPad</a
+            > records step status, actual results, notes, attachments and
+            defects for the run, then saves the execution history.
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Zephyr</strong></td>
+          <td>Jira project &rarr; test library folders &rarr; test cases</td>
+          <td>
+            A test cycle groups cases for a goal. A test plan can group cycles
+            for a release or version.
+          </td>
+          <td>
+            Executing a case creates an outcome linked to its cycle, including
+            status and execution context; plan reporting aggregates linked
+            cycles.
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <p>
+      These paths come from the vendors&rsquo; own object documentation: TestRail,
+      <em>Introduction to TestRail</em> &rarr; <em>Test cases and sections</em>,
+      <em>Test runs and tests</em>, and <em>Test plans and configurations</em>;
+      Tricentis qTest, <em>Introduction to qTest Objects</em> &rarr;
+      <em>Objects in Test Design</em> and <em>Objects in Test Execution</em>;
+      SmartBear Zephyr, <em>Test Plans (overview)</em> &rarr;
+      <em>The Role of Test Plans in Zephyr</em>.
+    </p>
+
+    <div class="callout">
+      <span class="callout-label">The naming trap</span>
+      <p>
+        In TestRail, a run contains tests derived from selected cases. In qTest,
+        a Test Run is a single executed instance of one Test Case, while a Test
+        Suite groups runs. In Zephyr, the comparable group is usually a test
+        cycle. A migration that matches objects only by name can map one group
+        to one item.
+      </p>
+    </div>
+
+    <h2>3. Exercise: read the object graph</h2>
+
+    <p>
+      Sort each description by the tool whose documentation defines that
+      structure. Two items deliberately reuse the words <em>suite</em> and
+      <em>run</em>; follow the relationship, not the familiar noun.
+    </p>
+
+    <div class="classify" data-classify>
+      <script type="application/json">
+        {
+          "prompt": "Which product owns each documented object relationship?",
+          "categories": [
+            { "id": "testrail", "label": "TestRail" },
+            { "id": "qtest", "label": "qTest" },
+            { "id": "zephyr", "label": "Zephyr" }
+          ],
+          "items": [
+            {
+              "id": "1",
+              "text": "Sections organise reusable cases; one run contains tests derived from selected cases.",
+              "answer": "testrail",
+              "why": "TestRail's Introduction describes cases under sections, then says a run consists of individual tests for the cases added. qTest reverses the scale: one Test Run is one case instance."
+            },
+            {
+              "id": "2",
+              "text": "Test Design Modules hold cases separately from the Release → Cycle → Suite execution tree.",
+              "answer": "qtest",
+              "why": "qTest separates authoring in Test Design from execution objects. Releases contain cycles, cycles contain suites, and the lower objects organise Test Runs."
+            },
+            {
+              "id": "3",
+              "text": "A Jira project test library feeds cycles, and plans group those cycles for a release.",
+              "answer": "zephyr",
+              "why": "Zephyr's Test Plans overview places the test library, cycles and plans inside the Jira-centred workflow. A plan aggregates the results of its linked cycles."
+            },
+            {
+              "id": "4",
+              "text": "One plan creates related runs for several browser and operating-system configurations.",
+              "answer": "testrail",
+              "why": "TestRail test plans generate multiple runs for configuration combinations. A run still selects cases from a suite or repository."
+            },
+            {
+              "id": "5",
+              "text": "A Test Suite is the lowest execution container and groups single-case Test Runs.",
+              "answer": "qtest",
+              "why": "This is qTest's meaning of Test Suite. The capitalised labels matter here: qTest Test Runs are single case instances, not multi-case campaigns."
+            },
+            {
+              "id": "6",
+              "text": "Existing cases from another Jira project can be selected into the current test cycle.",
+              "answer": "zephyr",
+              "why": "Zephyr documents adding existing cases from any Jira project to a cycle. That cross-project Jira relationship is more diagnostic than the generic word cycle."
+            }
+          ]
+        }
+      </script>
+    </div>
+
+    <h2>4. Worked example: store Teamspace once, run it twice</h2>
+
+    <p>
+      Reuse three cases from Lesson 7: Admin invites a Member, a demoted Admin
+      loses invitation rights immediately, and a Viewer cannot delete a page
+      through the API. The release candidate must run on Chrome and Firefox.
+      Lesson 9 supplies the failed Viewer report.
+    </p>
+
+    <div class="table-scroll wide">
+      <table>
+        <tr>
+          <th>Tool</th>
+          <th>Repository mapping</th>
+          <th>Execution mapping</th>
+          <th>Evidence mapping</th>
+        </tr>
+        <tr>
+          <td><strong>TestRail</strong></td>
+          <td>
+            <code>Teamspace / Permissions</code> section with three cases in a
+            Single Repository project
+          </td>
+          <td>
+            Plan <code>1.8.0 permissions</code> creates Chrome and Firefox runs,
+            each selecting the same three cases
+          </td>
+          <td>
+            Six tests receive results; the failed Viewer test
+            <a href="https://support.testrail.com/hc/en-us/articles/7747333895700-Introduction-to-reference-and-defect-integrations"
+              >links <code>BUG-TS-014</code></a
+            >
+          </td>
+        </tr>
+        <tr>
+          <td><strong>qTest</strong></td>
+          <td>
+            Test Design Module <code>Permissions</code> with the same three Test
+            Cases
+          </td>
+          <td>
+            Release <code>1.8.0</code> &rarr; Cycle <code>Permissions RC</code>
+            &rarr; Chrome and Firefox Suites &rarr; three Runs each
+          </td>
+          <td>
+            Six Test Runs save TestPad outcomes; the failed Viewer run records
+            the response and defect
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Zephyr</strong></td>
+          <td>
+            Teamspace Jira project &rarr; test library folder
+            <code>Permissions</code> &rarr; three cases
+          </td>
+          <td>
+            Plan <code>1.8.0</code> groups Chrome and Firefox cycles, each using
+            the same three cases
+          </td>
+          <td>
+            Six executions save statuses and context; the failed execution
+            <a href="https://support.smartbear.com/zephyr/docs/en/zephyr-squad-to-zephyr-migration-guide/feature-comparison-squad-scale.html"
+              >links the Jira defect</a
+            >
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <p>
+      The testing did not change. Only the storage grammar changed. That is why
+      a useful comparison starts with one identical workflow and asks how much
+      translation, duplication and administration each model creates.
+    </p>
+
+    <h2>5. Choose by friction you can observe</h2>
+
+    <p>
+      A feature matrix encourages imaginary needs. A short trial reveals the
+      work your team will repeat. Enter three cases, execute them in two
+      environments, fail one, attach evidence, link a defect, rerun it, and
+      export what you would need if you left. Then compare these five axes:
+    </p>
+
+    <div class="table-scroll wide">
+      <table>
+        <tr>
+          <th>Axis</th>
+          <th>Question to answer with evidence</th>
+        </tr>
+        <tr>
+          <td><strong>Workflow fit</strong></td>
+          <td>Does the model match how the team already plans releases and tracks defects?</td>
+        </tr>
+        <tr>
+          <td><strong>Authoring cost</strong></td>
+          <td>How many fields and containers must exist before one useful case can run?</td>
+        </tr>
+        <tr>
+          <td><strong>Execution clarity</strong></td>
+          <td>Can a tester see build, environment, assignment and remaining work quickly?</td>
+        </tr>
+        <tr>
+          <td><strong>Evidence quality</strong></td>
+          <td>Can a reviewer trace a result to its case, requirement, defect and attachment?</td>
+        </tr>
+        <tr>
+          <td><strong>Exit cost</strong></td>
+          <td>Can cases, results, links and attachments be exported in a usable form?</td>
+        </tr>
+      </table>
+    </div>
+
+    <p>
+      The repository model can have consequences. TestRail documents three
+      project types; a multiple-suite project cannot combine cases from more
+      than one suite in one run, and moving cases during a conversion can remove
+      results from active runs. That is a better trial question than
+      &ldquo;Does it have dashboards?&rdquo;<span class="sidenote"
+        >TestRail, <em>Projects and their types</em> &rarr;
+        <em>Projects with test suites</em> and <em>How to change from one project
+        type to another</em>. Read the migration cautions before choosing a
+        repository type.</span
+      >
+    </p>
+
+    <div class="callout">
+      <span class="callout-label">Three defensible first trials</span>
+      <p>
+        <strong>Try TestRail first</strong> when you want a dedicated,
+        section-based case repository and a direct suite-to-run model.
+      </p>
+      <p>
+        <strong>Try qTest first</strong> when releases, requirements, design and
+        a deeper cycle/suite execution hierarchy are part of the problem you
+        need to model.
+      </p>
+      <p>
+        <strong>Try Zephyr first</strong> when Jira is already the team&rsquo;s daily
+        workspace and keeping cases, cycles, plans and delivery issues together
+        is the constraint that matters.
+      </p>
+      <p>
+        These are hypotheses for a trial, not universal rankings. Your choice
+        is defensible when it names the constraint, the documented object model
+        that fits it, and the small experiment that could prove you wrong.
+      </p>
+    </div>
+
+    <h2>6. Retrieval: choose from constraints</h2>
+
+    <div class="quiz-score" data-quiz-score></div>
+
+    <div class="quiz" data-quiz>
+      <p class="quiz-q">
+        <span class="quiz-num">Recall 1</span>
+        A small team already plans every release and defect in Jira. Its first
+        trial must keep test cases, cycles and plans beside that work. Which
+        choice follows the constraint?
+      </p>
+      <ol class="quiz-options">
+        <li>
+          <button
+            data-feedback="TestRail has its own project, repository and run model. It can integrate with issue trackers, but this reason ignores the stated requirement to keep the workflow inside Jira."
+          >
+            TestRail, because its projects hold reusable cases and independent runs.
+          </button>
+        </li>
+        <li>
+          <button
+            data-feedback="qTest explicitly separates Test Design from a release/cycle/suite execution tree. That can suit a deeper ALM model, but it does not satisfy the inside-Jira constraint as directly."
+          >
+            qTest, because its releases separate design from structured execution trees.
+          </button>
+        </li>
+        <li>
+          <button
+            data-correct
+            data-feedback="SmartBear positions current Zephyr as Jira-native, and its documented model links a Jira test library to cycles and plans. The reason uses the team's constraint, not a generic feature claim."
+          >
+            Zephyr, because its Jira workflow links cases, cycles, and plans.
+          </button>
+        </li>
+        <li>
+          <button
+            data-feedback="The three tools preserve broadly similar artifacts through different models. Treating them as identical erases the Jira constraint and the object relationships this lesson is testing."
+          >
+            Any tool, because all three store identical testing evidence equally.
+          </button>
+        </li>
+      </ol>
+    </div>
+
+    <div class="quiz" data-quiz>
+      <p class="quiz-q">
+        <span class="quiz-num">Recall 2</span>
+        A regulated programme wants Test Design separate from Test Execution,
+        with releases containing cycles, suites and single-case execution
+        instances. Which model should it trial first?
+      </p>
+      <ol class="quiz-options">
+        <li>
+          <button
+            data-feedback="TestRail sections and repositories organise case authoring, while runs select cases from suites. It does not use the requested release → cycle → suite → single-case run hierarchy."
+          >
+            TestRail, because repositories and sections keep case authoring deliberately straightforward.
+          </button>
+        </li>
+        <li>
+          <button
+            data-correct
+            data-feedback="qTest documents separate Test Design and Test Execution areas, then models Releases → Test Cycles → Test Suites → single-case Test Runs. The choice follows every stated relationship."
+          >
+            qTest, because releases and cycles separate design from layered execution.
+          </button>
+        </li>
+        <li>
+          <button
+            data-feedback="Zephyr keeps cases in a Jira test library and groups them through cycles and optional plans. That is a different hierarchy from the explicitly requested qTest object graph."
+          >
+            Zephyr, because Jira keeps cases and cycles beside delivery work.
+          </button>
+        </li>
+        <li>
+          <button
+            data-feedback="This is the naming trap. The products reuse words while assigning them different scales and relationships. Matching the documented graph—not trusting familiar labels—identifies qTest."
+          >
+            Any tool, because object names always guarantee identical reporting workflows.
+          </button>
+        </li>
+      </ol>
+    </div>
+
+    <div class="quiz" data-quiz>
+      <p class="quiz-q">
+        <span class="quiz-num">Recall 3 &middot; deliberate trap</span>
+        The dashboard says 96% of cases passed. What is the strongest next
+        question before calling the release safe?
+      </p>
+      <ol class="quiz-options">
+        <li>
+          <button
+            data-feedback="A passing percentage describes recorded outcomes, not whether the selected cases addressed the important risks. The missing question is what sits behind the denominator."
+          >
+            Release safely; the passing percentage proves important risks were covered completely.
+          </button>
+        </li>
+        <li>
+          <button
+            data-correct
+            data-feedback="Correct. The tool can aggregate results, but the tester must still explain the risk model, environments, omissions and exploratory work behind those records."
+          >
+            Ask what risks, environments, and exploration sit behind that percentage first.
+          </button>
+        </li>
+        <li>
+          <button
+            data-feedback="More cases can increase maintenance without adding useful coverage. Bolton's criticism is precisely that counting cases can displace the story of risk and investigation."
+          >
+            Add more cases; a larger denominator makes the release decision stronger.
+          </button>
+        </li>
+        <li>
+          <button
+            data-feedback="Changing or closing outcomes to improve a metric damages the evidence. Ask what was tested and what remains risky; never optimise the dashboard instead of the product decision."
+          >
+            Close failures; fewer open results make the execution evidence more reliable.
+          </button>
+        </li>
+      </ol>
+    </div>
+
+    <h2>7. The deliverable: a one-page comparison</h2>
+
+    <p>
+      Fill this after a documentation review or trial. Keep every cell to one
+      observation. &ldquo;Modern UI&rdquo; is an impression; &ldquo;three containers before a
+      case can run&rdquo; is evidence someone else can challenge.
+    </p>
+
+    <div class="table-scroll wide">
+      <table class="worksheet">
+        <tr>
+          <th>#</th>
+          <th>Comparison axis</th>
+          <th>TestRail</th>
+          <th>qTest</th>
+          <th>Zephyr</th>
+        </tr>
+        <tr>
+          <td>1</td>
+          <td>Repository path</td>
+          <td contenteditable="true" data-placeholder="Project → …"></td>
+          <td contenteditable="true" data-placeholder="Test Design → …"></td>
+          <td contenteditable="true" data-placeholder="Jira project → …"></td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>Execution path</td>
+          <td contenteditable="true" data-placeholder="Run or plan → …"></td>
+          <td contenteditable="true" data-placeholder="Release → cycle → …"></td>
+          <td contenteditable="true" data-placeholder="Plan → cycle → …"></td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>Result and defect evidence</td>
+          <td contenteditable="true" data-placeholder="What is saved and linked?"></td>
+          <td contenteditable="true" data-placeholder="What is saved and linked?"></td>
+          <td contenteditable="true" data-placeholder="What is saved and linked?"></td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td>Observed trial friction</td>
+          <td contenteditable="true" data-placeholder="Setup, duplicate entry, unclear step…"></td>
+          <td contenteditable="true" data-placeholder="Setup, duplicate entry, unclear step…"></td>
+          <td contenteditable="true" data-placeholder="Setup, duplicate entry, unclear step…"></td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td>Best-fit constraint</td>
+          <td contenteditable="true" data-placeholder="Choose only from evidence above"></td>
+          <td contenteditable="true" data-placeholder="Choose only from evidence above"></td>
+          <td contenteditable="true" data-placeholder="Choose only from evidence above"></td>
+        </tr>
+      </table>
+    </div>
+
+    <p class="template">
+      I would try <span class="blank"></span> first because our constraint is
+      <span class="blank"></span>, and its documented model
+      <span class="blank"></span>. In a thirty-minute trial I will
+      <span class="blank"></span>. I will reject it if
+      <span class="blank"></span>.
+    </p>
+
+    <p>
+      A strong answer can choose any of the three. It names a real constraint,
+      points to an object relationship that addresses it, and states a small
+      falsifiable trial. A weak answer says &ldquo;best,&rdquo; &ldquo;popular,&rdquo; or &ldquo;more
+      features&rdquo; without connecting the claim to the team&rsquo;s work.
+    </p>
+
+    <h2>The counterweight: a result count is not a testing story</h2>
+
+    <p>
+      The vendors are designed around stored, countable cases and their
+      outcomes. Michael Bolton challenges the premise that case counts describe
+      testing well. His argument is not that a repository is useless; it is
+      that scripted cases can hide the tester&rsquo;s modelling, risk analysis and
+      investigation, and that turning effort into case counts creates
+      &ldquo;no end of mischief.&rdquo;<span class="sidenote"
+        ><a href="https://developsense.com/blog/2019/01/breaking-the-test-case-addiction-part-1"
+          >Michael Bolton, <em>Breaking the Test Case Addiction, Part 1</em></a
+        >, especially <em>Traceability</em> and <em>Sharing efforts with
+        stakeholders</em>.</span
+      >
+    </p>
+
+    <p>
+      Keep both views. The tool should preserve repeatable checks, assignments
+      and evidence. Your report must still explain which risks shaped the sample,
+      what exploration happened outside the scripts, what was not tested, and
+      why the remaining uncertainty is acceptable. Lesson 1 supplied the risk
+      language; Lessons 7 and 9 supplied the traceable cases and defect evidence.
+    </p>
+
+    <p class="template">
+      The tool shows <span class="blank"></span>. It does not show
+      <span class="blank"></span>. My release judgement also needs
+      <span class="blank"></span>.
+    </p>
+
+    <h2>Read this next</h2>
+
+    <p>
+      <strong>Primary source set &mdash;</strong> no one source covers the
+      deliverable. Allow about thirty minutes total:
+    </p>
+    <ul>
+      <li>
+        <a href="https://support.testrail.com/hc/en-us/articles/7076810203028-Introduction-to-TestRail"
+          >TestRail, <em>Introduction to TestRail</em></a
+        >, from <em>Test cases and sections</em> through <em>Test plans and
+        configurations</em>, about ten minutes.
+      </li>
+      <li>
+        <a href="https://docs.tricentis.com/qtest-saas/content/manager/introduction/introduction_to_qtest_objects.htm"
+          >Tricentis qTest, <em>Introduction to qTest Objects</em></a
+        >, especially <em>Objects in Test Design</em> and <em>Objects in Test
+        Execution</em>, about eight minutes.
+      </li>
+      <li>
+        <a href="https://support.smartbear.com/zephyr/docs/en/test-plans/test-plans--overview-"
+          >SmartBear Zephyr, <em>Test Plans (overview)</em></a
+        >, especially <em>The Role of Test Plans in Zephyr</em>, about eight
+        minutes.
+      </li>
+      <li>
+        <a href="https://istqb.org/wp-content/uploads/2024/11/ISTQB_CTFL_Syllabus_v4.0.1.pdf"
+          >ISTQB CTFL Syllabus v4.0.1</a
+        >, §6.1, about two minutes. It defines the tool category but contributes
+        no product comparison.
+      </li>
+    </ul>
+
+    <p>
+      <strong>Then read the disagreement &mdash;</strong>
+      <a href="https://developsense.com/blog/2019/01/breaking-the-test-case-addiction-part-1"
+        >Michael Bolton, <em>Breaking the Test Case Addiction, Part 1</em></a
+      >, about ten minutes. It supplies the question every vendor leaves out:
+      what important testing work disappears when management sees only cases
+      and statuses?
+    </p>
+
+    <div class="ask-teacher">
+      <strong>Want your choice challenged?</strong> Send the completed comparison
+      and the five-blank choice sentence. I will challenge the constraint and
+      rejection condition, not ask you to guess my favourite product. If another
+      tool wins after the challenge, your comparison did its job.
+    </div>
+
+    <nav class="footer-nav">
+      <strong>Where this connects</strong>
+      <ul>
+        <li>
+          Previous &mdash;
+          <a href="09-bug-reports-first-try.html"
+            >Lesson 9: Bug reports that get reproduced first try</a
+          >. A failed execution becomes the linked defect evidence this lesson
+          stores.
+        </li>
+        <li>
+          Builds on &mdash;
+          <a href="07-test-cases-someone-else-can-run.html"
+            >Lesson 7: Test cases someone else can run</a
+          >. The same reusable Teamspace cases now move through three different
+          execution models.
+        </li>
+        <li>
+          Also relevant &mdash;
+          <a href="01-quality-risk-triage.html">Lesson 1: Quality risk triage</a>
+          &mdash; a passed-case percentage cannot replace the risk argument behind
+          the selected sample.
+        </li>
+        <li>
+          Next &mdash; Lesson 11: Waterfall and the V-model
+          <em>(not yet written)</em>
+        </li>
+        <li>
+          Reference &mdash;
+          <a href="../reference/test-case-template.html"
+            >Test-case handoff sheet</a
+          >
+          &middot;
+          <a href="../reference/bug-report-template.html"
+            >Bug-report handoff sheet</a
+          >
+          &middot; <a href="../reference/glossary.html">Glossary</a>
+        </li>
+        <li><a href="../index.html">All lessons</a></li>
+      </ul>
+    </nav>
+
+    <script src="../assets/classify.js"></script>
+    <script src="../assets/quiz.js"></script>
+  </body>
+</html>

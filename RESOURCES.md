@@ -116,6 +116,31 @@ from here — not from the agent's parametric guesses.
   topics connect. Use for: QA-001, QA-004, QA-008 — breadth and vocabulary.
   Treat as a map, not a textbook: it is thin on depth and gives no worked
   examples.
+- [TestRail — *Introduction to TestRail*](https://support.testrail.com/hc/en-us/articles/7076810203028-Introduction-to-TestRail)
+  One of the three product-primary sources for QA-008, re-read from the live
+  support page on 2026-08-16. Its sections on cases, sections, runs, tests and
+  configuration plans define TestRail's object model. Pair it with
+  [*Projects and their types*](https://support.testrail.com/hc/en-us/articles/7076923860244-Projects-and-their-types),
+  whose multi-suite and migration cautions expose consequences a feature matrix
+  would hide. Vendor documentation, so use for structure rather than ranking.
+  ~12 minutes.
+- [Tricentis qTest — *Introduction to qTest Objects*](https://docs.tricentis.com/qtest-saas/content/manager/introduction/introduction_to_qtest_objects.htm)
+  One of the three product-primary sources for QA-008, re-read on 2026-08-16.
+  The Test Design and Test Execution sections define the separate
+  Module/Test-Case repository and Release/Cycle/Suite/Run hierarchy. qTest uses
+  "Test Run" for one executed case instance, not the multi-case group TestRail
+  calls a run. Vendor documentation; ~8 minutes.
+- [SmartBear Zephyr — *Test Plans (overview)*](https://support.smartbear.com/zephyr/docs/en/test-plans/test-plans--overview-)
+  One of the three product-primary sources for QA-008, re-read on 2026-08-16.
+  It connects the Jira test library to test cycles and optional release-level
+  plans. SmartBear's current documentation also confirms the naming change:
+  Zephyr Scale is now Zephyr, while Zephyr Squad is Zephyr Essential. Vendor
+  documentation; ~8 minutes.
+- [Michael Bolton — *Breaking the Test Case Addiction, Part 1*](https://developsense.com/blog/2019/01/breaking-the-test-case-addiction-part-1)
+  The practitioner counterweight for QA-008, re-read on 2026-08-16. Stored cases
+  and result counts can support coordination, but they do not communicate the
+  tester's risk model, investigation or omissions. Use beside the three vendor
+  models so a dashboard is not mistaken for a testing story. ~10 minutes.
 
 ### SDLC (Weeks 5–7)
 
@@ -217,17 +242,14 @@ because it is a nested git repo, and a copy would go stale silently.
 
 Areas the plan needs where no strong source is yet identified.
 
-**Under review as of 2026-08-08** — the audit proposes answers for the test
-management tool and AI testing gaps below. Those remain unverified leads in
-`sources/QA-008.md`, `sources/QA-046.md` and `sources/QA-047.md`. The QA-002
-test-oracle gap is resolved above after reading the original sources.
+**Under review as of 2026-08-16** — the audit proposes answers for the AI
+testing gaps below. Those remain unverified leads in `sources/QA-046.md` and
+`sources/QA-047.md`. The QA-002 test-oracle and QA-008 test-management-tool
+gaps are resolved above after reading the original sources.
 - **Exploratory testing (QA-015).** The syllabus covers it only briefly; the
   practitioner literature is much richer. Partially addressed by the Test
   Heuristics Cheat Sheet above; still needs a source on session-based test
   management and how to leave *evidence* of exploratory work (which the mission
   needs — the portfolio has to show it, not just claim it).
-- **Test management tools (QA-008).** Vendor docs for TestRail/qTest/Zephyr are
-  marketing-adjacent. Needs a neutral comparison, or accept vendor docs with
-  that bias noted explicitly.
 - **AI testing (QA-046, QA-047).** The sheet points at ISTQB certification pages
   rather than syllabi. Needs the actual CT-AI syllabus.

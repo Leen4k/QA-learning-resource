@@ -48,7 +48,7 @@ not a copy of it.
 
 ## Two courses now live here
 
-- **QA** — 53 lessons, 27 weeks, sheet tab `gid=1651117697`. Nine lesson files available.
+- **QA** — 53 lessons, 27 weeks, sheet tab `gid=1651117697`. Ten lesson files available.
   `index.html` + `curriculum.html` + `lessons/`.
 - **Project management** — 63 lessons, 32 weeks, sheet tab `gid=487507119`,
   tasks PM-001 → PM-063, starting 2026-07-27. Only `curriculum-project-management.html`
@@ -110,8 +110,9 @@ skills, AI testing, Capstone. Weeks 1–27, start 2026-07-27.
 - Written: lessons 1 (risk triage), 2 (test levels & types), 3 (static testing),
   4 (test oracles), 5 (equivalence partitioning & boundary values), 6 (decision
   tables & state transitions), 7 (handoff-ready test cases), 8 (one-page test
-  plan), and 9 (first-try bug reports). Plus `index.html` and `curriculum.html`.
-- Next up in curriculum order: 10 (test management tools).
+  plan), 9 (first-try bug reports), and 10 (test management tools). Plus
+  `index.html` and `curriculum.html`.
+- Next up in curriculum order: 11 (Waterfall and the V-model, QA-010).
 - Lesson 6 turns Teamspace permissions into five decision rules and four valid
   state transitions. Lesson 7 uses those nine targets to derive a 12-case suite,
   adding only three cases for UI/API parity and stale-authorization risk.
@@ -119,13 +120,20 @@ skills, AI testing, Capstone. Weeks 1–27, start 2026-07-27.
   app with Owner/Admin/Member/Viewer roles enforced in both a web UI and a REST
   API. It generates good material (UI hides the button but the API does not
   check; demoted admin keeps a live session; last owner leaves). Reuse it for
-  lessons 6, 7 and 9 rather than inventing a new domain each time — the learner
+  lessons 6–10 rather than inventing a new domain each time — the learner
   then plans, specifies, executes and reports against one feature, which is
   also how the portfolio artifact should read. Lesson 9 turns five failures from
   that case suite into reproducible-report evidence packets and separates
-  severity reasoning from priority reasoning.
-- **One source gap left:** lesson 10 (tool comparison) has no trustworthy
-  neutral source yet. Do not write it from memory.
+  severity reasoning from priority reasoning. Lesson 10 maps three of those
+  cases, two browser executions and one linked defect through TestRail, qTest
+  and Zephyr.
+- **Lesson 10 is written (2026-08-16).** There is no neutral primary comparison,
+  so each vendor's current object documentation is used only for its own model:
+  TestRail's repository/section/run path, qTest's separate Test Design and
+  Release/Cycle/Suite/Run hierarchy, and Zephyr's Jira library/cycle/plan path.
+  Bolton's *Breaking the Test Case Addiction* remains the explicit
+  counterweight to treating passed-case counts as a testing story. The original
+  roadmap.sh link is recorded as insufficient.
 - **Lesson 4 is unblocked and written (2026-08-08).** Bolton's
   `Oracles.pdf` supplies the practical HICCUPPS(F) guidewords and fallibility
   model; Barr et al. supplies the formal oracle problem and explains why prose
