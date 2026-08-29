@@ -14,9 +14,21 @@ management** (63 tasks, `curriculum-project-management.html`, not yet started).
 
 ## Working on it from a fresh clone
 
-The repo carries the workflow; two things live outside it.
+The repo carries the workflow for both Codex and Claude Code.
 
-**1. Claude Code and the teaching skills.** The lesson workflow calls skills from
+**Codex.** The repository-scoped `$lesson` skill is checked in under
+`.agents/skills/lesson/`; there is nothing to install. From this repository:
+
+```
+$lesson next                  # create and verify the next lesson
+$lesson next 3                # create and verify the next three lessons
+$lesson QA-010                # create or fully revise one lesson
+```
+
+Codex normally detects the skill automatically. If it does not appear after a
+fresh clone or update, restart Codex.
+
+**Claude Code and the teaching skills.** The lesson workflow calls skills from
 Matt Pocock's plugin, which installs at user level and is deliberately not
 vendored here. Inside Claude Code:
 
@@ -29,19 +41,21 @@ Without it, `/lesson` still runs — it degrades rather than breaks. The researc
 step is the part that needs the plugin, and `sources/` already holds a dossier
 for every task, so that step is usually skippable anyway.
 
-**2. Node, Python 3 and curl** for the scripts. Nothing to install beyond what
-macOS and most Linux boxes ship, and there are no package dependencies — no
-`npm install`, no virtualenv.
+**Local tools.** Node, Python 3 and curl are used by the scripts. Nothing to
+install beyond what macOS and most Linux boxes ship, and there are no package
+dependencies — no `npm install`, no virtualenv.
 
 Then:
 
 ```
 ./scripts/refresh-plan.sh     # pull the plan of record from the Google Sheet
-/lesson next                  # write the next lesson in curriculum order
+$lesson next                  # Codex: create and verify
+/lesson next                  # Claude Code: create
 ```
 
-`.claude/commands/lesson.md` is committed, so the `/lesson` command travels with
-the repo. It carries the full recipe.
+Both shortcuts travel with the repository and use the same full recipe. Codex
+adds claim-level source, real-browser, accessibility and learning-acceptance
+gates before it can call a lesson complete.
 
 ## Scripts
 
@@ -50,10 +64,12 @@ the repo. It carries the full recipe.
 | `./scripts/refresh-plan.sh` | Cache both sheet tabs to `plan/qa.csv`, `plan/pm.csv` |
 | `python3 scripts/plan-task.py QA-006` | Read one task row |
 | `node scripts/check-lesson.mjs` | Lint lessons: dead links, wiring, quiz tells, grounding |
+| `node scripts/check-lesson-verification.mjs lessons/NN-slug.html` | Validate durable lesson evidence and warning baseline |
 | `./scripts/audit-sources.sh` | One headless Claude per task → `sources/<TASK>.md` |
 
-`check-lesson.mjs` checks plumbing, not teaching. A clean run is necessary, not
-sufficient — the judgement calls stay in `LESSON-RECIPE.md`.
+`check-lesson.mjs` checks plumbing, not teaching. A clean target run and an
+unchanged accepted warning baseline are necessary, not sufficient — the
+judgement calls stay in `LESSON-RECIPE.md`.
 
 ## A note on `sources/`
 

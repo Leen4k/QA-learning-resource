@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Lesson 11 — Trace a requirement through the V-model</title>
+    <link rel="stylesheet" href="../assets/lesson.css" />
+  </head>
+  <body>
+    <p class="eyebrow">Lesson 11 &middot; Process</p>
+    <h1>Trace a requirement through the V-model</h1>
+    <p class="subtitle">
+      Pair each development work product with the test work that challenges it,
+      then preserve the evidence from requirement to result.
+    </p>
+
+    <p class="plan-tag">
+      <strong>Plan:</strong> QA-010 <em>Waterfall and the V-model</em> &middot;
+      week 5 &middot; deliverable: trace one requirement through the V-model and
+      note the evidence produced at each stage &middot;
+      <a href="../curriculum.html">coverage map</a>
+    </p>
+
+    <div class="win">
+      <p>
+        <strong>By the end of this lesson</strong> you will be able to carry one
+        requirement down through system and component design, then back up
+        through four test levels&mdash;with a named work product, planned check,
+        result, and trace link at every step.
+      </p>
+    </div>
+
+    <div class="callout">
+      <span class="callout-label">Source boundary</span>
+      <p>
+        The plan&rsquo;s
+        <a
+          href="https://roadmap.sh/qa"
+          data-source-locator="SDLC Delivery Model node"
+          data-accessed="2026-08-29"
+          >roadmap.sh page</a
+        > only names Waterfall and V Model; it supplies no phases, pairings, or
+        worked trace. The current ISTQB syllabus names both models and preserves
+        the good-testing and traceability rules, but no longer teaches the
+        classic V in detail.
+      </p>
+      <p>
+        The explicit Waterfall/V-model contrast and four-level test-basis lists
+        therefore come from the official 2018 syllabus. Its English exam and
+        training use
+        <a
+          href="https://www.istqb.org/help/ctfl-v31/"
+          data-source-locator="CTFL v3.1 retirement date"
+          data-accessed="2026-08-29"
+          >retired on 9 May 2024</a
+        >, so this lesson labels it as a historical model source instead of
+        presenting it as the current certification syllabus.
+      </p>
+    </div>
+
+    <h2>1. Same staged project, different testing promise</h2>
+
+    <p>
+      An <dfn>SDLC model</dfn> is a high-level representation of how development
+      phases relate logically and chronologically. The current ISTQB syllabus
+      places both Waterfall and the V-model among sequential development models.
+      It also warns that the chosen lifecycle changes the timing, scope,
+      documentation, automation, and responsibilities of testing.<span
+        class="sidenote"
+        >ISTQB CTFL v4.0.1 §2.1 and §2.1.1, pp. 24&ndash;25. A model is an
+        abstraction; a project&rsquo;s actual history can contain review, feedback,
+        and rework.</span
+      >
+    </p>
+
+    <p>
+      In the classic <dfn>Waterfall model</dfn>, requirements, design, coding,
+      and testing are shown one after another. Test execution waits until the
+      developed system exists. The dangerous reading is &ldquo;testers wait.&rdquo; Even in
+      a sequential lifecycle, the current syllabus says testers typically join
+      requirement reviews, analysis, and test design before executable code is
+      available.
+    </p>
+
+    <p>
+      The <dfn>V-model</dfn> makes that early work visible. The left arm refines
+      the product from user need toward detailed design and implementation. The
+      right arm tests increasingly complete objects. A line across the V pairs
+      each development work product with the test level whose cases are derived
+      from it. This lesson uses one common four-pair reference V; it is a
+      teaching view, not a rule that every project or artifact must fit only one
+      level.
+    </p>
+
+    <div class="table-scroll wide">
+      <table>
+        <caption>How the classic Waterfall and reference V-model views differ</caption>
+        <tr>
+          <th scope="col">Question</th>
+          <th scope="col">Classic Waterfall view</th>
+          <th scope="col">V-model view</th>
+        </tr>
+        <tr>
+          <td><strong>What moves?</strong></td>
+          <td>Work passes through requirements, design, code, test, operation.</td>
+          <td>Work refines down to code, then testable objects assemble upward.</td>
+        </tr>
+        <tr>
+          <td><strong>When is testing visible?</strong></td>
+          <td>Dynamic execution appears as a later project phase.</td>
+          <td>Analysis and design begin beside the matching development work.</td>
+        </tr>
+        <tr>
+          <td><strong>What must link?</strong></td>
+          <td>Each completed phase hands work to the next phase.</td>
+          <td>Each test level traces back to the basis that defined correctness.</td>
+        </tr>
+        <tr>
+          <td><strong>Main risk</strong></td>
+          <td>Late execution can expose requirement or design problems after costly work.</td>
+          <td>A neat diagram can hide iteration, weak bases, and broken trace links.</td>
+        </tr>
+      </table>
+    </div>
+
+    <p class="template">
+      Waterfall asks, &ldquo;What phase comes next?&rdquo; The V-model adds,
+      &ldquo;Which test activity challenges this work product, and what evidence will
+      connect them?&rdquo;
+    </p>
+
+    <h2>2. Read the V as four evidence pairs</h2>
+
+    <p>
+      A <dfn>test basis</dfn> is the work product or knowledge used to derive
+      tests. A business requirement can be a basis for acceptance testing; an
+      interface design can be a basis for integration testing. If the basis is
+      vague, the matching test will inherit the ambiguity.
+    </p>
+
+    <p>
+      <dfn>Testware</dfn> is the output of test activity. Before execution it
+      includes conditions, cases, data, procedures, environments, and schedules.
+      After execution it includes logs, defect reports, completion reports, and
+      other work products. Stakeholders use those results to make decisions;
+      this lesson does not treat the decision itself as an ISTQB testware
+      category. Here, <em>evidence</em> is the ordinary-language umbrella for
+      reviewed bases, planned testware, and observed results.<span
+        class="sidenote"
+        >ISTQB CTFL v4.0.1 §1.4.3, pp. 19&ndash;20. The syllabus says names,
+        shape, organization, and detail vary by context.</span
+      >
+    </p>
+
+    <div class="table-scroll wide">
+      <table>
+        <caption>This lesson&rsquo;s reference V: four example evidence pairs</caption>
+        <tr>
+          <th scope="col">Development work product</th>
+          <th scope="col">Reference test level</th>
+          <th scope="col">Plan while descending</th>
+          <th scope="col">Observe while ascending</th>
+        </tr>
+        <tr>
+          <td><strong>User or business requirement</strong></td>
+          <td>Acceptance testing</td>
+          <td>Acceptance criteria, user workflow, acceptance case</td>
+          <td>User outcome, acceptance record, deployment decision</td>
+        </tr>
+        <tr>
+          <td><strong>System requirement or behavior model</strong></td>
+          <td>System testing</td>
+          <td>End-to-end conditions, system cases, environment needs</td>
+          <td>System log, result, defect, requirement coverage</td>
+        </tr>
+        <tr>
+          <td><strong>Architecture, interface, or sequence design</strong></td>
+          <td>Integration testing</td>
+          <td>Contract checks, interface data, failure-path cases</td>
+          <td>Request trace, message/log evidence, interface defect</td>
+        </tr>
+        <tr>
+          <td><strong>Detailed component design, code, or data model</strong></td>
+          <td>Component testing</td>
+          <td>Focused cases, component data, and any needed substitute dependency</td>
+          <td>Focused test result, decision-table coverage, component defect</td>
+        </tr>
+      </table>
+    </div>
+
+    <p>
+      The historical syllabus supplies these as example test bases in
+      §§2.2.1&ndash;2.2.4; it does not prescribe one universal diagram. Teams can
+      rename, combine, overlap, or repeat levels. The durable rule is the
+      relationship: the test has a named basis, and its result can be traced
+      back to that basis. An artifact can inform several levels; classify it by
+      the primary test object and objective in the stated context.
+    </p>
+
+    <div class="callout">
+      <span class="callout-label">Do not turn the V into two waiting lines</span>
+      <p>
+        &ldquo;Acceptance testing is on the far right&rdquo; does not mean acceptance cases
+        should be invented last. Current ISTQB good practice says test analysis
+        and design for a level begin during the corresponding development
+        phase. Execution waits for a testable object; thinking, review, data,
+        environment, and case design do not.
+      </p>
+    </div>
+
+    <h2>3. Exercise: pair the evidence to its level</h2>
+
+    <p>
+      Sort each Teamspace artifact into this lesson&rsquo;s reference category.
+      Follow the primary object and objective being challenged, not whether the
+      artifact says &ldquo;test&rdquo; or &ldquo;result.&rdquo; On a real team, another mapping can be
+      defensible when the test object or objective differs.
+    </p>
+
+    <div class="classify" data-classify>
+      <script type="application/json">
+        {
+          "prompt": "Which reference test level is the primary home for each basis or execution artifact in the stated context?",
+          "categories": [
+            { "id": "acceptance", "label": "Acceptance", "focus": "the intended user or business outcome" },
+            { "id": "system", "label": "System", "focus": "the assembled product's externally visible behavior" },
+            { "id": "integration", "label": "Integration", "focus": "an interaction or contract between parts" },
+            { "id": "component", "label": "Component", "focus": "one part's behavior in isolation" }
+          ],
+          "items": [
+            {
+              "id": "1",
+              "text": "Business rule: an Owner can transfer ownership to one active Member.",
+              "note": "Basis artifact",
+              "answer": "acceptance",
+              "why": "User and business requirements are acceptance-test bases. The acceptance question is whether an intended user can complete the business outcome under the agreed rule."
+            },
+            {
+              "id": "2",
+              "text": "Requirement SYS-17: UI and API both reject a transfer to a pending invitee.",
+              "note": "Basis artifact",
+              "answer": "system",
+              "why": "This specifies externally observable whole-system behavior across the supported interfaces. System testing challenges the integrated product against that requirement."
+            },
+            {
+              "id": "3",
+              "text": "Sequence design: Transfer API calls Membership, Authorization, then Audit services.",
+              "note": "Basis artifact",
+              "answer": "integration",
+              "why": "A sequence and its interfaces define interactions among components or services. Integration tests challenge those calls, contracts, ordering, and failure handling."
+            },
+            {
+              "id": "4",
+              "text": "Component rule: canReceiveOwnership(member) requires active membership and no suspension.",
+              "note": "Basis artifact",
+              "answer": "component",
+              "why": "A detailed predicate belongs to a separately testable component. Component cases can exercise each condition before the services and user workflow exist."
+            },
+            {
+              "id": "5",
+              "text": "Signed record: the product owner completed transfer and retained workspace control.",
+              "note": "Execution artifact",
+              "answer": "acceptance",
+              "why": "The evidence records the intended user's business outcome and acceptance decision. A lower-level pass cannot replace this user-facing judgment."
+            },
+            {
+              "id": "6",
+              "text": "Browser and API run: pending invitees are rejected and no ownership changes persist.",
+              "note": "Execution artifact",
+              "answer": "system",
+              "why": "The run observes the complete integrated system through its supported interfaces and checks externally visible state against SYS-17."
+            },
+            {
+              "id": "7",
+              "text": "Request trace: Audit writes only after Membership commits the ownership change.",
+              "note": "Execution artifact",
+              "answer": "integration",
+              "why": "The trace exposes ordering and data passed between services. It is evidence about an interaction, not just one component's local rule."
+            },
+            {
+              "id": "8",
+              "text": "Focused check: active, pending, removed, and suspended membership decisions all pass.",
+              "note": "Execution artifact",
+              "answer": "component",
+              "why": "The result challenges one eligibility rule in isolation. It cannot by itself prove the service sequence or user outcome."
+            }
+          ]
+        }
+      </script>
+    </div>
+
+    <h2>4. Worked trace: a demoted Admin cannot invite</h2>
+
+    <p>
+      Reuse the Teamspace failure from Lessons 7&ndash;10 as a fictional post-fix
+      confirmation scenario. These are supplied training records, not a claim
+      that a real Teamspace build ran. The observable need is:
+      <code>BIZ-INV-01</code> &mdash; when an Owner demotes an Admin to Member,
+      the former Admin must lose invitation rights on the next request,
+      including from an already-open session.
+    </p>
+
+    <div class="table-scroll wide">
+      <table>
+        <caption>Worked evidence trace for BIZ-INV-01 on one training build</caption>
+        <tr>
+          <th scope="col">Pair</th>
+          <th scope="col">Descending basis and planned testware</th>
+          <th scope="col">Ascending execution evidence</th>
+          <th scope="col">Trace link</th>
+        </tr>
+        <tr>
+          <td><strong>Business ↔ acceptance</strong></td>
+          <td>
+            <code>BIZ-INV-01</code>; acceptance case: Owner demotes Ada, then Ada
+            attempts an invitation without signing in again.
+          </td>
+          <td>
+            <code>UATR-INV-01</code> on <code>teamspace-1.8.1+4fd2a6</code>:
+            product owner observes denial, no invitation, and no email;
+            acceptance record passes.
+          </td>
+          <td><code>BIZ-INV-01 → UAT-INV-01 → UATR-INV-01 → build → PASS</code></td>
+        </tr>
+        <tr>
+          <td><strong>System ↔ system test</strong></td>
+          <td>
+            <code>SYS-AUTH-17</code>: UI hides Invite and API returns the standard
+            denial using current membership state; <code>ST-INV-04</code> covers
+            both interfaces.
+          </td>
+          <td>
+            <code>STR-INV-04</code> on <code>teamspace-1.8.1+4fd2a6</code>:
+            UI button absent; POST returns <code>403 INSUFFICIENT_ROLE</code>;
+            database contains no invitation; system run passes.
+          </td>
+          <td><code>SYS-AUTH-17 → ST-INV-04 → STR-INV-04 → build → PASS</code></td>
+        </tr>
+        <tr>
+          <td><strong>Architecture ↔ integration test</strong></td>
+          <td>
+            <code>ARC-AUTH-03</code>: Invite API reads Membership before calling
+            Notification; <code>IT-INV-12</code> uses a demotion between two
+            requests.
+          </td>
+          <td>
+            <code>ITR-INV-12</code> on <code>teamspace-1.8.1+4fd2a6</code>:
+            request trace shows fresh Member role; Notification receives no
+            call; audit records a denied attempt; integration run passes.
+          </td>
+          <td><code>ARC-AUTH-03 → IT-INV-12 → ITR-INV-12 → build → PASS</code></td>
+        </tr>
+        <tr>
+          <td><strong>Component ↔ component test</strong></td>
+          <td>
+            <code>CMP-AUTH-08</code>: <code>canInvite(role)</code> permits Owner
+            and Admin only; <code>CT-AUTH-08</code> covers all four roles.
+          </td>
+          <td>
+            <code>CTR-AUTH-08</code> on <code>teamspace-1.8.1+4fd2a6</code>:
+            focused result passes Owner/Admin and rejects Member/Viewer; the
+            decision table records all four outcomes.
+          </td>
+          <td><code>CMP-AUTH-08 → CT-AUTH-08 → CTR-AUTH-08 → build → PASS</code></td>
+        </tr>
+        <tr>
+          <td><strong>Implementation anchor</strong></td>
+          <td colspan="2">
+            Build <code>teamspace-1.8.1+4fd2a6</code> is the shared training
+            anchor for the linked component and architecture decisions. Each
+            named right-arm record above identifies that build.
+          </td>
+          <td><code>CMP-AUTH-08 → 4fd2a6 → results</code></td>
+        </tr>
+      </table>
+    </div>
+
+    <p>
+      Notice what the trace does <em>not</em> prove. Four green results do not
+      show that every requirement is correct, that every risk was sampled, or
+      that no defect remains. They show that this named requirement has planned
+      and executed evidence at four distinct levels, against one identified
+      build.
+    </p>
+
+    <h2>5. Traceability turns a change into a bounded question</h2>
+
+    <p>
+      ISTQB defines traceability across test-basis elements, testware, results,
+      and defects. It supports coverage evaluation and change-impact analysis.
+      If Teamspace changes the rule so Admins may invite only from the UI, start
+      at <code>BIZ-INV-01</code> and follow links to every derived requirement,
+      interface contract, case, result, and open defect. Do not search by the
+      word &ldquo;invite&rdquo; and hope.
+    </p>
+
+    <div class="callout">
+      <span class="callout-label">A traceability trap</span>
+      <p>
+        One requirement-to-acceptance-result link can answer a narrow coverage
+        question, but it does not expose the lower-level derivation shown in
+        this reference V. If change-impact analysis is the objective, link the
+        system behavior, interface contract, and component decision too. Trace
+        depth should serve the question, not decorate a dashboard.
+      </p>
+    </div>
+
+    <p class="template">
+      Requirement <span class="blank"></span> changed from
+      <span class="blank"></span> to <span class="blank"></span>. The affected
+      bases are <span class="blank"></span>; linked testware is
+      <span class="blank"></span>; the newest trustworthy results are
+      <span class="blank"></span>; the evidence gap is
+      <span class="blank"></span>.
+    </p>
+
+    <div class="callout">
+      <span class="callout-label">The historical caveat</span>
+      <p>
+        The 1970 Royce paper commonly associated with Waterfall draws a staged
+        flow, then immediately calls that implementation &ldquo;risky&rdquo; and describes
+        late testing forcing disruptive redesign. Later it treats current
+        documentation as tangible evidence of completion. Keep both ideas: a
+        documented staged model can make decisions inspectable, but the diagram
+        does not prove real work proceeds once, cleanly, without feedback.<span
+          class="sidenote"
+          >Royce, pp. 328&ndash;333, immediately after Figure 2 and around Figure
+          6. The paper does not use the term V-model or define this lesson&rsquo;s
+          four reference pairs.</span
+        >
+      </p>
+    </div>
+
+    <h2>6. Retrieval: defend the relationships</h2>
+
+    <div class="quiz-score" data-quiz-score></div>
+
+    <div class="quiz" data-quiz>
+      <p class="quiz-q">
+        <span class="quiz-num">Recall 1</span>
+        In a V-model project, when should system-test analysis and design begin?
+      </p>
+      <ol class="quiz-options">
+        <li>
+          <button
+            data-correct
+            data-feedback="Current ISTQB good practice pairs test analysis and design with the corresponding development phase. Executable system testing waits for a system; thinking and planning do not."
+          >
+            During system-requirements work, before executable system testing can begin.
+          </button>
+        </li>
+        <li>
+          <button
+            data-feedback="This is the late-testing instinct the V is meant to expose. Component-test completion does not create the system basis; system-test design derives from system requirements earlier."
+          >
+            After component tests pass, when the complete system finally exists.
+          </button>
+        </li>
+        <li>
+          <button
+            data-feedback="Acceptance failure may reveal missing coverage, but waiting until then discards early review and design. The matching system requirement is available much earlier."
+          >
+            After acceptance testing fails, when stakeholders request broader system coverage.
+          </button>
+        </li>
+        <li>
+          <button
+            data-feedback="Reviews and static testing can expose ambiguity before code. Coding is the implementation anchor, not the first moment system-test reasoning becomes possible."
+          >
+            During coding only, because designs cannot reveal system-level defects early.
+          </button>
+        </li>
+      </ol>
+    </div>
+
+    <div class="quiz" data-quiz>
+      <p class="quiz-q">
+        <span class="quiz-num">Recall 2</span>
+        A requirement changes after tests ran. Which first move uses the V trace?
+      </p>
+      <ol class="quiz-options">
+        <li>
+          <button
+            data-correct
+            data-feedback="Follow the changed basis through derived designs and linked testware to the latest results. That bounds retest work and exposes missing links instead of relying on a keyword search."
+          >
+            Follow requirement links through bases, cases, and recent execution results.
+          </button>
+        </li>
+        <li>
+          <button
+            data-feedback="Open defects are only one downstream artifact and may miss planned cases that passed or never ran. Begin with the changed basis and traverse its relationships."
+          >
+            Search every open defect, then rerun whichever failures sound related.
+          </button>
+        </li>
+        <li>
+          <button
+            data-feedback="A green acceptance result describes an earlier build and rule. It cannot prove lower-level designs remain aligned after the requirement changed."
+          >
+            Keep prior acceptance evidence, because user approval already proved coverage.
+          </button>
+        </li>
+        <li>
+          <button
+            data-feedback="More tests are not automatically relevant tests. Traceability should identify affected evidence before time is spent executing an unbounded regression set."
+          >
+            Rerun all tests immediately, because broad execution guarantees safer coverage.
+          </button>
+        </li>
+      </ol>
+    </div>
+
+    <div class="quiz" data-quiz>
+      <p class="quiz-q">
+        <span class="quiz-num">Recall 3 &middot; deliberate trap</span>
+        Which reading of Royce&rsquo;s staged development figure matches the paper?
+      </p>
+      <ol class="quiz-options">
+        <li>
+          <button
+            data-correct
+            data-feedback="Correct. Immediately after the staged figure, Royce calls the implementation risky and describes late testing forcing disruptive redesign. The diagram is not evidence that iteration disappears."
+          >
+            It is a simplified baseline that the paper immediately calls risky.
+          </button>
+        </li>
+        <li>
+          <button
+            data-feedback="Royce says late testing can expose timing, storage, and interface problems that force changes back into requirements and design. Review of early phases does not make that risk disappear."
+          >
+            It supports delaying test work until coding ends when earlier phases were reviewed.
+          </button>
+        </li>
+        <li>
+          <button
+            data-feedback="The paper values documentation as inspectable evidence, but still shows feedback and recommends additional risk controls. Signed records do not make the simple sequence sufficient."
+          >
+            It becomes sufficient for large projects when each phase produces signed documentation.
+          </button>
+        </li>
+        <li>
+          <button
+            data-feedback="The paper neither coins Waterfall nor defines V-model test-level pairings. This lesson uses Royce only to challenge a neat one-pass reading of the staged figure."
+          >
+            It defines the Waterfall name and the four V-model pairings used here.
+          </button>
+        </li>
+      </ol>
+    </div>
+
+    <h2>7. The deliverable: trace one requirement</h2>
+
+    <div class="callout">
+      <span class="callout-label">Requirement and evidence packet</span>
+      <p>
+        <code>TS-EXP-01</code>: Only an Owner can export the Teamspace member
+        list. The CSV contains active members&rsquo; names, emails, and roles, never
+        pending invitation tokens. Every successful or denied export attempt is
+        audit logged.
+      </p>
+      <p>
+        This is a simulation. Treat the packet below as supplied project
+        evidence, not as results you personally executed. Your task is to trace
+        and judge it; do not invent a second feature or an unrecorded result.
+      </p>
+    </div>
+
+    <div class="table-scroll wide">
+      <table>
+        <caption>Supplied TS-EXP-01 training artifacts and observations</caption>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Supplied fact</th>
+        </tr>
+        <tr>
+          <th scope="row"><code>SYS-EXP-14</code></th>
+          <td>Only Owners see Export. The API returns 403 for other roles. A successful CSV has name, email, and role columns for active members only. Every attempt creates an audit entry.</td>
+        </tr>
+        <tr>
+          <th scope="row"><code>ARC-EXP-06</code></th>
+          <td>The Export endpoint asks Authorization for the current role, reads active members from Membership, sends that list to CSV Generator, and sends outcome metadata&mdash;never invitation tokens&mdash;to Audit.</td>
+        </tr>
+        <tr>
+          <th scope="row"><code>CMP-EXP-09</code></th>
+          <td>The CSV Generator accepts an already-filtered active-member list and emits exactly three columns: name, email, and role. The learner is not expected to write code; this is the behavior of one part tested separately.</td>
+        </tr>
+        <tr>
+          <th scope="row"><code>teamspace-1.9.0+8ab31c</code></th>
+          <td>The release-candidate build implements the three supplied design artifacts. Every result record below names this build.</td>
+        </tr>
+        <tr>
+          <th scope="row"><code>CTR-EXP-09</code></th>
+          <td>PASS on the named build: focused CSV Generator checks returned the three columns for zero, one, and three active-member fixtures, without a token field.</td>
+        </tr>
+        <tr>
+          <th scope="row"><code>ITR-EXP-06</code></th>
+          <td>PASS on the named build: the request trace shows Authorization before Membership, an active-only list sent to CSV Generator, and success or denial metadata sent to Audit.</td>
+        </tr>
+        <tr>
+          <th scope="row"><code>STR-EXP-14</code></th>
+          <td>PASS on the named build: Owner UI/API export succeeded; Member, Admin, and Viewer attempts returned 403; CSV inspection found only active members and three columns; all attempts had audit rows.</td>
+        </tr>
+        <tr>
+          <th scope="row"><code>UATR-EXP-01</code></th>
+          <td>ACCEPTED on the named build: the product owner completed the workflow, inspected the CSV and audit record, and approved the requirement for release.</td>
+        </tr>
+      </table>
+    </div>
+
+    <p>
+      Fill all nine rows from the supplied packet. On the way down, name what
+      gets reviewed and a case that could be prepared. At the anchor, identify
+      the supplied build. On the way up, link each recorded observation to its
+      basis and state the supported decision. Do not turn an expected result
+      into an observed one. Your entries remain in the page only until reload;
+      use the browser&rsquo;s Print command to save the completed page as a PDF.
+    </p>
+
+    <div class="table-scroll wide">
+      <table class="worksheet">
+        <caption>Editable nine-stage trace for TS-EXP-01</caption>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Stage</th>
+          <th scope="col">Work product or test basis</th>
+          <th scope="col">Planned testware or execution evidence</th>
+          <th scope="col">Trace ID and decision</th>
+        </tr>
+        <tr>
+          <td>1</td>
+          <th scope="row">User / business requirement</th>
+          <td contenteditable="true" role="textbox" aria-label="Row 1 work product or test basis" spellcheck="true" data-placeholder="Rewrite TS-EXP-01 as observable acceptance criteria"></td>
+          <td contenteditable="true" role="textbox" aria-label="Row 1 planned testware or execution evidence" spellcheck="true" data-placeholder="Acceptance case designed now"></td>
+          <td contenteditable="true" role="textbox" aria-label="Row 1 trace ID and decision" spellcheck="true" data-placeholder="TS-EXP-01 → UAT-…"></td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <th scope="row">System requirements</th>
+          <td contenteditable="true" role="textbox" aria-label="Row 2 work product or test basis" spellcheck="true" data-placeholder="Use the supplied SYS artifact"></td>
+          <td contenteditable="true" role="textbox" aria-label="Row 2 planned testware or execution evidence" spellcheck="true" data-placeholder="End-to-end cases and environment"></td>
+          <td contenteditable="true" role="textbox" aria-label="Row 2 trace ID and decision" spellcheck="true" data-placeholder="TS-EXP-01 → SYS-… → ST-…"></td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <th scope="row">Architecture / interfaces</th>
+          <td contenteditable="true" role="textbox" aria-label="Row 3 work product or test basis" spellcheck="true" data-placeholder="Use the supplied ARC artifact"></td>
+          <td contenteditable="true" role="textbox" aria-label="Row 3 planned testware or execution evidence" spellcheck="true" data-placeholder="Contract and interaction cases"></td>
+          <td contenteditable="true" role="textbox" aria-label="Row 3 trace ID and decision" spellcheck="true" data-placeholder="SYS-… → ARC-… → IT-…"></td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <th scope="row">Detailed component design</th>
+          <td contenteditable="true" role="textbox" aria-label="Row 4 work product or test basis" spellcheck="true" data-placeholder="Use the supplied CMP artifact"></td>
+          <td contenteditable="true" role="textbox" aria-label="Row 4 planned testware or execution evidence" spellcheck="true" data-placeholder="Focused cases and input fixtures"></td>
+          <td contenteditable="true" role="textbox" aria-label="Row 4 trace ID and decision" spellcheck="true" data-placeholder="ARC-… → CMP-… → CT-…"></td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <th scope="row">Implementation anchor</th>
+          <td contenteditable="true" role="textbox" aria-label="Row 5 work product or test basis" spellcheck="false" data-placeholder="Use the supplied release-candidate ID"></td>
+          <td contenteditable="true" role="textbox" aria-label="Row 5 planned testware or execution evidence" spellcheck="true" data-placeholder="Which planned evidence applies to this build?"></td>
+          <td contenteditable="true" role="textbox" aria-label="Row 5 trace ID and decision" spellcheck="false" data-placeholder="CMP-… → build → results"></td>
+        </tr>
+        <tr>
+          <td>6</td>
+          <th scope="row">Component testing</th>
+          <td contenteditable="true" role="textbox" aria-label="Row 6 work product or test basis" spellcheck="true" data-placeholder="One part checked separately"></td>
+          <td contenteditable="true" role="textbox" aria-label="Row 6 planned testware or execution evidence" spellcheck="true" data-placeholder="Use the supplied component result"></td>
+          <td contenteditable="true" role="textbox" aria-label="Row 6 trace ID and decision" spellcheck="true" data-placeholder="CT-… → result → build → decision"></td>
+        </tr>
+        <tr>
+          <td>7</td>
+          <th scope="row">Integration testing</th>
+          <td contenteditable="true" role="textbox" aria-label="Row 7 work product or test basis" spellcheck="true" data-placeholder="Interfaces and collaboration under test"></td>
+          <td contenteditable="true" role="textbox" aria-label="Row 7 planned testware or execution evidence" spellcheck="true" data-placeholder="Use the supplied interaction result"></td>
+          <td contenteditable="true" role="textbox" aria-label="Row 7 trace ID and decision" spellcheck="true" data-placeholder="IT-… → result → build → decision"></td>
+        </tr>
+        <tr>
+          <td>8</td>
+          <th scope="row">System testing</th>
+          <td contenteditable="true" role="textbox" aria-label="Row 8 work product or test basis" spellcheck="true" data-placeholder="Whole-system behavior and environment"></td>
+          <td contenteditable="true" role="textbox" aria-label="Row 8 planned testware or execution evidence" spellcheck="true" data-placeholder="Use the supplied whole-system result"></td>
+          <td contenteditable="true" role="textbox" aria-label="Row 8 trace ID and decision" spellcheck="true" data-placeholder="ST-… → result → build → coverage"></td>
+        </tr>
+        <tr>
+          <td>9</td>
+          <th scope="row">Acceptance testing</th>
+          <td contenteditable="true" role="textbox" aria-label="Row 9 work product or test basis" spellcheck="true" data-placeholder="Owner workflow and business need"></td>
+          <td contenteditable="true" role="textbox" aria-label="Row 9 planned testware or execution evidence" spellcheck="true" data-placeholder="Use the supplied acceptance record"></td>
+          <td contenteditable="true" role="textbox" aria-label="Row 9 trace ID and decision" spellcheck="true" data-placeholder="UAT-… → result → build → accepted"></td>
+        </tr>
+      </table>
+    </div>
+
+    <h3>Self-check before handoff</h3>
+    <ul>
+      <li>One requirement ID anchors every derived link.</li>
+      <li>Each pairing fits the reference V, or explains a different test object and objective.</li>
+      <li>The descending side contains reviewed bases and planned testware.</li>
+      <li>The ascending side labels recorded observations as evidence and keeps expected results separate.</li>
+      <li>Every right-arm result names the same implementation anchor.</li>
+      <li>The trace supports one explicit coverage or change-impact conclusion.</li>
+      <li>The conclusion admits that real work can iterate outside the neat V.</li>
+    </ul>
+
+    <p class="template">
+      I can defend requirement <span class="blank"></span> because
+      <span class="blank"></span> was the acceptance basis,
+      <span class="blank"></span> defined system behavior,
+      <span class="blank"></span> defined the interfaces, and
+      <span class="blank"></span> defined component behavior. Build
+      <span class="blank"></span> produced <span class="blank"></span> evidence.
+      The remaining gap is <span class="blank"></span>.
+    </p>
+
+    <h2>The interview move</h2>
+
+    <p>
+      If an interviewer asks whether you have worked with the V-model, do not
+      recite the arms. Use the evidence chain:
+    </p>
+
+    <p class="template">
+      For requirement <span class="blank"></span>, I linked the user outcome to
+      <span class="blank"></span>, the system rule to
+      <span class="blank"></span>, the interface design to
+      <span class="blank"></span>, and the component rule to
+      <span class="blank"></span>. When <span class="blank"></span> changed, the
+      links identified <span class="blank"></span> for review and retest.
+    </p>
+
+    <p>
+      That answer demonstrates the skill the model is meant to support:
+      connecting development decisions to test evidence and explaining what a
+      change puts at risk.
+    </p>
+
+    <h2>Read this next</h2>
+
+    <p>
+      <strong>Current testing rules &mdash;</strong>
+      <a
+        href="https://istqb.org/wp-content/uploads/2024/11/ISTQB_CTFL_Syllabus_v4.0.1.pdf"
+        data-source-locator="§1.4.3–§1.4.4 and §2.1–§2.1.2, pp. 19–25"
+        data-accessed="2026-08-29"
+        >ISTQB CTFL Syllabus v4.0.1</a
+      >. Read §1.4.3&ndash;§1.4.4 for testware and traceability, then
+      §2.1&ndash;§2.1.2 for lifecycle impact and good testing practices. About ten
+      minutes. It names Waterfall and V-model but does not teach the classic
+      pairings.
+    </p>
+
+    <p>
+      <strong>Classic model detail &mdash;</strong>
+      <a
+        href="https://istqb.org/wp-content/uploads/2024/11/ISTQB-CTFL_Syllabus_2018_v3.1.1.pdf"
+        data-source-locator="§2.1.1 and §2.2–§2.2.4, pp. 28–38"
+        data-accessed="2026-08-29"
+        >ISTQB CTFL Syllabus 2018 v3.1.1</a
+      >. Read §2.1.1 for the explicit contrast and §§2.2.1&ndash;2.2.4 for the
+      four test bases. About fifteen minutes. Use it as a retired historical
+      source, not as current exam guidance.
+    </p>
+
+    <p>
+      <strong>Then challenge the neat sequence &mdash;</strong>
+      <a
+        href="https://cse.msu.edu/~cse435/Homework/HW3/royce1970.pdf"
+        data-source-locator="pp. 328–333, Figures 2–6 and Step 2"
+        data-accessed="2026-08-29"
+        >W. W. Royce, <em>Managing the Development of Large Software
+        Systems</em></a
+      >, pp. 328&ndash;333. About twelve minutes. Read the warning immediately
+      after Figure 2 and the documentation argument around Figure 6 together.
+    </p>
+
+    <div class="ask-teacher">
+      <strong>Want the trace challenged?</strong> Send the completed nine rows.
+      I will change one requirement and stop at the first affected work product,
+      case, result, or decision your links cannot identify. That missing link is
+      the next revision, not a reason to draw a prettier V.
+    </div>
+
+    <nav class="footer-nav">
+      <strong>Where this connects</strong>
+      <ul>
+        <li>
+          Previous &mdash;
+          <a href="10-where-test-cases-live.html"
+            >Lesson 10: Where test cases live</a
+          >. Its repositories preserve the cases, runs, results, and defect links
+          that sit on the V&rsquo;s right arm.
+        </li>
+        <li>
+          Builds on &mdash;
+          <a href="07-test-cases-someone-else-can-run.html"
+            >Lesson 7: Test cases someone else can run</a
+          >. This lesson extends traceability from a case and its result back
+          through the design work that gave the case meaning.
+        </li>
+        <li>
+          Also relevant &mdash;
+          <a href="08-one-page-test-plan.html">Lesson 8: The one-page test plan</a>
+          &mdash; entry and exit criteria decide when the evidence at a stage is
+          sufficient to proceed.
+        </li>
+        <li>
+          Next &mdash; Lesson 12: QA inside a sprint <em>(not yet written)</em>
+        </li>
+        <li>
+          Reference &mdash;
+          <a href="../reference/glossary.html">Glossary</a> &middot;
+          <a href="../reference/test-case-template.html"
+            >Test-case handoff sheet</a
+          >
+        </li>
+        <li><a href="../index.html">All lessons</a></li>
+      </ul>
+    </nav>
+
+    <script src="../assets/classify.js"></script>
+    <script src="../assets/quiz.js"></script>
+  </body>
+</html>

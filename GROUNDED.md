@@ -142,6 +142,21 @@ is for — someone moving into QA, not someone already in it.
   evidence by relationship rather than assuming shared product nouns mean the
   same thing
 
+### Lesson 11 — Trace a requirement through the V-model `QA-010`
+- **SDLC model** `[ISTQB v4.0.1 §2.1]` — a high-level representation of how
+  development phases and activities relate logically and chronologically
+- **Waterfall model** `[ISTQB 2018 v3.1.1 §2.1.1]` — a sequential model whose
+  classic form completes requirements, design, coding and testing one after
+  another, with dynamic test execution late
+- **V-model** `[ISTQB 2018 v3.1.1 §2.1.1; v4.0.1 §2.1.2]` — a sequential model
+  that makes corresponding development and test activities explicit and starts
+  test analysis and design with the matching development work
+- **Test basis** `[ISTQB 2018 v3.1.1 §2.2]` — the work product or knowledge used
+  to derive tests for a level
+- **Testware** `[ISTQB v4.0.1 §1.4.3]` — work products created by test
+  activities, including plans, conditions, cases, procedures, logs, defects and
+  completion reports
+
 ## Not yet grounded — needed soon
 
 Terms later lessons will reach for. Whichever lesson gets there first grounds

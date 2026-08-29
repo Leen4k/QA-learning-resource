@@ -1,0 +1,4 @@
+interface:
+  display_name: "Lesson Builder"
+  short_description: "Create and verify reliable lessons in any subject"
+  default_prompt: "Use $lesson to create an evidence-grounded lesson for my topic and audience."

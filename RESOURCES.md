@@ -144,6 +144,33 @@ from here — not from the agent's parametric guesses.
 
 ### SDLC (Weeks 5–7)
 
+- [ISTQB CTFL Syllabus v4.0.1 (PDF)](https://istqb.org/wp-content/uploads/2024/11/ISTQB_CTFL_Syllabus_v4.0.1.pdf)
+  The current source used by QA-010 for testware (§1.4.3), traceability
+  (§1.4.4), lifecycle impact (§2.1–§2.1.1), and the model-independent rule that
+  every development activity has a corresponding test activity and test
+  analysis/design starts during the matching phase (§2.1.2). It names
+  Waterfall and V-model as sequential examples but does not diagram or teach
+  their classic pairing. Re-read from the official PDF on 2026-08-29.
+- [ISTQB CTFL Syllabus 2018 v3.1.1 (PDF)](https://istqb.org/wp-content/uploads/2024/11/ISTQB-CTFL_Syllabus_2018_v3.1.1.pdf)
+  The historical model source for QA-010. §2.1.1 explicitly contrasts classic
+  Waterfall with the V-model; §§2.2.1–2.2.4 list the work products used as test
+  bases for component, integration, system and acceptance testing. The English
+  syllabus retired on 9 May 2024, so use it for this removed model detail, not
+  as current exam guidance. Re-read 2026-08-29; ~15 minutes for the relevant
+  sections.
+- [W. W. Royce — *Managing the Development of Large Software Systems* (PDF)](https://cse.msu.edu/~cse435/Homework/HW3/royce1970.pdf)
+  The historical counterweight for QA-010. Pages 328–329 draw a staged
+  development flow and immediately call the shown implementation risky because
+  late testing can force disruptive redesign. Pages 332–333 argue that current
+  written work provides tangible evidence of completion and supports downstream
+  testing. The paper does not use the term Waterfall and must not be presented
+  as endorsing iteration-free development. Re-read 2026-08-29; ~12 minutes.
+
+  **Plan correction:** the roadmap.sh resource named by QA-010 contains only an
+  SDLC Delivery Model node with Waterfall and V Model labels. It supplies no
+  phases, corresponding test levels, evidence model or worked requirement
+  trace. Use the three sources above instead.
+
 - [The Scrum Guide](https://scrumguides.org/scrum-guide.html)
   The definitive, short (~13pp) source on Scrum. Use for: QA-011, where QA's
   role in a sprint is the question. Note it deliberately says little about

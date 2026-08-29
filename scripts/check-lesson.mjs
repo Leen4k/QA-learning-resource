@@ -98,12 +98,16 @@ function checkLesson(file, indexHtml, curriculumHtml) {
     if (!/Next/i.test(nav)) err("footer-nav has no Next link");
   }
 
-  /* 4. Citations carry section numbers, not just a bare URL. The recipe is
-        explicit that "ISTQB CTFL v4.0 §5.2.1" is the citation format — a
-        link alone is what a lesson written from memory looks like. */
+  /* 4. Citations carry a precise locator, not just a bare URL. Numbered sources
+        use "ISTQB CTFL v4.0 §5.2.1"; unnumbered web sources can provide a
+        stable heading or anchor in data-source-locator. This checks locator
+        syntax only, never whether the source supports the claim. */
   const sections = (html.match(/§|&sect;/g) ?? []).length;
-  if (sections === 0) {
-    warn("no § section citation found — every factual claim needs one");
+  const structuredLocators = (
+    html.match(/\bdata-source-locator\s*=\s*"[^"]+"/g) ?? []
+  ).length;
+  if (sections === 0 && structuredLocators === 0) {
+    warn("no precise source locator found — use § or data-source-locator");
   }
 
   /* 5. Quizzes: one correct answer, feedback on every option, and options

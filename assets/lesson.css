@@ -869,6 +869,27 @@ code {
     display: none;
   }
 
+  .table-scroll {
+    overflow: visible;
+    max-width: none;
+  }
+
+  .worksheet {
+    width: 100%;
+    min-width: 0;
+    table-layout: fixed;
+    font-size: 7.5pt;
+  }
+
+  .worksheet th,
+  .worksheet td,
+  .worksheet td[contenteditable="true"] {
+    min-width: 0;
+    height: auto;
+    padding: 0.25rem;
+    overflow-wrap: anywhere;
+  }
+
   h2 {
     page-break-after: avoid;
   }

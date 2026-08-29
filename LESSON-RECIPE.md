@@ -67,16 +67,21 @@ the primary document to decide *what to write*.
 
 ## The prompt
 
-It's a slash command. The full instructions live in
+The full instructions live in
 [`.claude/commands/lesson.md`](.claude/commands/lesson.md) — that file *is* the
-prompt that used to be pasted here, so edit it when the recipe changes.
+prompt that used to be pasted here, so edit it when the recipe changes. Codex's
+repository-scoped [lesson skill](.agents/skills/lesson/SKILL.md) reads and adapts
+the same canonical workflow and adds mandatory source-traceability, browser,
+accessibility, and learning-acceptance gates.
 
 ```
-/lesson QA-006                 one lesson
-/lesson QA-006 QA-007 QA-008   a batch, in that order
-/lesson next                   next unwritten lesson in curriculum order
-/lesson next 3                 next three
+$lesson QA-006                 Codex: one lesson
+$lesson next                   Codex: next unwritten lesson
+/lesson QA-006                 Claude Code: one lesson
+/lesson next                   Claude Code: next unwritten lesson
 ```
+
+Both forms accept multiple task IDs or `next N` for a batch.
 
 Batching is where research pays for itself: the passes run concurrently while
 the first primary source is being read, so the cost is roughly one lesson's wait
@@ -98,15 +103,18 @@ absorb, because plausible wrong content is harder to fix than no content.
 ./scripts/refresh-plan.sh                       cache both sheet tabs -> plan/*.csv
 grep -m1 '^QA-006' plan/qa.csv                  read one task row
 node scripts/check-lesson.mjs [file...]         mechanical half of the quality bar
+node scripts/check-lesson-verification.mjs ...  evidence and warning-baseline gate
 ```
 
 `check-lesson.mjs` verifies what is boring to check by hand and therefore gets
 skipped: dead local links, a lesson missing from `index.html` or
 `curriculum.html`, a missing `.plan-tag` or prev/next, quiz options whose word
-counts give the answer away, options with no `data-feedback`, no `§` citation
-anywhere, and inline widget code that should have been extracted to `assets/`.
+counts give the answer away, options with no `data-feedback`, no precise source
+locator anywhere, and inline widget code that should have been extracted to
+`assets/`.
 
-A clean run is **necessary, not sufficient**. It checks plumbing. Everything
+A clean target run and no change beyond the accepted full-course warning
+baseline are **necessary, not sufficient**. They check plumbing. Everything
 below — is the source real, is the distractor a genuine misconception, can the
 learner now produce the deliverable — is still a judgement call.
 
@@ -121,7 +129,12 @@ A lesson is not done until every line here is true.
 - [ ] A research pass ran for this task, whether or not the plan named a source.
 - [ ] Every factual claim traces to a source **read this session**, not recalled,
       and not lifted from a research summary without re-reading the original.
-- [ ] Section numbers cited inline (`ISTQB CTFL v4.0 §5.2.1`), not just a link.
+- [ ] Use the most precise locator available: a numbered section or clause
+      (`ISTQB CTFL v4.0 §5.2.1`), or for unnumbered web material a stable heading
+      or anchor plus access date. Never provide only a bare link.
+- [ ] Every external source link records that locator in `data-source-locator`
+      and its verification date in `data-accessed="YYYY-MM-DD"` while keeping a
+      human-readable locator in the lesson text.
 - [ ] If the plan's named source turned out to be wrong or thin, `RESOURCES.md`
       records what replaced it and why. That finding is worth more than the
       lesson — it stops the same wrong source being trusted eleven times.

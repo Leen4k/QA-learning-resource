@@ -13,10 +13,19 @@ typed out.
 
 ## 0. Resolve the target
 
+Refresh the cached plan first with `./scripts/refresh-plan.sh`. If refresh fails,
+stop before drafting unless the user explicitly authorizes the identified cached
+snapshot. On success, record the refresh-run ID, plan last-modified time, and
+SHA-256. For an authorized cache, record its time and hash plus the durable user
+authorization reference. Without either provenance path, current-plan alignment
+cannot pass.
+
 - If the argument is a task ID (`QA-006`, `PM-004`), that is the task.
 - If it is `next` (optionally `next N`), read `NOTES.md` "Teaching state" and
-  `curriculum.html` and pick the next N unwritten lesson(s) **in curriculum
-  order**. Say which you picked and why before starting.
+  cross-check `curriculum.html`, `index.html`, and `lessons/`. An unwritten slot
+  has no lesson file and no index link, and the curriculum and notes must agree.
+  Pick the next N in **curriculum order**. Stop on inconsistent state rather
+  than guessing. Say which you picked and why before starting.
 - Multiple IDs = a batch. Do them **in the order given**.
 - **PM tasks: stop.** There is no `MISSION.md` for project management. Ask the
   user why they want it before writing anything — an ungrounded lesson is
@@ -24,10 +33,10 @@ typed out.
 
 ## 1. Read the task from the plan
 
-The plan is cached locally. Refresh it, then read the row:
+Read the row from the refreshed plan or the explicitly authorized cached
+snapshot:
 
 ```
-./scripts/refresh-plan.sh
 grep -m1 '^QA-006' plan/qa.csv      # or plan/pm.csv
 ```
 
@@ -70,9 +79,12 @@ e. Are there worked examples, exercises or real defect stories worth adapting?
 ## 3. Then read the source yourself
 
 **Research output is a lead, not a fact.** A background agent returns a
-paraphrase and paraphrases drift. Fetch the actual document, read the actual
-section, cite section numbers inline (`ISTQB CTFL v4.0 §5.2.1`). Never promote a
-research summary straight into a lesson claim, and never write from memory.
+paraphrase and paraphrases drift. Fetch the actual document and read the actual
+section. Cite a numbered section or clause when the source has one (`ISTQB CTFL
+v4.0 §5.2.1`); otherwise cite a stable heading or anchor. Give every external
+source link `data-source-locator` and `data-accessed="YYYY-MM-DD"` attributes,
+and keep the locator visible in the lesson text. Never promote a research summary
+straight into a lesson claim, and never write from memory.
 
 **If no trustworthy source exists: STOP.** Record the gap in `RESOURCES.md`,
 mark the lesson blocked in `curriculum.html`, and tell the user what you need.
@@ -82,8 +94,9 @@ it — carry on with the rest.
 ## 4. Scope to one skill, and check what is grounded
 
 One tangible win, about ten minutes. Teach only the knowledge that skill needs.
-If two skills are fighting for room, split into two lessons and update the
-curriculum. Numbers are permanent — never renumber to close a gap.
+If two skills are fighting for room, propose a split and obtain user approval
+before changing the curriculum or narrowing the plan deliverable. Numbers are
+permanent — never renumber to close a gap.
 
 **Then read `GROUNDED.md`** — the concept ledger, borrowed from the
 `writing-beats` grounding rule. A lesson may lean on a concept only if it is a
@@ -121,16 +134,20 @@ Add the curriculum row, the `index.html` card, the `.plan-tag` line, and
 prev/next links — including updating the *previous* lesson's "Next" so it stops
 saying "not yet written".
 
-Then run the checker and fix everything it reports:
+Then run both the target and full-course checks:
 
 ```
 node scripts/check-lesson.mjs lessons/NN-slug.html
+node scripts/check-lesson.mjs
 ```
 
 It catches dead links, missing wiring, quizzes where the longest option is the
 answer, missing `data-feedback`, inline widget code that should live in
-`assets/`, and `<dfn>` terms absent from `GROUNDED.md`. A clean run is
-necessary, not sufficient — it checks plumbing, not teaching.
+`assets/`, and `<dfn>` terms absent from `GROUNDED.md`. Require zero errors and
+zero target-lesson warnings. Full-course warnings must introduce nothing beyond
+`verification/accepted-static-warnings.md`; investigate any mismatch. A clean
+target run and unchanged accepted baseline are necessary, not sufficient — the
+checker verifies plumbing, not teaching.
 
 **If any claim in the lesson still feels shaky, re-open the primary source and
 verify it before reporting done.** The `/mattpocock-skills:grilling` skill is an
@@ -139,8 +156,9 @@ Never ask the user to stand in for evidence that can be read directly.
 
 ## 8. Report
 
-For each lesson: the deliverable it enables, the primary source with section
-numbers, anything the source did not cover, and any gap recorded in
+For each lesson: the deliverable it enables, the primary source with its precise
+section, clause, heading, or anchor locator, anything the source did not cover,
+and any gap recorded in
 `RESOURCES.md`. Update `NOTES.md` "Teaching state". If a named source turned out
 to be wrong or thin, say so loudly — that finding is worth more than the lesson,
 because it stops the same wrong source being trusted eleven more times.

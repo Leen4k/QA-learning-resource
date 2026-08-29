@@ -58,8 +58,10 @@
     var nodes = {};
 
     var labelOf = {};
+    var focusOf = {};
     cats.forEach(function (c) {
       labelOf[c.id] = c.label;
+      focusOf[c.id] = c.focus || "that test object and objective";
     });
 
     if (cfg.prompt) root.appendChild(el("p", "rg-note", cfg.prompt));
@@ -70,13 +72,15 @@
       var box = el("div", "rg-item");
       var head = el("div", "rg-item-head");
       head.appendChild(el("span", "rg-badge", String(idx + 1)));
-      head.appendChild(el("span", "rg-title", item.text));
+      var title = el("span", "rg-title", item.text);
+      title.id = "classify-" + item.id + "-title";
+      head.appendChild(title);
       box.appendChild(head);
       if (item.note) box.appendChild(el("p", "rg-note", item.note));
 
       var seg = el("div", "rg-seg");
       seg.setAttribute("role", "group");
-      seg.setAttribute("aria-label", "Category for item " + (idx + 1));
+      seg.setAttribute("aria-labelledby", title.id);
       cats.forEach(function (c) {
         var b = el("button", null, c.label);
         b.type = "button";
@@ -94,6 +98,8 @@
       box.appendChild(seg);
 
       var verdict = el("div", "rg-verdict");
+      verdict.setAttribute("role", "status");
+      verdict.setAttribute("aria-live", "polite");
       verdict.hidden = true;
       box.appendChild(verdict);
 
@@ -114,6 +120,8 @@
     root.appendChild(actions);
 
     var summary = el("p", "rg-hint");
+    summary.setAttribute("role", "status");
+    summary.setAttribute("aria-live", "polite");
     summary.hidden = true;
     root.appendChild(summary);
 
@@ -142,7 +150,9 @@
           "</span>" +
           (ok
             ? ""
-            : "You said <em>" + labelOf[state[item.id]] + "</em>. ") +
+            : "You said <em>" + labelOf[state[item.id]] +
+              "</em>, which would fit when the primary focus is " +
+              focusOf[state[item.id]] + ". ") +
           item.why;
         node.hidden = false;
       });

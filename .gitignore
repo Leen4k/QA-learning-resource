@@ -1,2 +1,5 @@
 skills/
+!.agents/skills/
+!.agents/skills/**
 sources/.*.log
+.playwright-cli/

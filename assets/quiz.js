@@ -68,6 +68,8 @@
     var rightLabel = rightBtn ? rightBtn.textContent.trim() : "";
     var panel = document.createElement("div");
     panel.className = "quiz-feedback";
+    panel.setAttribute("role", "status");
+    panel.setAttribute("aria-live", "polite");
     panel.hidden = true;
     quiz.appendChild(panel);
 
@@ -83,11 +85,16 @@
           b.className = wasRight ? "is-correct" : "is-wrong";
           b.insertAdjacentHTML(
             "afterbegin",
-            '<span class="quiz-mark">' + (wasRight ? "✓" : "✗") + "</span>"
+            '<span class="quiz-mark" aria-hidden="true">' +
+              (wasRight ? "✓" : "✗") +
+              "</span>"
           );
         } else if (b === rightBtn) {
           b.className = "is-correct";
-          b.insertAdjacentHTML("afterbegin", '<span class="quiz-mark">✓</span>');
+          b.insertAdjacentHTML(
+            "afterbegin",
+            '<span class="quiz-mark" aria-hidden="true">✓</span>'
+          );
         } else {
           b.className = "is-muted";
         }
